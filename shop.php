@@ -224,7 +224,7 @@ if (empty($customer_photos)) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= htmlspecialchars($store["brand_name"] ?? "") ?> — Trang Bán Hàng Trực Tiếp | OMNI Sovereign Storefront</title>
+  <title><?= htmlspecialchars($store['brand_name'] ?? '') ?> — Trang Bán Hàng Trực Tiếp | OMNI Sovereign Storefront</title>
   
   <!-- Font & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1270,19 +1270,19 @@ if (empty($customer_photos)) {
   <!-- Sticky Top Nav -->
   <nav>
     <div class="container nav-inner">
-      <a href="/shop/<?= htmlspecialchars($store["storefront_id"] ?? "") ?>" class="nav-brand">
+      <a href="/shop/<?= htmlspecialchars($store['storefront_id'] ?? '') ?>" class="nav-brand">
         <div class="nav-logo">
           <i class="fa-solid fa-gem"></i>
         </div>
         <div class="nav-brand-text">
-          <h1><?= htmlspecialchars($store["brand_name"] ?? "") ?></h1>
+          <h1><?= htmlspecialchars($store['brand_name'] ?? '') ?></h1>
           <span><i class="fa-solid fa-circle-check"></i> Sovereign Direct Storefront</span>
         </div>
       </a>
 
       <div class="nav-actions">
-        <a href="tel:<?= htmlspecialchars($store["phone_number"] ?? "") ?>" class="btn-nav-call">
-          <i class="fa-solid fa-phone"></i> <?= htmlspecialchars($store["phone_number"] ?? "") ?>
+        <a href="tel:<?= htmlspecialchars($store['phone_number'] ?? '') ?>" class="btn-nav-call">
+          <i class="fa-solid fa-phone"></i> <?= htmlspecialchars($store['phone_number'] ?? '') ?>
         </a>
         <a href="#dat-ban" class="btn-nav-booking">
           <i class="fa-solid fa-calendar-check"></i> Đặt Bàn Trực Tiếp
@@ -1297,28 +1297,28 @@ if (empty($customer_photos)) {
       <div class="hero-content">
         <div class="hero-tags">
           <span class="tag-badge gold"><i class="fa-solid fa-crown"></i> DIAMOND AUTHENTIC ELITE</span>
-          <span class="tag-badge"><i class="fa-solid fa-tag"></i> <?= htmlspecialchars($store["cuisine_category"] ?? "") ?></span>
-          <span class="tag-badge"><i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($store["city"] ?? "") ?></span>
+          <span class="tag-badge"><i class="fa-solid fa-tag"></i> <?= htmlspecialchars($store['cuisine_category'] ?? '') ?></span>
+          <span class="tag-badge"><i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($store['city'] ?? '') ?></span>
         </div>
 
-        <h2><?= htmlspecialchars($presentation["headline"] ?? "") ?></h2>
+        <h2><?= htmlspecialchars($presentation['headline'] ?? '') ?></h2>
         
         <p class="hero-desc">
-          <?= htmlspecialchars($presentation["desc"] ?? "") ?>
+          <?= htmlspecialchars($presentation['desc'] ?? '') ?>
         </p>
 
         <!-- Google Maps Proof Strip -->
         <div class="proof-strip">
           <div class="proof-item">
-            <div class="proof-val"><?= htmlspecialchars($store["google_maps_rating"] ?? "") ?>★</div>
-            <div class="proof-label"><?= htmlspecialchars($store["google_maps_total_reviews"] ?? "") ?> Đánh Giá Maps</div>
+            <div class="proof-val"><?= htmlspecialchars($store['google_maps_rating'] ?? '') ?>★</div>
+            <div class="proof-label"><?= htmlspecialchars($store['google_maps_total_reviews'] ?? '') ?> Đánh Giá Maps</div>
           </div>
           <div class="proof-item">
-            <div class="proof-val" style="color: var(--accent-green);">{{ summary.criteria.food or 5.0 }} / 5</div>
+            <div class="proof-val" style="color: var(--accent-green);"><?= htmlspecialchars($summary['criteria']['food'] ?: 5.0) ?> / 5</div>
             <div class="proof-label">Chất Lượng Đồ Ăn</div>
           </div>
           <div class="proof-item">
-            <div class="proof-val" style="color: var(--accent-blue);">{{ summary.criteria.service or 5.0 }} / 5</div>
+            <div class="proof-val" style="color: var(--accent-blue);"><?= htmlspecialchars($summary['criteria']['service'] ?: 5.0) ?> / 5</div>
             <div class="proof-label">Dịch Vụ Phục Vụ</div>
           </div>
           <div class="proof-item">
@@ -1331,7 +1331,7 @@ if (empty($customer_photos)) {
           <a href="#dat-ban" class="btn-nav-booking" style="padding: 0.85rem 1.8rem; font-size: 0.95rem;">
             <i class="fa-solid fa-utensils"></i> Xem Thực Đơn & Đặt Bàn
           </a>
-          <a href="https://www.google.com/maps/search/?api=1&query=<?= htmlspecialchars($store["brand_name"] ?? "") ?>+<?= htmlspecialchars($store["city"] ?? "") ?>" target="_blank" class="btn-hero-directions">
+          <a href="https://www.google.com/maps/search/?api=1&query=<?= htmlspecialchars($store['brand_name'] ?? '') ?>+<?= htmlspecialchars($store['city'] ?? '') ?>" target="_blank" class="btn-hero-directions">
             <i class="fa-solid fa-diamond-turn-right"></i> Dẫn Đường Trên Bản Đồ
           </a>
         </div>
@@ -1340,11 +1340,11 @@ if (empty($customer_photos)) {
       <!-- Hero Media Visual -->
       <div class="hero-media">
         <div class="hero-media-card">
-          <img src="<?= htmlspecialchars($presentation["hero_img"] ?? "") ?>" alt="<?= htmlspecialchars($store["brand_name"] ?? "") ?>">
+          <img src="<?= htmlspecialchars($presentation['hero_img'] ?? '') ?>" alt="<?= htmlspecialchars($store['brand_name'] ?? '') ?>">
           <div class="hero-media-badge">
             <div>
-              <div style="font-weight: 800; font-size: 0.9rem; color: #FFF;"><?= htmlspecialchars($presentation["badge_label"] ?? "") ?></div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);"><?= htmlspecialchars($presentation["badge_location"] ?? "") ?></div>
+              <div style="font-weight: 800; font-size: 0.9rem; color: #FFF;"><?= htmlspecialchars($presentation['badge_label'] ?? '') ?></div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);"><?= htmlspecialchars($presentation['badge_location'] ?? '') ?></div>
             </div>
             <span class="tag-badge gold" style="font-size: 0.72rem;">Đang Mở Cửa</span>
           </div>
@@ -1362,18 +1362,18 @@ if (empty($customer_photos)) {
       </div>
 
       <div class="menu-grid">
-        <?php if (!empty($store["curated_menu"])): ?>
-          <?php foreach ($store["curated_menu"] as $dish): ?>
+        <?php if (!empty($store['curated_menu'])): ?>
+          <?php foreach ($store['curated_menu'] as $dish): ?>
             <div class="menu-item-card">
               <div class="menu-thumb">
-                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80" alt="<?= htmlspecialchars($dish["name"] ?? "") ?>">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80" alt="<?= htmlspecialchars($dish['name'] ?? '') ?>">
               </div>
               <div class="menu-body">
-                <div class="menu-name"><?= htmlspecialchars($dish["name"] ?? "") ?></div>
-                <div class="menu-desc"><?= htmlspecialchars($dish["desc"] ?? "") ?></div>
+                <div class="menu-name"><?= htmlspecialchars($dish['name'] ?? '') ?></div>
+                <div class="menu-desc"><?= htmlspecialchars($dish['desc'] ?? '') ?></div>
                 <div class="menu-footer">
-                  <span class="menu-price"><?= htmlspecialchars($dish["price"] ?? "") ?></span>
-                  <button class="btn-select-dish" onclick="selectDish('<?= htmlspecialchars($dish["name"] ?? "") ?> (<?= htmlspecialchars($dish["price"] ?? "") ?>)')">+ Chọn Món</button>
+                  <span class="menu-price"><?= htmlspecialchars($dish['price'] ?? '') ?></span>
+                  <button class="btn-select-dish" onclick="selectDish('<?= htmlspecialchars($dish['name'] ?? '') ?> (<?= htmlspecialchars($dish['price'] ?? '') ?>)')">+ Chọn Món</button>
                 </div>
               </div>
             </div>
@@ -1388,7 +1388,7 @@ if (empty($customer_photos)) {
               <div class="menu-name">Món Đinh Đặc Sản Quán</div>
               <div class="menu-desc">Được chế biến từ nguyên liệu tươi sống trong ngày, công thức gia truyền đậm đà.</div>
               <div class="menu-footer">
-                <span class="menu-price">{{ store.price_range_per_person or '150.000đ' }}</span>
+                <span class="menu-price"><?= htmlspecialchars(!empty($store['price_range_per_person']) ? $store['price_range_per_person'] : '150.000đ') ?></span>
                 <button class="btn-select-dish" onclick="selectDish('Món Đinh Đặc Sản Quán')">+ Chọn Món</button>
               </div>
             </div>
@@ -1410,7 +1410,7 @@ if (empty($customer_photos)) {
       <div class="gmap-summary-panel">
         <div class="rating-big-col">
           <div class="big-score-row">
-            <span class="big-score-number"><?= htmlspecialchars($summary["google_maps_rating"] ?? "") ?></span>
+            <span class="big-score-number"><?= htmlspecialchars($summary['google_maps_rating'] ?? '') ?></span>
             <div>
               <div class="big-score-stars">
                 <i class="fa-solid fa-star"></i>
@@ -1420,7 +1420,7 @@ if (empty($customer_photos)) {
                 <i class="fa-solid fa-star-half-stroke"></i>
               </div>
               <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
-                Dựa trên <b><?= htmlspecialchars($summary["total_reviews"] ?? "") ?></b> bài đánh giá thực tế
+                Dựa trên <b><?= htmlspecialchars($summary['total_reviews'] ?? '') ?></b> bài đánh giá thực tế
               </div>
             </div>
           </div>
@@ -1430,37 +1430,37 @@ if (empty($customer_photos)) {
             <div class="star-bar-row">
               <span>5★</span>
               <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary["star_distribution"]["5_star"] ?? 80) ?>%;"></div>
+                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['5_star'] ?? 80) ?>%;"></div>
               </div>
-              <span><?= (int)($summary["star_distribution"]["5_star"] ?? 80) ?>%</span>
+              <span><?= (int)($summary['star_distribution']['5_star'] ?? 80) ?>%</span>
             </div>
             <div class="star-bar-row">
               <span>4★</span>
               <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary["star_distribution"]["4_star"] ?? 15) ?>%;"></div>
+                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['4_star'] ?? 15) ?>%;"></div>
               </div>
-              <span><?= (int)($summary["star_distribution"]["4_star"] ?? 15) ?>%</span>
+              <span><?= (int)($summary['star_distribution']['4_star'] ?? 15) ?>%</span>
             </div>
             <div class="star-bar-row">
               <span>3★</span>
               <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary["star_distribution"]["3_star"] ?? 4) ?>%;"></div>
+                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['3_star'] ?? 4) ?>%;"></div>
               </div>
-              <span><?= (int)($summary["star_distribution"]["3_star"] ?? 4) ?>%</span>
+              <span><?= (int)($summary['star_distribution']['3_star'] ?? 4) ?>%</span>
             </div>
             <div class="star-bar-row">
               <span>2★</span>
               <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary["star_distribution"]["2_star"] ?? 1) ?>%;"></div>
+                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['2_star'] ?? 1) ?>%;"></div>
               </div>
-              <span><?= (int)($summary["star_distribution"]["2_star"] ?? 1) ?>%</span>
+              <span><?= (int)($summary['star_distribution']['2_star'] ?? 1) ?>%</span>
             </div>
             <div class="star-bar-row">
               <span>1★</span>
               <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary["star_distribution"]["1_star"] ?? 1) ?>%;"></div>
+                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['1_star'] ?? 1) ?>%;"></div>
               </div>
-              <span><?= (int)($summary["star_distribution"]["1_star"] ?? 1) ?>%</span>
+              <span><?= (int)($summary['star_distribution']['1_star'] ?? 1) ?>%</span>
             </div>
           </div>
         </div>
@@ -1469,20 +1469,20 @@ if (empty($customer_photos)) {
           <!-- 4 Thước đo Google Maps -->
           <div class="criteria-cards-grid">
             <div class="criteria-card">
-              <div class="criteria-card-val green"><?= htmlspecialchars($summary["criteria"]["food"] ?? "") ?>★</div>
+              <div class="criteria-card-val green"><?= htmlspecialchars($summary['criteria']['food'] ?? '') ?>★</div>
               <div class="criteria-card-label">Đồ ăn & Hương vị</div>
             </div>
             <div class="criteria-card">
-              <div class="criteria-card-val gold"><?= htmlspecialchars($summary["criteria"]["service"] ?? "") ?>★</div>
+              <div class="criteria-card-val gold"><?= htmlspecialchars($summary['criteria']['service'] ?? '') ?>★</div>
               <div class="criteria-card-label">Thái độ phục vụ</div>
             </div>
             <div class="criteria-card">
-              <div class="criteria-card-val blue"><?= htmlspecialchars($summary["criteria"]["ambiance"] ?? "") ?>★</div>
+              <div class="criteria-card-val blue"><?= htmlspecialchars($summary['criteria']['ambiance'] ?? '') ?>★</div>
               <div class="criteria-card-label">Bầu không khí</div>
             </div>
             <div class="criteria-card">
               <div class="criteria-card-val" style="font-size: 0.95rem; line-height: 1.4; color: #E2E8F0;">
-                <?= htmlspecialchars($summary["criteria"]["noise"] ?? "") ?>
+                <?= htmlspecialchars($summary['criteria']['noise'] ?? '') ?>
               </div>
               <div class="criteria-card-label">Mức độ ồn</div>
             </div>
@@ -1494,9 +1494,9 @@ if (empty($customer_photos)) {
               Chủ đề được thực khách nhắc tới nhiều nhất:
             </div>
             <div class="review-keywords-cloud">
-              <?php foreach ($summary["top_keywords"] as $kw): ?>
+              <?php foreach ($summary['top_keywords'] as $kw): ?>
                 <div class="keyword-pill">
-                  <i class="fa-solid fa-check"></i> <?= htmlspecialchars($kw["tag"] ?? "") ?> <span><?= htmlspecialchars($kw["count"] ?? "") ?></span>
+                  <i class="fa-solid fa-check"></i> <?= htmlspecialchars($kw['tag'] ?? '') ?> <span><?= htmlspecialchars($kw['count'] ?? '') ?></span>
                 </div>
               <?php endforeach; ?>
             </div>
@@ -1515,8 +1515,8 @@ if (empty($customer_photos)) {
         </div>
         <div class="photos-gallery-grid">
           <?php foreach ($customer_photos as $p): ?>
-            <div class="photo-card" onclick="window.open('<?= htmlspecialchars($p ?? "") ?>', '_blank')">
-              <img src="<?= htmlspecialchars($p ?? "") ?>" alt="Ảnh thực tế quán <?= htmlspecialchars($store["brand_name"] ?? "") ?>">
+            <div class="photo-card" onclick="window.open('<?= htmlspecialchars($p ?? '') ?>', '_blank')">
+              <img src="<?= htmlspecialchars($p ?? '') ?>" alt="Ảnh thực tế quán <?= htmlspecialchars($store['brand_name'] ?? '') ?>">
               <div class="photo-card-tag"><i class="fa-solid fa-camera"></i> Khách chụp</div>
             </div>
           <?php endforeach; ?>
@@ -1531,7 +1531,7 @@ if (empty($customer_photos)) {
             <i class="fa-solid fa-circle-check"></i> Điểm Sáng Nổi Bật (Honest Pros)
           </div>
           <p style="font-size: 0.82rem; color: #D1FAE5; line-height: 1.6;">
-            <?= htmlspecialchars($store["honest_pros"] ?? "") ?>
+            <?= htmlspecialchars($store['honest_pros'] ?? '') ?>
           </p>
         </div>
 
@@ -1540,7 +1540,7 @@ if (empty($customer_photos)) {
             <i class="fa-solid fa-triangle-exclamation"></i> Cảnh Báo Trung Thực (Honest Warnings)
           </div>
           <p style="font-size: 0.82rem; color: #FEE2E2; line-height: 1.6;">
-            <?= htmlspecialchars($store["honest_warnings"] ?? "") ?>
+            <?= htmlspecialchars($store['honest_warnings'] ?? '') ?>
           </p>
         </div>
       </div>
@@ -1558,55 +1558,55 @@ if (empty($customer_photos)) {
           <div class="feed-review-item">
             <div class="review-header-flex">
               <div class="author-info-group">
-                <div class="author-circle-avatar">{{ r.author_avatar or r.author_name[0] }}</div>
+                <div class="author-circle-avatar"><?= htmlspecialchars($r['author_avatar'] ?? mb_substr($r['author_name'] ?? 'T', 0, 1, 'UTF-8')) ?></div>
                 <div class="author-name-badge">
-                  <h5><?= htmlspecialchars($r["author_name"] ?? "") ?></h5>
+                  <h5><?= htmlspecialchars($r['author_name'] ?? '') ?></h5>
                   <div class="author-badge-text">
-                    <i class="fa-solid fa-certificate"></i> {{ r.author_badge or 'Thực khách đã ghé quán' }}
+                    <i class="fa-solid fa-certificate"></i> <?= htmlspecialchars($r['author_badge'] ?? 'Thực khách đã ghé quán') ?>
                   </div>
                 </div>
               </div>
 
               <div class="review-time-stars">
                 <div class="review-stars-icons">
-                  <?php for ($star_i = 0; $star_i < ($r["rating"] ?? 5); $star_i++): ?>
+                  <?php for ($star_i = 0; $star_i < ($r['rating'] ?? 5); $star_i++): ?>
                     <i class="fa-solid fa-star"></i>
-                  <?php endforeach; ?>
+                  <?php endfor; ?>
                 </div>
-                <div class="review-time-text">{{ r.review_time }}</div>
+                <div class="review-time-text"><?= htmlspecialchars($r['relative_publish_time_description'] ?? '1 tuần trước') ?></div>
               </div>
             </div>
 
             <!-- Context Chips -->
             <div class="review-context-chips">
-              <?php if (!empty($r["dining_type"])): ?>
-                <span class="context-chip"><i class="fa-solid fa-utensils"></i> Hình thức: <b><?= htmlspecialchars($r["dining_type"] ?? "") ?></b></span>
+              <?php if (!empty($r['dining_type'])): ?>
+                <span class="context-chip"><i class="fa-solid fa-utensils"></i> Hình thức: <b><?= htmlspecialchars($r['dining_type'] ?? '') ?></b></span>
               <?php endif; ?>
-              <?php if (!empty($r["food_score"])): ?>
-                <span class="context-chip" style="color: var(--accent-green);"><i class="fa-solid fa-star"></i> Đồ ăn: <b><?= htmlspecialchars($r["food_score"] ?? "") ?>/5</b></span>
+              <?php if (!empty($r['food_score'])): ?>
+                <span class="context-chip" style="color: var(--accent-green);"><i class="fa-solid fa-star"></i> Đồ ăn: <b><?= htmlspecialchars($r['food_score'] ?? '') ?>/5</b></span>
               <?php endif; ?>
-              <?php if (!empty($r["service_score"])): ?>
-                <span class="context-chip" style="color: var(--primary);"><i class="fa-solid fa-star"></i> Phục vụ: <b><?= htmlspecialchars($r["service_score"] ?? "") ?>/5</b></span>
+              <?php if (!empty($r['service_score'])): ?>
+                <span class="context-chip" style="color: var(--primary);"><i class="fa-solid fa-star"></i> Phục vụ: <b><?= htmlspecialchars($r['service_score'] ?? '') ?>/5</b></span>
               <?php endif; ?>
-              <?php if (!empty($r["ambiance_score"])): ?>
-                <span class="context-chip" style="color: var(--accent-blue);"><i class="fa-solid fa-star"></i> Không gian: <b><?= htmlspecialchars($r["ambiance_score"] ?? "") ?>/5</b></span>
+              <?php if (!empty($r['ambiance_score'])): ?>
+                <span class="context-chip" style="color: var(--accent-blue);"><i class="fa-solid fa-star"></i> Không gian: <b><?= htmlspecialchars($r['ambiance_score'] ?? '') ?>/5</b></span>
               <?php endif; ?>
-              <?php if (!empty($r["price_paid"])): ?>
-                <span class="context-chip"><i class="fa-solid fa-wallet"></i> Chi phí: <b><?= htmlspecialchars($r["price_paid"] ?? "") ?></b></span>
+              <?php if (!empty($r['price_paid'])): ?>
+                <span class="context-chip"><i class="fa-solid fa-wallet"></i> Chi phí: <b><?= htmlspecialchars($r['price_paid'] ?? '') ?></b></span>
               <?php endif; ?>
             </div>
 
             <!-- Nội dung đánh giá -->
             <div class="feed-review-body">
-              "{{ r.review_text }}"
+              "<?= htmlspecialchars($r['text'] ?? $r['review_text'] ?? '') ?>"
             </div>
 
             <!-- Ảnh đính kèm trong bài review nếu có -->
-            <?php if (!empty($r["photos"])): ?>
+            <?php if (!empty($r['photos'])): ?>
               <div class="review-attached-photos">
-                <?php foreach ($r["photos"] as $photo): ?>
-                  <div class="review-photo-thumb" onclick="window.open('<?= htmlspecialchars($photo ?? "") ?>', '_blank')">
-                    <img src="<?= htmlspecialchars($photo ?? "") ?>" alt="Ảnh đánh giá của <?= htmlspecialchars($r["author_name"] ?? "") ?>">
+                <?php foreach ($r['photos'] as $photo): ?>
+                  <div class="review-photo-thumb" onclick="window.open('<?= htmlspecialchars($photo ?? '') ?>', '_blank')">
+                    <img src="<?= htmlspecialchars($photo ?? '') ?>" alt="Ảnh đánh giá của <?= htmlspecialchars($r['author_name'] ?? '') ?>">
                   </div>
                 <?php endforeach; ?>
               </div>
@@ -1614,8 +1614,8 @@ if (empty($customer_photos)) {
 
             <!-- Helpful Count & Actions -->
             <div class="review-action-row">
-              <button class="btn-helpful" onclick="this.innerHTML='<i class=\'fa-solid fa-thumbs-up\'></i> Hữu ích ({{ r.helpful_count + 1 }})'; this.style.color='#10B981';">
-                <i class="fa-solid fa-thumbs-up"></i> Hữu ích ({{ r.helpful_count or 6 }})
+              <button class="btn-helpful" onclick="this.innerHTML='<i class=\'fa-solid fa-thumbs-up\'></i> Hữu ích (<?= (int)($r['helpful_count'] ?? 5) + 1 ?>)'; this.style.color='#10B981';">
+                <i class="fa-solid fa-thumbs-up"></i> Hữu ích (<?= (int)($r['helpful_count'] ?: 6) ?>)
               </button>
               <div style="font-size: 0.72rem; color: var(--text-dim);">
                 <i class="fa-solid fa-check-double"></i> Đánh giá đã xác thực trên Google Maps
@@ -1623,13 +1623,13 @@ if (empty($customer_photos)) {
             </div>
 
             <!-- Phản hồi của chủ nhà hàng nếu có -->
-            <?php if (!empty($r["owner_response"])): ?>
+            <?php if (!empty($r['owner_response'])): ?>
               <div class="owner-response-card">
                 <div class="owner-response-title">
-                  <i class="fa-solid fa-reply"></i> Phản Hồi Từ Chủ Quán <?= htmlspecialchars($store["brand_name"] ?? "") ?>
+                  <i class="fa-solid fa-reply"></i> Phản Hồi Từ Chủ Quán <?= htmlspecialchars($store['brand_name'] ?? '') ?>
                 </div>
                 <div class="owner-response-text">
-                  "<?= htmlspecialchars($r["owner_response"] ?? "") ?>"
+                  "<?= htmlspecialchars($r['owner_response'] ?? '') ?>"
                 </div>
               </div>
             <?php endif; ?>
@@ -1669,7 +1669,7 @@ if (empty($customer_photos)) {
               <div class="benefit-icon"><i class="fa-solid fa-square-parking"></i></div>
               <div class="benefit-text">
                 <b>Chỉ Dẫn Bãi Đỗ Xe Chu Đáo</b>
-                <p>{{ store.car_parking or 'Nhân viên hướng dẫn vị trí đỗ ô tô và xe máy thuận tiện nhất.' }}</p>
+                <p><?= htmlspecialchars(!empty($store['car_parking']) ? $store['car_parking'] : 'Nhân viên hướng dẫn vị trí đỗ ô tô và xe máy thuận tiện nhất.') ?></p>
               </div>
             </div>
           </div>
@@ -1742,7 +1742,7 @@ if (empty($customer_photos)) {
             <div>
               <b style="color: #FFF; font-size: 0.95rem;">Địa Chỉ Cửa Hàng:</b>
               <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
-                <?= htmlspecialchars($store["address"] ?? "") ?> (<?php if (!empty($store["district"])): ?><?= htmlspecialchars($store["district"] ?? "") ?>, <?php endif; ?><?= htmlspecialchars($store["city"] ?? "") ?>)
+                <?= htmlspecialchars($store['address'] ?? '') ?> (<?php if (!empty($store['district'])): ?><?= htmlspecialchars($store['district'] ?? '') ?>, <?php endif; ?><?= htmlspecialchars($store['city'] ?? '') ?>)
               </p>
             </div>
           </div>
@@ -1752,7 +1752,7 @@ if (empty($customer_photos)) {
             <div>
               <b style="color: #FFF; font-size: 0.95rem;">Chỗ Đỗ Xe Máy:</b>
               <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
-                <?= htmlspecialchars($store["motorbike_parking"] ?? "") ?>
+                <?= htmlspecialchars($store['motorbike_parking'] ?? '') ?>
               </p>
             </div>
           </div>
@@ -1762,12 +1762,12 @@ if (empty($customer_photos)) {
             <div>
               <b style="color: #FFF; font-size: 0.95rem;">Chỗ Đỗ Ô Tô:</b>
               <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
-                <?= htmlspecialchars($store["car_parking"] ?? "") ?>
+                <?= htmlspecialchars($store['car_parking'] ?? '') ?>
               </p>
             </div>
           </div>
 
-          <a href="https://www.google.com/maps/search/?api=1&query=<?= htmlspecialchars($store["brand_name"] ?? "") ?>+<?= htmlspecialchars($store["city"] ?? "") ?>" target="_blank" class="btn-nav-call" style="justify-content: center; padding: 0.75rem;">
+          <a href="https://www.google.com/maps/search/?api=1&query=<?= htmlspecialchars($store['brand_name'] ?? '') ?>+<?= htmlspecialchars($store['city'] ?? '') ?>" target="_blank" class="btn-nav-call" style="justify-content: center; padding: 0.75rem;">
             <i class="fa-solid fa-diamond-turn-right"></i> Mở Bản Đồ Dẫn Đường Ngay
           </a>
         </div>
@@ -1778,7 +1778,7 @@ if (empty($customer_photos)) {
             height="100%" 
             frameborder="0" 
             style="border:0; min-height: 280px;" 
-            src="https://maps.google.com/maps?q=<?= htmlspecialchars($store["latitude"] ?? "") ?>,<?= htmlspecialchars($store["longitude"] ?? "") ?>&hl=vi&z=16&output=embed"
+            src="https://maps.google.com/maps?q=<?= htmlspecialchars($store['latitude'] ?? '') ?>,<?= htmlspecialchars($store['longitude'] ?? '') ?>&hl=vi&z=16&output=embed"
             allowfullscreen>
           </iframe>
         </div>
@@ -1789,9 +1789,9 @@ if (empty($customer_photos)) {
   <!-- Footer -->
   <footer>
     <div class="container">
-      <p style="font-weight: 700; color: #FFF; margin-bottom: 0.4rem;"><?= htmlspecialchars($store["brand_name"] ?? "") ?></p>
+      <p style="font-weight: 700; color: #FFF; margin-bottom: 0.4rem;"><?= htmlspecialchars($store['brand_name'] ?? '') ?></p>
       <p>Trang Bán Hàng Độc Lập Được Vận Hành Bởi <b>OMNI AI Sovereign F&B Engine</b> • Zero Traffic Leak • 100% Khách Hàng Thuộc Về Chủ Quán</p>
-      <p style="margin-top: 0.5rem; font-size: 0.72rem; color: var(--text-dim);">Hotline Hỗ Trợ: <?= htmlspecialchars($store["phone_number"] ?? "") ?></p>
+      <p style="margin-top: 0.5rem; font-size: 0.72rem; color: var(--text-dim);">Hotline Hỗ Trợ: <?= htmlspecialchars($store['phone_number'] ?? '') ?></p>
     </div>
   </footer>
 
@@ -1823,13 +1823,13 @@ if (empty($customer_photos)) {
         return;
       }
 
-      const msg = `Kính gửi ${encodeURIComponent("<?= htmlspecialchars($store["brand_name"] ?? "") ?>")},\nKhách hàng: ${encodeURIComponent(name)} (${phone})\nĐặt bàn: ${guests} vào lúc ${time} ngày ${date}\nMón yêu cầu: ${encodeURIComponent(dishes || "Đặt bàn thông thường")}`;
+      const msg = `Kính gửi ${encodeURIComponent("<?= htmlspecialchars($store['brand_name'] ?? '') ?>")},\nKhách hàng: ${encodeURIComponent(name)} (${phone})\nĐặt bàn: ${guests} vào lúc ${time} ngày ${date}\nMón yêu cầu: ${encodeURIComponent(dishes || "Đặt bàn thông thường")}`;
 
       // Giả lập mở hotline hoặc Zalo liên hệ trực tiếp
-      const confirmed = confirm(`Xác nhận gửi thông tin đặt bàn trực tiếp tới Hotline <?= htmlspecialchars($store["brand_name"] ?? "") ?> (${phone})?\n\n- Khách: ${name}\n- Giờ: ${time} ngày ${date} (${guests})\n- Món: ${dishes || 'Chưa chọn trước'}`);
+      const confirmed = confirm(`Xác nhận gửi thông tin đặt bàn trực tiếp tới Hotline <?= htmlspecialchars($store['brand_name'] ?? '') ?> (${phone})?\n\n- Khách: ${name}\n- Giờ: ${time} ngày ${date} (${guests})\n- Món: ${dishes || 'Chưa chọn trước'}`);
 
       if (confirmed) {
-        window.location.href = `tel:<?= htmlspecialchars($store["phone_number"] ?? "") ?>`;
+        window.location.href = `tel:<?= htmlspecialchars($store['phone_number'] ?? '') ?>`;
       }
     }
   </script>
