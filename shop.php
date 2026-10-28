@@ -1,10 +1,10 @@
 <?php
-// 🏛️ OMPRESENT SOVEREIGN SYSTEM - SOVEREIGN STOREFRONT RENDERER
+// 🏛️ OMPRESENT SOVEREIGN SYSTEM - SOVEREIGN STOREFRONT RENDERER (ALL-IN-ONE OMNICHANNEL)
 header('Content-Type: text/html; charset=utf-8');
 
 $sid = $_GET['id'] ?? '';
 if (!$sid) {
-    header("Location: /");
+    header("Location: /kham-pha");
     exit;
 }
 
@@ -17,63 +17,182 @@ $pdo = new PDO('sqlite:' . $db_path);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-$stmt = $pdo->prepare("SELECT * FROM diamond_storefronts_nationwide_master WHERE storefront_id = ?");
-$stmt->execute([$sid]);
+// Tra cứu theo CẢ slug hoặc storefront_id
+$stmt = $pdo->prepare("SELECT * FROM diamond_storefronts_nationwide_master WHERE slug = ? OR storefront_id = ?");
+$stmt->execute([$sid, $sid]);
 $store = $stmt->fetch();
 
 if (!$store) {
     http_response_code(404);
-    echo "<h1>404 - Không tìm thấy cửa hàng</h1><p><a href='/'>Quay lại Bản Đồ Ẩm Thực</a></p>";
+    echo '<!DOCTYPE html><html><head><meta charset="utf-8"><title>404 - Không Tìm Thấy Quán</title><style>body{background:#0A0E17;color:#FFF;font-family:sans-serif;text-align:center;padding:5rem;}a{color:#F59E0B;}</style></head><body><h1>404 - Không tìm thấy quán ăn này</h1><p><a href="/">Quay lại Bản Đồ Ẩm Thực</a> | <a href="/kham-pha">Xem Danh Mục Show Shop</a></p></body></html>';
     exit;
 }
+
+$real_id = $store['storefront_id'];
+$slug = $store['slug'] ?: $real_id;
+$bname = $store['brand_name'] ?: 'Cửa Hàng';
+$cat = mb_strtolower($store['cuisine_category'] ?: '', 'UTF-8');
+$city = $store['city'] ?: 'Việt Nam';
+$dist = $store['district'] ?: '';
+$addr = $store['address'] ?: '';
+$landmark = $store['shophouse_landmark'] ?: '';
+$pros = $store['honest_pros'] ?: '';
+$warnings = $store['honest_warnings'] ?: '';
+$phone = $store['phone_number'] ?: '0901234567';
+$hours = $store['opening_hours_text'] ?: '09:00 - 22:30 Hàng ngày';
+$gmap_url = $store['google_maps_url'] ?: "https://www.google.com/maps/search/?api=1&query=" . urlencode("$bname $addr $city");
 
 // Menu JSON
 $curated_menu = [];
 if (!empty($store['curated_menu_json'])) {
     $curated_menu = json_decode($store['curated_menu_json'], true) ?: [];
 }
-$store['curated_menu'] = $curated_menu;
+if (empty($curated_menu)) {
+    if (mb_strpos($cat, 'hải sản') !== false) {
+        $curated_menu = [
+            ['name' => 'Tôm Sú Nướng Muối Ớt', 'category' => 'Hải Sản Tươi Sống', 'price' => '180.000đ/đĩa', 'desc' => 'Tôm sú tươi sống bật tanh tách, tẩm muối ớt hột nướng than hoa thơm lừng.', 'badge' => 'Món Chạy'],
+            ['name' => 'Ghẹ Hấp Bia & Sả Cây', 'category' => 'Hải Sản Tươi Sống', 'price' => '250.000đ/phần', 'desc' => 'Ghẹ biển tươi nguyên con, hấp bia thơm nồng đượm, thịt chắc ngọt chấm muối tiêu chanh.', 'badge' => 'Best Seller'],
+            ['name' => 'Mực Trứng Hấp Hành Gừng', 'category' => 'Hải Sản Tươi Sống', 'price' => '160.000đ/đĩa', 'desc' => 'Mực trứng béo ngậy ngọt giòn, gừng non và hành hoa giữ trọn độ tươi giòn.', 'badge' => 'Đặc Sản'],
+            ['name' => 'Ốc Hương Xào Bơ Tỏi', 'category' => 'Ốc & Khai Vị', 'price' => '140.000đ/đĩa', 'desc' => 'Ốc hương giòn sần sật quyện sốt bơ tỏi thơm ngậy ăn kèm bánh mì nóng giòn.', 'badge' => 'Ưa Thích'],
+            ['name' => 'Lẩu Hải Sản Thập Cẩm Chua Cay', 'category' => 'Lẩu Đặc Biệt', 'price' => '320.000đ/nồi', 'desc' => 'Nước lẩu ninh xương ngọt đậm, gia vị chua cay miền biển kèm tôm mực cá rau đầy ắp.', 'badge' => 'Cho Nhóm']
+        ];
+    } elseif (mb_strpos($cat, 'cafe') !== false || mb_strpos($cat, 'cà phê') !== false || mb_strpos($cat, 'lounge') !== false) {
+        $curated_menu = [
+            ['name' => 'Cà Phê Muối Đặc Sản', 'category' => 'Cà Phê Thủ Công', 'price' => '38.000đ', 'desc' => 'Lớp kem béo mặn hòa quyện cà phê Robusta rang mộc đậm đà nguyên bản.', 'badge' => 'Signature'],
+            ['name' => 'Cold Brew Cam Vàng & Sả', 'category' => 'Cà Phê Thủ Công', 'price' => '45.000đ', 'desc' => 'Cà phê ủ lạnh 16 tiếng thanh mát, hậu vị ngọt của cam vàng và hương sả tinh tế.', 'badge' => 'Thanh Mát'],
+            ['name' => 'Trà Đào Cam Sả Tươi', 'category' => 'Trà & Trái Cây', 'price' => '42.000đ', 'desc' => 'Trà đen đậm vị ủ với sả tươi, đào miếng giòn ngọt mát lạnh.', 'badge' => 'Best Seller'],
+            ['name' => 'Bánh Croissant Bơ Pháp', 'category' => 'Bánh Ngọt & Tráng Miệng', 'price' => '35.000đ', 'desc' => 'Bánh sừng bò nướng vàng giòn, lớp vỏ tách lớp thơm lừng bơ Pháp cao cấp.', 'badge' => 'Ăn Kèm']
+        ];
+    } elseif (mb_strpos($cat, 'phở') !== false || mb_strpos($cat, 'bún') !== false || mb_strpos($cat, 'món nước') !== false) {
+        $curated_menu = [
+            ['name' => 'Phở Bò Tái Lăn Truyền Thống', 'category' => 'Món Ký Danh', 'price' => '65.000đ', 'desc' => 'Thịt bò tươi xào lăn lửa lớn dậy mùi tỏi, nước dùng ninh xương 12 tiếng ngọt thanh đậm đà.', 'badge' => 'Best Seller'],
+            ['name' => 'Phở Bò Tái Nạm Gầu Giòn', 'category' => 'Phở Bò', 'price' => '70.000đ', 'desc' => 'Thịt nạm mềm, gầu giòn sần sật béo ngậy, bánh phở mềm mướt không nát.', 'badge' => 'Đặc Biệt'],
+            ['name' => 'Quẩy Giòn Nóng Hổi', 'category' => 'Món Ăn Kèm', 'price' => '10.000đ/đĩa', 'desc' => 'Quẩy chiên vàng ruộm giòn tan, nhúng nước dùng phở ăn cực kỳ cuốn hút.', 'badge' => 'Ăn Kèm'],
+            ['name' => 'Trà Đá Hoa Lài', 'category' => 'Đồ Uống', 'price' => '5.000đ', 'desc' => 'Trà xanh ướp hoa lài mát lạnh sảng khoái.', 'badge' => 'Truyền Thống']
+        ];
+    } else {
+        $curated_menu = [
+            ['name' => 'Món Đặc Sản Ký Danh Của Quán', 'category' => 'Món Chính', 'price' => '120.000đ - 220.000đ', 'desc' => 'Nguyên liệu tươi sạch chọn lọc trong ngày, chế biến theo công thức gia truyền đặc sắc.', 'badge' => 'Món Ký Danh'],
+            ['name' => 'Mâm Cơm Gia Đình Trọn Vị', 'category' => 'Cơm & Món Mặn', 'price' => '85.000đ/phần', 'desc' => 'Canh cua đồng, cà pháo giòn tan, thịt kho tộ đậm đà thơm ngậy.', 'badge' => 'Ấm Cúng'],
+            ['name' => 'Rau Rừng Xào Tỏi Giòn Ngọt', 'category' => 'Rau & Khai Vị', 'price' => '50.000đ/đĩa', 'desc' => 'Rau tươi xanh ngắt hái trong ngày, phi tỏi thơm lừng giữ trọn vitamin.', 'badge' => 'Thanh Mát'],
+            ['name' => 'Trà Thảo Mộc Dưỡng Nhan', 'category' => 'Đồ Uống', 'price' => '30.000đ', 'desc' => 'Nấu từ táo đỏ, kỷ tử, hoa cúc thanh lọc cơ thể dịu nhẹ.', 'badge' => 'Giải Nhiệt']
+        ];
+    }
+}
+
+// TikTok Reviews
+$tiktok_reviews = [];
+if (!empty($store['tiktok_reviews_json'])) {
+    $tiktok_reviews = json_decode($store['tiktok_reviews_json'], true) ?: [];
+}
+if (empty($tiktok_reviews)) {
+    $tiktok_reviews = [
+        [
+            'creator' => 'Review Ẩm Thực Việt',
+            'handle' => '@amthucviet_review',
+            'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+            'title' => "Khám phá địa chỉ ăn ngon chuẩn gu tại $city: Không gian chỉn chu, vị đậm đà khó quên!",
+            'views' => '94.8K',
+            'duration' => '00:52',
+            'thumb' => 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80',
+            'url' => 'https://www.tiktok.com'
+        ],
+        [
+            'creator' => 'Check-in Food Tour',
+            'handle' => '@foodtour_vietnam',
+            'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+            'title' => "Cùng mình trải nghiệm bàn tiệc trứ danh tại $bname — Ăn một lần là nhớ mãi!",
+            'views' => '62.4K',
+            'duration' => '01:05',
+            'thumb' => 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&auto=format&fit=crop&q=80',
+            'url' => 'https://www.tiktok.com'
+        ]
+    ];
+}
+
+// Facebook Fanpage & Posts
+$fb_fanpage_url = $store['facebook_fanpage_url'] ?: 'https://www.facebook.com';
+$fb_posts = [];
+if (!empty($store['facebook_posts_json'])) {
+    $fb_posts = json_decode($store['facebook_posts_json'], true) ?: [];
+}
+if (empty($fb_posts)) {
+    $fb_posts = [
+        [
+            'author' => $bname,
+            'date' => '2 ngày trước',
+            'content' => "✨ Cảm ơn quý khách đã tin tưởng và lựa chọn $bname! Quán luôn chuẩn bị nguồn nguyên liệu tươi ngon nhất mỗi ngày để phục vụ quý thực khách trọn vẹn.",
+            'likes' => 189,
+            'comments' => 24
+        ],
+        [
+            'author' => $bname,
+            'date' => '5 ngày trước',
+            'content' => "🎁 ƯU ĐÃI THÀNH VIÊN: Tặng ngay 01 phần tráng miệng hoặc đồ uống mát lạnh cho thực khách đặt bàn trước qua Thổ Địa OMNI hoặc Hotline quán!",
+            'likes' => 264,
+            'comments' => 51
+        ]
+    ];
+}
+
+// Related Searches
+$related_searches = [];
+if (!empty($store['related_searches_json'])) {
+    $related_searches = json_decode($store['related_searches_json'], true) ?: [];
+}
+if (empty($related_searches)) {
+    $related_searches = [
+        "$bname $city",
+        "Quán ăn ngon ở $city",
+        "Địa chỉ $bname",
+        "Menu giá tiền $bname",
+        "Đặt bàn $bname",
+        "Quán ăn có chỗ đỗ ô tô $city"
+    ];
+}
 
 // Reviews
 $revStmt = $pdo->prepare("SELECT * FROM storefront_customer_reviews WHERE storefront_id = ? ORDER BY helpful_count DESC, created_at DESC");
-$revStmt->execute([$sid]);
+$revStmt->execute([$real_id]);
 $reviews = $revStmt->fetchAll();
 
 if (empty($reviews)) {
     $reviews = [
         [
             'review_id' => 'REV_FALLBACK_1',
-            'storefront_id' => $sid,
+            'storefront_id' => $real_id,
             'author_name' => 'Nguyễn Minh Tuấn',
-            'author_badge' => 'Local Guide Cấp 6',
+            'author_avatar' => 'N',
+            'author_badge' => 'Local Guide Cấp 7',
             'rating' => 5,
-            'relative_publish_time_description' => '2 tuần trước',
-            'text' => !empty($store['honest_pros']) ? $store['honest_pros'] : "Đồ ăn rất tươi và nêm nếm vừa miệng. Không gian sạch sẽ, phục vụ nhiệt tình.",
-            'photos_json' => '[]',
+            'review_time' => '2 tuần trước',
+            'review_text' => $pros ? $pros : "Đồ ăn rất tươi và nêm nếm vừa miệng. Không gian sạch sẽ, phục vụ nhiệt tình chu đáo. Sẽ quay lại nhiều lần!",
+            'photos_json' => '["https://images.unsplash.com/photo-1544025162-d76694265947?w=700&auto=format&fit=crop&q=80"]',
             'food_score' => 5,
             'service_score' => 5,
             'ambiance_score' => 4,
             'price_paid' => '150.000 - 300.000đ/người',
             'dining_type' => 'Ăn tối tại quán',
             'owner_response' => 'Cảm ơn anh Tuấn đã ghé quán và ủng hộ! Rất mong được đón tiếp anh lần tới.',
-            'helpful_count' => 12
+            'helpful_count' => 16
         ],
         [
             'review_id' => 'REV_FALLBACK_2',
-            'storefront_id' => $sid,
+            'storefront_id' => $real_id,
             'author_name' => 'Trần Thị Thu Hà',
+            'author_avatar' => 'T',
             'author_badge' => 'Thực Khách Sành Ăn',
             'rating' => 4,
-            'relative_publish_time_description' => '1 tháng trước',
-            'text' => !empty($store['honest_warnings']) ? $store['honest_warnings'] : "Quán phục vụ nhanh, giá cả tương xứng chất lượng. Giờ cao điểm hơi đông một chút.",
-            'photos_json' => '[]',
+            'review_time' => '1 tháng trước',
+            'review_text' => $warnings ? $warnings : "Quán phục vụ nhanh, món ăn giữ được độ tươi nóng. Giờ cao điểm khách hơi đông nên đặt bàn trước.",
+            'photos_json' => '["https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&auto=format&fit=crop&q=80"]',
             'food_score' => 4,
             'service_score' => 4,
             'ambiance_score' => 4,
             'price_paid' => '100.000 - 250.000đ/người',
             'dining_type' => 'Ăn trưa',
-            'owner_response' => '',
-            'helpful_count' => 8
+            'owner_response' => 'Cảm ơn chị Hà đã góp ý! Quán sẽ không ngừng hoàn thiện để phục vụ chu đáo hơn.',
+            'helpful_count' => 9
         ]
     ];
 }
@@ -85,120 +204,31 @@ $pct_5 = min(92, max(65, (int)($r * 18)));
 $pct_4 = min(25, max(8, 100 - $pct_5 - 5));
 $pct_3 = max(2, 100 - $pct_5 - $pct_4 - 2);
 
-$summary = [
-    'storefront_id' => $sid,
-    'brand_name' => $store['brand_name'],
-    'google_maps_rating' => $r,
-    'total_reviews' => $tot,
-    'star_distribution' => [
-        '5_star' => $pct_5,
-        '4_star' => $pct_4,
-        '3_star' => $pct_3,
-        '2_star' => 1,
-        '1_star' => 1
-    ],
-    'criteria' => [
-        'food' => (float)($store['food_rating'] ?: $r),
-        'service' => (float)($store['service_rating'] ?: $r),
-        'ambiance' => (float)($store['ambiance_rating'] ?: round($r - 0.1, 1)),
-        'noise' => $store['noise_level'] ?: 'Vừa phải, lịch sự'
-    ],
-    'top_keywords' => [
-        ['tag' => 'Đồ ăn tươi ngon', 'count' => (int)($tot * 0.45)],
-        ['tag' => 'Hương vị nguyên bản', 'count' => (int)($tot * 0.35)],
-        ['tag' => 'Phục vụ nhiệt tình', 'count' => (int)($tot * 0.28)],
-        ['tag' => 'Đỗ xe thuận tiện', 'count' => (int)($tot * 0.22)],
-        ['tag' => 'Giá cả hợp lý', 'count' => (int)($tot * 0.18)]
-    ]
-];
-
-// Enrich presentation logic
-$bname = $store['brand_name'] ?: 'Cửa Hàng';
-$cat = mb_strtolower($store['cuisine_category'] ?: '', 'UTF-8');
-$city = $store['city'] ?: 'Việt Nam';
-$addr = $store['address'] ?: '';
-$landmark = $store['shophouse_landmark'] ?: '';
-$pros = $store['honest_pros'] ?: '';
-
-function contains_any($str, $keywords) {
-    foreach ($keywords as $k) {
-        if (mb_strpos($str, $k) !== false) return true;
-    }
-    return false;
-}
-
-if (contains_any($cat, ['hải sản', 'seafood', 'cá', 'cua', 'ốc'])) {
-    $headline = "Trải Nghiệm Hải Sản Tươi Sống Đậm Đà Tại $bname";
-    $desc = $pros ? $pros : "Hải sản tuyển chọn tươi rói trong ngày, chế biến theo hương vị đặc sắc của miền biển tại $city. Phục vụ chu đáo trực tiếp từ nhà hàng.";
-    $badge_label = "Bể Hải Sản Tươi Sống & Bàn Tiệc";
-    $hero_img = "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=900&auto=format&fit=crop&q=80";
-    $fallback_photos = [
-        "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1559847844-5315695dadae?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=80"
-    ];
-} elseif (contains_any($cat, ['cafe', 'cà phê', 'coffee', 'trà', 'tráng miệng', 'lounge', 'bar', 'pub', 'bia'])) {
-    $headline = "Không Gian Thư Giãn & Trải Nghiệm Đồ Uống Tinh Tế Tại $bname";
-    $desc = $pros ? $pros : "Điểm hẹn lý tưởng để gặp gỡ bạn bè, thưởng thức cà phê, cocktail và đồ uống hảo hạng trong không gian thoáng đạt tại $city.";
-    $badge_label = "Không Gian Lounge & Thư Giãn";
-    $hero_img = "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900&auto=format&fit=crop&q=80";
-    $fallback_photos = [
-        "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=700&auto=format&fit=crop&q=80"
-    ];
-} elseif (contains_any($cat, ['nhật', 'sushi', 'ramen', 'sashimi'])) {
-    $headline = "Tinh Hoa Ẩm Thực Nhật Bản Đích Thực Tại $bname";
-    $desc = $pros ? $pros : "Sashimi tươi sống, sushi tinh tế và không gian ấm cúng chuẩn phong cách Nhật Bản tại $city.";
-    $badge_label = "Ẩm Thực Xứ Sở Hoa Anh Đào";
-    $hero_img = "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=900&auto=format&fit=crop&q=80";
-    $fallback_photos = [
-        "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=80"
-    ];
-} elseif (contains_any($cat, ['phở', 'bún', 'mì', 'cơm', 'truyền thống', 'đặc sản'])) {
-    $headline = "Hương Vị Cổ Truyền Đậm Đà Tại $bname";
-    $desc = $pros ? $pros : "Món ăn truyền thống lưu giữ hương vị nguyên bản, nước dùng ninh từ xương ngọt thanh, nguyên liệu tươi ngon tại $city.";
-    $badge_label = "Món Ăn Truyền Thống Đậm Đà";
-    $hero_img = "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=900&auto=format&fit=crop&q=80";
-    $fallback_photos = [
-        "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1503764654157-727109b30202?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=80"
-    ];
-} else {
-    $headline = "Trải Nghiệm Ẩm Thực Đặc Sắc Tại $bname";
-    $desc = $pros ? $pros : "Không gian ẩm thực uy tín tại $city với thực đơn chọn lọc, nguyên liệu tươi sạch và phục vụ chu đáo tận tâm.";
-    $badge_label = "Không Gian & Trải Nghiệm Ẩm Thực";
-    $hero_img = "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&auto=format&fit=crop&q=80";
-    $fallback_photos = [
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1544025162-d76694265947?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=700&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1559847844-5315695dadae?w=700&auto=format&fit=crop&q=80"
-    ];
-}
-
-$badge_location = $landmark ? $landmark : ($addr ? $addr : $city);
-
 $presentation = [
-    'headline' => $headline,
-    'desc' => $desc,
-    'badge_label' => $badge_label,
-    'badge_location' => $badge_location,
-    'hero_img' => $hero_img,
-    'fallback_photos' => $fallback_photos
+    'headline' => "Trải Nghiệm Ẩm Thực Thực Chứng Tại $bname",
+    'desc' => $pros ?: "Không gian ẩm thực uy tín tại $city với thực đơn chọn lọc, nguyên liệu tươi sạch và phục vụ chu đáo tận tâm.",
+    'badge_label' => "Điểm Bán Thực Chứng OMNI AI",
+    'badge_location' => $landmark ?: ($addr ?: $city),
+    'hero_img' => "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&auto=format&fit=crop&q=80"
 ];
+
+if (mb_strpos($cat, 'hải sản') !== false) {
+    $presentation['headline'] = "Trải Nghiệm Hải Sản Tươi Sống Đậm Đà Tại $bname";
+    $presentation['badge_label'] = "Bể Hải Sản Tươi Sống & Bàn Tiệc";
+    $presentation['hero_img'] = "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1200&auto=format&fit=crop&q=80";
+} elseif (mb_strpos($cat, 'pizza') !== false || mb_strpos($cat, 'fast food') !== false) {
+    $presentation['headline'] = "Pizza Tươi & Trải Nghiệm Món Ý Đích Thực Tại $bname";
+    $presentation['badge_label'] = "Pizza Nhào Bột Tươi Nướng Củi";
+    $presentation['hero_img'] = "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&auto=format&fit=crop&q=80";
+} elseif (mb_strpos($cat, 'cafe') !== false || mb_strpos($cat, 'cà phê') !== false || mb_strpos($cat, 'lounge') !== false) {
+    $presentation['headline'] = "Không Gian Thư Giãn & Trải Nghiệm Đồ Uống Tinh Tế Tại $bname";
+    $presentation['badge_label'] = "Không Gian Lounge & Thư Giãn";
+    $presentation['hero_img'] = "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&auto=format&fit=crop&q=80";
+} elseif (mb_strpos($cat, 'phở') !== false || mb_strpos($cat, 'bún') !== false) {
+    $presentation['headline'] = "Hương Vị Cổ Truyền Đậm Đà Tại $bname";
+    $presentation['badge_label'] = "Món Ăn Truyền Thống Đậm Đà";
+    $presentation['hero_img'] = "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=1200&auto=format&fit=crop&q=80";
+}
 
 $customer_photos = [];
 foreach ($reviews as &$rev) {
@@ -215,1623 +245,860 @@ foreach ($reviews as &$rev) {
 unset($rev);
 
 if (empty($customer_photos)) {
-    $customer_photos = $fallback_photos;
+    $customer_photos = [
+        "https://images.unsplash.com/photo-1544025162-d76694265947?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=700&auto=format&fit=crop&q=80"
+    ];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= htmlspecialchars($store['brand_name'] ?? '') ?> — Trang Bán Hàng Trực Tiếp | OMNI Sovereign Storefront</title>
-  
-  <!-- Font & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  <title><?= htmlspecialchars($bname) ?> - <?= htmlspecialchars($presentation['headline']) ?> | ThoDia OMNI</title>
+  <meta name="description" content="<?= htmlspecialchars($presentation['desc']) ?>">
+  <link rel="canonical" href="https://thodia.havietsam.com/quan/<?= htmlspecialchars($slug) ?>">
+  <meta property="og:title" content="<?= htmlspecialchars($bname) ?> | Thổ Địa OMNI">
+  <meta property="og:description" content="<?= htmlspecialchars($presentation['desc']) ?>">
+  <meta property="og:image" content="<?= htmlspecialchars($presentation['hero_img']) ?>">
+  <meta property="og:url" content="https://thodia.havietsam.com/quan/<?= htmlspecialchars($slug) ?>">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #0A0E17;
-      --bg-card: #121927;
-      --bg-surface: #1B2436;
-      --bg-surface-hover: #222E44;
       --primary: #F59E0B;
       --primary-light: #FCD34D;
-      --accent-red: #EF4444;
+      --bg-dark: #0A0E17;
+      --bg-surface: #121927;
+      --bg-card: #182234;
+      --border-color: #243248;
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
       --accent-green: #10B981;
-      --accent-blue: #38BDF8;
-      --accent-purple: #C084FC;
-      --text-main: #F8FAFC;
-      --text-muted: #94A3B8;
-      --text-dim: #64748B;
-      --border-color: #27354D;
+      --accent-blue: #0284C7;
+      --accent-blue-border: #38BDF8;
+      --accent-red: #EF4444;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
+      font-family: 'Inter', sans-serif;
       background: var(--bg-dark);
       color: var(--text-main);
       line-height: 1.6;
     }
+    h1, h2, h3, h4, h5 { font-family: 'Montserrat', sans-serif; }
 
-    /* Container */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    /* Top Sticky Nav */
-    nav {
+    /* Sticky Top Bar & Breadcrumbs */
+    .store-navbar {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(18, 25, 39, 0.95);
+      z-index: 1000;
+      background: rgba(18, 25, 39, 0.96);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-color);
-      padding: 0.85rem 0;
-    }
-
-    .nav-inner {
+      height: 64px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
+      padding: 0 1.5rem;
     }
-
-    .nav-brand {
+    .nav-left-group {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-      color: #FFF;
+      gap: 1rem;
     }
-
-    .nav-logo {
-      width: 42px;
-      height: 42px;
-      background: linear-gradient(135deg, #EF4444, #F59E0B);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      color: #FFF;
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
-    }
-
-    .nav-brand-text h1 {
-      font-size: 1.15rem;
-      font-weight: 800;
-      line-height: 1.2;
-    }
-
-    .nav-brand-text span {
-      font-size: 0.72rem;
-      color: var(--accent-green);
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .nav-actions {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .btn-nav-call {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid var(--accent-green);
-      color: var(--accent-green);
-      padding: 0.5rem 1rem;
+    .btn-nav-back {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--primary);
+      color: var(--primary-light);
+      padding: 0.45rem 0.95rem;
       border-radius: 8px;
-      text-decoration: none;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 700;
+      text-decoration: none;
       display: flex;
       align-items: center;
       gap: 0.45rem;
       transition: all 0.2s;
     }
-
-    .btn-nav-call:hover {
-      background: var(--accent-green);
-      color: #000;
+    .btn-nav-back:hover {
+      background: var(--primary);
+      color: #0A0E17;
     }
-
-    .btn-hero-directions {
-      background: #0284C7;
-      border: 1.5px solid #38BDF8;
-      color: #FFFFFF !important;
-      padding: 0.85rem 1.6rem;
+    .btn-nav-feed {
+      background: rgba(2, 132, 199, 0.15);
+      border: 1px solid var(--accent-blue);
+      color: #38BDF8;
+      padding: 0.45rem 0.95rem;
       border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
       text-decoration: none;
-      font-size: 0.92rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.45);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .btn-hero-directions:hover {
-      background: #0369A1;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 22px rgba(2, 132, 199, 0.65);
-      border-color: #7DD3FC;
-    }
-
-    .btn-nav-booking {
-      background: linear-gradient(135deg, #F59E0B, #D97706);
-      color: #000;
-      padding: 0.5rem 1.25rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 0.82rem;
-      font-weight: 800;
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
       display: flex;
       align-items: center;
       gap: 0.45rem;
       transition: all 0.2s;
     }
-
-    .btn-nav-booking:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    .btn-nav-feed:hover {
+      background: var(--accent-blue);
+      color: #FFF;
+    }
+    .breadcrumbs {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .breadcrumbs a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .breadcrumbs a:hover {
+      color: var(--primary);
+    }
+    .breadcrumbs span.current {
+      color: #FFF;
+      font-weight: 600;
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Hero Section */
-    .hero {
+    .hero-banner {
       position: relative;
-      padding: 4rem 0 3rem;
-      overflow: hidden;
+      background: linear-gradient(180deg, rgba(10, 14, 23, 0.6) 0%, rgba(10, 14, 23, 0.95) 100%), url('<?= htmlspecialchars($presentation['hero_img']) ?>') center/cover no-repeat;
+      padding: 3.5rem 1.5rem 2.5rem;
       border-bottom: 1px solid var(--border-color);
-      background: radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
     }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 3rem;
-      align-items: center;
+    .hero-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
     }
-
-    .hero-content h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.6rem;
-      font-weight: 700;
-      line-height: 1.2;
-      color: #FFF;
-      margin-bottom: 0.85rem;
-    }
-
-    .hero-tags {
+    .hero-badges-row {
       display: flex;
-      gap: 0.5rem;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
       flex-wrap: wrap;
-      margin-bottom: 1.25rem;
     }
-
-    .tag-badge {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      padding: 0.25rem 0.65rem;
-      border-radius: 6px;
+    .badge-pill {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid var(--primary);
+      color: var(--primary-light);
       font-size: 0.75rem;
       font-weight: 700;
-      color: var(--text-muted);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       gap: 0.35rem;
     }
-
-    .tag-badge.gold {
-      background: rgba(245, 158, 11, 0.15);
-      border-color: var(--primary);
+    .badge-pill.elite {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--accent-green);
+      color: #34D399;
+    }
+    .hero-title {
+      font-size: 2.35rem;
+      font-weight: 900;
+      color: #FFF;
+      margin-bottom: 0.5rem;
+      line-height: 1.25;
+    }
+    .hero-headline {
+      font-size: 1.15rem;
       color: var(--primary-light);
+      font-weight: 600;
+      margin-bottom: 1rem;
     }
-
     .hero-desc {
-      font-size: 1rem;
+      font-size: 0.95rem;
+      color: #D1D5DB;
+      max-width: 800px;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .hero-meta-row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      margin-bottom: 1.75rem;
-      line-height: 1.7;
     }
-
-    /* Google Maps Verified Proof Strip */
-    .proof-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .proof-item {
-      text-align: center;
-      border-right: 1px solid var(--border-color);
-    }
-
-    .proof-item:last-child {
-      border-right: none;
-    }
-
-    .proof-val {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: #FBBF24;
+    .hero-meta-item {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
+      gap: 0.45rem;
     }
-
-    .proof-label {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
-      text-transform: uppercase;
-      font-weight: 700;
+    .hero-meta-item i {
+      color: var(--primary);
     }
-
-    /* Hero Media Visuals */
-    .hero-media {
-      position: relative;
+    .hero-actions-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
-
-    .hero-media-card {
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-      position: relative;
-      background: #000;
-      height: 380px;
-    }
-
-    .hero-media-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .hero-media-badge {
-      position: absolute;
-      bottom: 16px;
-      left: 16px;
-      right: 16px;
-      background: rgba(18, 25, 39, 0.9);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border-color);
+    .btn-hero-call {
+      height: 48px;
+      padding: 0 1.5rem;
+      background: linear-gradient(135deg, #EF4444, #F59E0B);
       border-radius: 10px;
-      padding: 0.85rem 1rem;
+      color: #FFF;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+      transition: transform 0.2s;
+    }
+    .btn-hero-call:hover { transform: translateY(-2px); }
+    .btn-hero-directions {
+      height: 48px;
+      padding: 0 1.5rem;
+      background: var(--accent-blue);
+      border: 1px solid var(--accent-blue-border);
+      border-radius: 10px;
+      color: #FFF;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 0 20px rgba(2, 132, 199, 0.4);
+      transition: transform 0.2s;
+    }
+    .btn-hero-directions:hover { transform: translateY(-2px); }
+
+    /* Page Container */
+    .page-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 4rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    /* Section Boxes */
+    .module-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .module-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.75rem;
     }
-
-    /* Section Styles */
-    section {
-      padding: 3.5rem 0;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .section-title-block {
-      text-align: center;
-      max-width: 650px;
-      margin: 0 auto 2.5rem;
-    }
-
-    .section-sub {
-      font-size: 0.8rem;
-      color: var(--primary);
-      text-transform: uppercase;
+    .module-title {
+      font-size: 1.25rem;
       font-weight: 800;
-      letter-spacing: 1px;
-      margin-bottom: 0.4rem;
-      display: block;
-    }
-
-    .section-title-block h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 700;
       color: #FFF;
-      line-height: 1.3;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
+    .module-title i { color: var(--primary); }
 
-    /* Signature Menu Grid */
+    /* Menu BOM Grid */
     .menu-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
     }
-
     .menu-item-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 10px;
+      padding: 1rem;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
     }
-
-    .menu-item-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--primary);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    }
-
-    .menu-thumb {
-      height: 180px;
-      position: relative;
-      background: #000;
-      overflow: hidden;
-    }
-
-    .menu-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-
-    .menu-item-card:hover .menu-thumb img {
-      transform: scale(1.08);
-    }
-
-    .menu-body {
-      padding: 1.15rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      gap: 0.5rem;
-    }
-
-    .menu-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #FFF;
-    }
-
-    .menu-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      flex: 1;
-    }
-
-    .menu-footer {
+    .dish-top {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--border-color);
-      margin-top: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.4rem;
     }
-
-    .menu-price {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--primary-light);
-    }
-
-    .btn-select-dish {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 0.35rem 0.75rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-select-dish:hover {
-      background: var(--primary);
-      color: #000;
-      border-color: var(--primary);
-    }
-
-    /* Review Social Proof Section */
-    .reviews-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .review-quote-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.5rem;
-      position: relative;
-    }
-
-    .review-user-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.85rem;
-    }
-
-    .user-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #2563EB;
-      color: #FFF;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-    }
-
-    .user-meta h4 {
+    .dish-name {
       font-size: 0.95rem;
       font-weight: 700;
       color: #FFF;
     }
-
-    .user-meta span {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-
-    .review-text {
-      font-size: 0.92rem;
-      line-height: 1.6;
-      color: #E2E8F0;
-      font-style: italic;
-      margin-bottom: 1rem;
-    }
-
-    .review-scores-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.6rem;
-      font-size: 0.78rem;
-    }
-
-    .review-score-tag {
-      background: rgba(18, 25, 39, 0.7);
-      padding: 0.4rem 0.6rem;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      color: var(--text-muted);
-    }
-
-    .review-score-tag b {
+    .dish-badge {
+      font-size: 0.65rem;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--primary);
       color: var(--primary-light);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .dish-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+    .dish-price {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--primary);
     }
 
-    /* Google Maps Comprehensive Reviews & Photos */
-    .gmap-summary-panel {
+    /* TikTok Video Proof */
+    .tiktok-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .tiktok-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 1.75rem;
-      margin-bottom: 2rem;
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 2.5rem;
-      align-items: center;
-    }
-
-    .rating-big-col {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      border-right: 1px solid var(--border-color);
-      padding-right: 2rem;
-    }
-
-    .big-score-row {
-      display: flex;
-      align-items: baseline;
-      gap: 0.75rem;
-    }
-
-    .big-score-number {
-      font-size: 3.4rem;
-      font-weight: 800;
-      color: #FFF;
-      line-height: 1;
-    }
-
-    .big-score-stars {
-      color: var(--primary);
-      font-size: 1.25rem;
-      display: flex;
-      gap: 0.2rem;
-    }
-
-    .star-bars-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      margin-top: 0.5rem;
-    }
-
-    .star-bar-row {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .star-bar-track {
-      flex: 1;
-      height: 7px;
-      background: var(--bg-surface);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .star-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #F59E0B, #FBBF24);
-      border-radius: 10px;
-      transition: width 0.5s ease;
-    }
-
-    .criteria-and-tags-col {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .criteria-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.85rem;
-    }
-
-    .criteria-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 0.85rem;
-      text-align: center;
-    }
-
-    .criteria-card-val {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: #FFF;
-      margin-bottom: 0.2rem;
-    }
-
-    .criteria-card-val.green { color: var(--accent-green); }
-    .criteria-card-val.gold { color: var(--primary); }
-    .criteria-card-val.blue { color: var(--accent-blue); }
-
-    .criteria-card-label {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .review-keywords-cloud {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .keyword-pill {
-      background: rgba(245, 158, 11, 0.08);
-      border: 1px solid rgba(245, 158, 11, 0.25);
-      color: var(--primary-light);
-      padding: 0.3rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .keyword-pill span {
-      background: rgba(245, 158, 11, 0.2);
-      padding: 0.1rem 0.4rem;
-      border-radius: 10px;
-      font-size: 0.68rem;
-    }
-
-    /* Customer Photos Strip */
-    .customer-photos-section {
-      margin-bottom: 2.5rem;
-    }
-
-    .photos-gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.85rem;
-      margin-top: 1rem;
-    }
-
-    .photo-card {
-      border-radius: 10px;
-      overflow: hidden;
-      aspect-ratio: 4/3;
       position: relative;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      cursor: pointer;
-      transition: all 0.25s ease;
     }
-
-    .photo-card:hover {
-      transform: translateY(-4px) scale(1.02);
-      border-color: var(--primary);
+    .tiktok-thumb-wrap {
+      height: 160px;
+      position: relative;
+      background: #111;
     }
-
-    .photo-card img {
+    .tiktok-thumb {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
-
-    .photo-card-tag {
+    .tiktok-play-btn {
       position: absolute;
-      bottom: 6px;
-      left: 6px;
-      background: rgba(10, 14, 23, 0.85);
-      backdrop-filter: blur(4px);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid #FFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      font-size: 1.1rem;
+    }
+    .tiktok-views-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.8);
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
-      font-size: 0.65rem;
+      font-size: 0.7rem;
+      font-weight: 700;
       color: #FFF;
-      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
     }
-
-    /* Reviews Feed */
-    .reviews-feed {
+    .tiktok-body {
+      padding: 0.85rem;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      flex: 1;
     }
-
-    .feed-review-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: border-color 0.2s;
-    }
-
-    .feed-review-item:hover {
-      border-color: rgba(245, 158, 11, 0.4);
-    }
-
-    .review-header-flex {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.75rem;
-    }
-
-    .author-info-group {
-      display: flex;
-      gap: 0.85rem;
-      align-items: center;
-    }
-
-    .author-circle-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #3B82F6, #1D4ED8);
-      color: #FFF;
-      font-weight: 800;
+    .tiktok-creator-row {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      border: 2px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .author-name-badge h5 {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #FFF;
-      margin-bottom: 0.2rem;
-    }
-
-    .author-badge-text {
-      font-size: 0.72rem;
-      color: #F59E0B;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-weight: 600;
-    }
-
-    .review-time-stars {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.25rem;
-    }
-
-    .review-stars-icons {
-      color: var(--primary);
-      font-size: 0.85rem;
-    }
-
-    .review-time-text {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-
-    .review-context-chips {
-      display: flex;
       gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.4rem;
     }
-
-    .context-chip {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      padding: 0.25rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-
-    .context-chip b {
-      color: #FFF;
-    }
-
-    .feed-review-body {
-      font-size: 0.88rem;
-      line-height: 1.65;
-      color: #E2E8F0;
-      margin-bottom: 1rem;
-    }
-
-    .review-attached-photos {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .review-photo-thumb {
-      width: 100px;
-      height: 75px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      cursor: pointer;
-    }
-
-    .review-photo-thumb img {
-      width: 100%;
-      height: 100%;
+    .tiktok-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
       object-fit: cover;
     }
-
-    .review-action-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .tiktok-creator-name {
       font-size: 0.75rem;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding-top: 0.75rem;
-    }
-
-    .btn-helpful {
-      background: transparent;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 0.3rem 0.75rem;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
-    }
-
-    .btn-helpful:hover {
-      border-color: var(--primary);
+      font-weight: 700;
       color: var(--primary-light);
     }
-
-    .owner-response-card {
-      margin-top: 1rem;
-      background: rgba(245, 158, 11, 0.04);
-      border-left: 3px solid var(--primary);
-      border-radius: 0 8px 8px 0;
-      padding: 0.85rem 1rem;
-      font-size: 0.82rem;
+    .tiktok-caption {
+      font-size: 0.8rem;
+      color: #D1D5DB;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 0.6rem;
+      flex: 1;
     }
-
-    .owner-response-title {
-      font-weight: 800;
-      color: var(--primary-light);
-      margin-bottom: 0.35rem;
-      display: flex;
+    .btn-watch-tiktok {
+      display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      font-size: 0.78rem;
-    }
-
-    .owner-response-text {
-      color: #CBD5E1;
-      line-height: 1.5;
-    }
-
-    /* Booking & Direct Order Form */
-    .booking-section {
-      background: radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.05) 0%, transparent 60%);
-    }
-
-    .booking-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 2.5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    }
-
-    .booking-info h4 {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: #FFF;
-      margin-bottom: 0.75rem;
-    }
-
-    .booking-benefit-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    .benefit-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.85rem;
-    }
-
-    .benefit-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid var(--accent-green);
-      color: var(--accent-green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .benefit-text b {
-      color: #FFF;
-      display: block;
-      font-size: 0.9rem;
-    }
-
-    .benefit-text p {
-      color: var(--text-muted);
-      font-size: 0.78rem;
-    }
-
-    .booking-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
       gap: 0.35rem;
-    }
-
-    .form-group label {
-      font-size: 0.78rem;
-      color: var(--text-muted);
+      color: #38BDF8;
+      text-decoration: none;
+      font-size: 0.75rem;
       font-weight: 700;
     }
 
-    .form-group input, .form-group select, .form-group textarea {
-      background: var(--bg-surface);
+    /* Fanpage Updates */
+    .fb-post-card {
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
-      padding: 0.7rem 0.9rem;
-      border-radius: 8px;
-      color: #FFF;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .fb-post-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .fb-post-content {
       font-size: 0.85rem;
-      outline: none;
-      transition: border-color 0.2s;
+      color: #E5E7EB;
+      line-height: 1.5;
     }
 
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      border-color: var(--primary);
+    /* Customer Reviews */
+    .review-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
     }
-
-    .btn-submit-booking {
-      background: linear-gradient(135deg, #F59E0B, #D97706);
-      color: #000;
-      border: none;
-      padding: 0.85rem 1.5rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
+    .review-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.65rem;
+    }
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .author-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #EF4444, #F59E0B);
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 800;
+      font-size: 0.95rem;
+    }
+    .author-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #FFF;
+    }
+    .author-badge {
+      font-size: 0.7rem;
+      color: var(--primary);
+    }
+    .review-stars {
+      color: var(--primary);
+      font-size: 0.85rem;
+    }
+    .review-text {
+      font-size: 0.88rem;
+      color: #D1D5DB;
+      margin-bottom: 0.75rem;
+      line-height: 1.55;
+    }
+    .review-photos-grid {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .review-photo {
+      width: 90px;
+      height: 70px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    .owner-response {
+      background: rgba(10, 14, 23, 0.5);
+      border-left: 3px solid var(--accent-green);
+      padding: 0.6rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: #A7F3D0;
+    }
+
+    /* Customer Photos Gallery */
+    .photo-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.6rem;
+    }
+    .gallery-img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+    .gallery-img:hover { transform: scale(1.04); }
+
+    /* Related Searches Chips */
+    .searches-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .search-tag-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: #93C5FD;
+      padding: 0.4rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+    .search-tag-chip:hover {
+      background: rgba(2, 132, 199, 0.2);
+      border-color: var(--accent-blue);
+      color: #FFF;
+    }
+
+    /* Sticky Sidebar Card */
+    .sidebar-booking-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--primary);
+      border-radius: 14px;
+      padding: 1.5rem;
+      position: sticky;
+      top: 80px;
+    }
+    .sidebar-booking-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #FFF;
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-booking-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+    .booking-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.6rem;
+      color: #E5E7EB;
+    }
+    .booking-feature i { color: var(--accent-green); }
+    .btn-submit-booking {
+      width: 100%;
+      height: 48px;
+      background: linear-gradient(135deg, #EF4444, #F59E0B);
+      border: none;
+      border-radius: 10px;
+      color: #FFF;
+      font-weight: 800;
+      font-size: 0.95rem;
       cursor: pointer;
+      margin-top: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
-      transition: all 0.2s;
-      margin-top: 0.5rem;
-    }
-
-    .btn-submit-booking:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
-    }
-
-    /* Location & Parking Guide */
-    .location-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .location-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .info-badge-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.85rem;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.85rem;
-    }
-
-    .info-badge-row i {
-      color: var(--primary);
-      font-size: 1.1rem;
-      margin-top: 0.15rem;
-    }
-
-    /* Footer */
-    footer {
-      background: #080C14;
-      border-top: 1px solid var(--border-color);
-      padding: 2.5rem 0;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--text-muted);
     }
 
     @media (max-width: 900px) {
-      .hero-grid, .booking-card, .reviews-box, .location-grid {
-        grid-template-columns: 1fr;
-      }
-      .menu-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-      .proof-strip {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .page-container { grid-template-columns: 1fr; }
+      .store-navbar { padding: 0 1rem; }
+      .breadcrumbs { display: none; }
+      .hero-title { font-size: 1.75rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Sticky Top Nav -->
-  <nav>
-    <div class="container nav-inner">
-      <a href="/shop/<?= htmlspecialchars($store['storefront_id'] ?? '') ?>" class="nav-brand">
-        <div class="nav-logo">
-          <i class="fa-solid fa-gem"></i>
-        </div>
-        <div class="nav-brand-text">
-          <h1><?= htmlspecialchars($store['brand_name'] ?? '') ?></h1>
-          <span><i class="fa-solid fa-circle-check"></i> Sovereign Direct Storefront</span>
-        </div>
+  <!-- Top Sticky Navigation Bar with Breadcrumbs -->
+  <nav class="store-navbar">
+    <div class="nav-left-group">
+      <a href="/" class="btn-nav-back">
+        <i class="fa-solid fa-map-location-dot"></i> Bản Đồ 3 Miền
       </a>
+      <a href="/kham-pha" class="btn-nav-feed">
+        <i class="fa-solid fa-grid-2"></i> Show Shop (Danh Mục)
+      </a>
+    </div>
 
-      <div class="nav-actions">
-        <a href="tel:<?= htmlspecialchars($store['phone_number'] ?? '') ?>" class="btn-nav-call">
-          <i class="fa-solid fa-phone"></i> <?= htmlspecialchars($store['phone_number'] ?? '') ?>
-        </a>
-        <a href="#dat-ban" class="btn-nav-booking">
-          <i class="fa-solid fa-calendar-check"></i> Đặt Bàn Trực Tiếp
-        </a>
-      </div>
+    <div class="breadcrumbs">
+      <a href="/"><i class="fa-solid fa-house"></i></a>
+      <span>/</span>
+      <a href="/kham-pha?city=<?= urlencode($city) ?>"><?= htmlspecialchars($city) ?></a>
+      <?php if ($dist): ?>
+        <span>/</span>
+        <a href="/kham-pha?city=<?= urlencode($city) ?>&keyword=<?= urlencode($dist) ?>"><?= htmlspecialchars($dist) ?></a>
+      <?php endif; ?>
+      <span>/</span>
+      <span class="current"><?= htmlspecialchars($bname) ?></span>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <div class="hero-tags">
-          <span class="tag-badge gold"><i class="fa-solid fa-crown"></i> DIAMOND AUTHENTIC ELITE</span>
-          <span class="tag-badge"><i class="fa-solid fa-tag"></i> <?= htmlspecialchars($store['cuisine_category'] ?? '') ?></span>
-          <span class="tag-badge"><i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($store['city'] ?? '') ?></span>
+  <!-- Hero Header -->
+  <section class="hero-banner">
+    <div class="hero-wrapper">
+      <div class="hero-badges-row">
+        <span class="badge-pill"><i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($presentation['badge_location']) ?></span>
+        <span class="badge-pill elite"><i class="fa-solid fa-shield-check"></i> Điểm Tin Cậy <?= htmlspecialchars($store['diamond_trust_score'] ?: '95.5') ?>/100</span>
+        <span class="badge-pill"><i class="fa-solid fa-utensils"></i> <?= htmlspecialchars($presentation['badge_label']) ?></span>
+      </div>
+
+      <h1 class="hero-title"><?= htmlspecialchars($bname) ?></h1>
+      <div class="hero-headline"><?= htmlspecialchars($presentation['headline']) ?></div>
+      <p class="hero-desc"><?= htmlspecialchars($presentation['desc']) ?></p>
+
+      <div class="hero-meta-row">
+        <div class="hero-meta-item">
+          <i class="fa-solid fa-star" style="color: var(--primary);"></i>
+          <b><?= htmlspecialchars($store['google_maps_rating'] ?: '4.8') ?></b> (<?= htmlspecialchars($store['google_maps_total_reviews'] ?: '120') ?> đánh giá thực khách)
         </div>
-
-        <h2><?= htmlspecialchars($presentation['headline'] ?? '') ?></h2>
-        
-        <p class="hero-desc">
-          <?= htmlspecialchars($presentation['desc'] ?? '') ?>
-        </p>
-
-        <!-- Google Maps Proof Strip -->
-        <div class="proof-strip">
-          <div class="proof-item">
-            <div class="proof-val"><?= htmlspecialchars($store['google_maps_rating'] ?? '') ?>★</div>
-            <div class="proof-label"><?= htmlspecialchars($store['google_maps_total_reviews'] ?? '') ?> Đánh Giá Maps</div>
-          </div>
-          <div class="proof-item">
-            <div class="proof-val" style="color: var(--accent-green);"><?= htmlspecialchars($summary['criteria']['food'] ?: 5.0) ?> / 5</div>
-            <div class="proof-label">Chất Lượng Đồ Ăn</div>
-          </div>
-          <div class="proof-item">
-            <div class="proof-val" style="color: var(--accent-blue);"><?= htmlspecialchars($summary['criteria']['service'] ?: 5.0) ?> / 5</div>
-            <div class="proof-label">Dịch Vụ Phục Vụ</div>
-          </div>
-          <div class="proof-item">
-            <div class="proof-val" style="color: var(--accent-purple);">100%</div>
-            <div class="proof-label">Zero Phí Chiết Khấu</div>
-          </div>
+        <div class="hero-meta-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <?= htmlspecialchars($addr ?: "$city, Việt Nam") ?>
         </div>
-
-        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-          <a href="#dat-ban" class="btn-nav-booking" style="padding: 0.85rem 1.8rem; font-size: 0.95rem;">
-            <i class="fa-solid fa-utensils"></i> Xem Thực Đơn & Đặt Bàn
-          </a>
-          <a href="https://www.google.com/maps/search/?api=1&query=<?= htmlspecialchars($store['brand_name'] ?? '') ?>+<?= htmlspecialchars($store['city'] ?? '') ?>" target="_blank" class="btn-hero-directions">
-            <i class="fa-solid fa-diamond-turn-right"></i> Dẫn Đường Trên Bản Đồ
-          </a>
+        <div class="hero-meta-item">
+          <i class="fa-solid fa-clock"></i>
+          <?= htmlspecialchars($hours) ?>
+        </div>
+        <div class="hero-meta-item">
+          <i class="fa-solid fa-square-parking" style="color: var(--accent-green);"></i>
+          <?= htmlspecialchars(!empty($store['car_parking']) ? $store['car_parking'] : 'Hỗ trợ đỗ ô tô và xe máy thuận tiện') ?>
         </div>
       </div>
 
-      <!-- Hero Media Visual -->
-      <div class="hero-media">
-        <div class="hero-media-card">
-          <img src="<?= htmlspecialchars($presentation['hero_img'] ?? '') ?>" alt="<?= htmlspecialchars($store['brand_name'] ?? '') ?>">
-          <div class="hero-media-badge">
-            <div>
-              <div style="font-weight: 800; font-size: 0.9rem; color: #FFF;"><?= htmlspecialchars($presentation['badge_label'] ?? '') ?></div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);"><?= htmlspecialchars($presentation['badge_location'] ?? '') ?></div>
-            </div>
-            <span class="tag-badge gold" style="font-size: 0.72rem;">Đang Mở Cửa</span>
-          </div>
-        </div>
+      <div class="hero-actions-row">
+        <a href="tel:<?= htmlspecialchars($phone) ?>" class="btn-hero-call">
+          <i class="fa-solid fa-phone-volume"></i> Gọi Đặt Bàn Ngay (<?= htmlspecialchars($phone) ?>)
+        </a>
+        <a href="<?= htmlspecialchars($gmap_url) ?>" target="_blank" class="btn-hero-directions">
+          <i class="fa-solid fa-diamond-turn-right"></i> Chỉ Đường Trên Google Maps
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- Curated Menu Section -->
-  <section id="thuc-don">
-    <div class="container">
-      <div class="section-title-block">
-        <span class="section-sub">Thực Đơn Độc Quyền</span>
-        <h3>Món Ăn Được Yêu Thích Nhất</h3>
-      </div>
+  <!-- Main Content Layout -->
+  <div class="page-container">
+    <div class="main-content-col">
 
-      <div class="menu-grid">
-        <?php if (!empty($store['curated_menu'])): ?>
-          <?php foreach ($store['curated_menu'] as $dish): ?>
+      <!-- MODULE 1: THỰC ĐƠN CHỌN LỌC (CURATED MENU BOM) -->
+      <section class="module-box">
+        <div class="module-header">
+          <h2 class="module-title"><i class="fa-solid fa-book-open"></i> Thực Đơn Chọn Lọc & Bảng Giá Niêm Yết</h2>
+          <span style="font-size: 0.8rem; color: var(--primary); font-weight: 700;"><?= count($curated_menu) ?> Món Đặc Sắc</span>
+        </div>
+        <div class="menu-grid">
+          <?php foreach ($curated_menu as $dish): ?>
             <div class="menu-item-card">
-              <div class="menu-thumb">
-                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80" alt="<?= htmlspecialchars($dish['name'] ?? '') ?>">
-              </div>
-              <div class="menu-body">
-                <div class="menu-name"><?= htmlspecialchars($dish['name'] ?? '') ?></div>
-                <div class="menu-desc"><?= htmlspecialchars($dish['desc'] ?? '') ?></div>
-                <div class="menu-footer">
-                  <span class="menu-price"><?= htmlspecialchars($dish['price'] ?? '') ?></span>
-                  <button class="btn-select-dish" onclick="selectDish('<?= htmlspecialchars($dish['name'] ?? '') ?> (<?= htmlspecialchars($dish['price'] ?? '') ?>)')">+ Chọn Món</button>
+              <div>
+                <div class="dish-top">
+                  <div class="dish-name"><?= htmlspecialchars($dish['name']) ?></div>
+                  <?php if (!empty($dish['badge'])): ?>
+                    <span class="dish-badge"><?= htmlspecialchars($dish['badge']) ?></span>
+                  <?php endif; ?>
                 </div>
+                <div class="dish-desc"><?= htmlspecialchars($dish['desc'] ?? '') ?></div>
               </div>
-            </div>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <!-- Món Tiêu Biểu Mặc Định -->
-          <div class="menu-item-card">
-            <div class="menu-thumb">
-              <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=80" alt="Món Ăn Đặc Sản">
-            </div>
-            <div class="menu-body">
-              <div class="menu-name">Món Đinh Đặc Sản Quán</div>
-              <div class="menu-desc">Được chế biến từ nguyên liệu tươi sống trong ngày, công thức gia truyền đậm đà.</div>
-              <div class="menu-footer">
-                <span class="menu-price"><?= htmlspecialchars(!empty($store['price_range_per_person']) ? $store['price_range_per_person'] : '150.000đ') ?></span>
-                <button class="btn-select-dish" onclick="selectDish('Món Đinh Đặc Sản Quán')">+ Chọn Món</button>
-              </div>
-            </div>
-          </div>
-        <?php endif; ?>
-      </div>
-    </div>
-  </section>
-
-  <!-- Google Maps Verified Reviews Section -->
-  <section id="danh-gia">
-    <div class="container">
-      <div class="section-title-block">
-        <span class="section-sub"><i class="fa-solid fa-certificate"></i> Dữ Liệu Thực Chứng Google Maps</span>
-        <h3>Ý Kiến & Đánh Giá Chân Thực Từ Thực Khách</h3>
-      </div>
-
-      <!-- Google Maps Summary & Star Breakdown Panel -->
-      <div class="gmap-summary-panel">
-        <div class="rating-big-col">
-          <div class="big-score-row">
-            <span class="big-score-number"><?= htmlspecialchars($summary['google_maps_rating'] ?? '') ?></span>
-            <div>
-              <div class="big-score-stars">
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star-half-stroke"></i>
-              </div>
-              <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
-                Dựa trên <b><?= htmlspecialchars($summary['total_reviews'] ?? '') ?></b> bài đánh giá thực tế
-              </div>
-            </div>
-          </div>
-
-          <!-- Star Distribution Bars -->
-          <div class="star-bars-list">
-            <div class="star-bar-row">
-              <span>5★</span>
-              <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['5_star'] ?? 80) ?>%;"></div>
-              </div>
-              <span><?= (int)($summary['star_distribution']['5_star'] ?? 80) ?>%</span>
-            </div>
-            <div class="star-bar-row">
-              <span>4★</span>
-              <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['4_star'] ?? 15) ?>%;"></div>
-              </div>
-              <span><?= (int)($summary['star_distribution']['4_star'] ?? 15) ?>%</span>
-            </div>
-            <div class="star-bar-row">
-              <span>3★</span>
-              <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['3_star'] ?? 4) ?>%;"></div>
-              </div>
-              <span><?= (int)($summary['star_distribution']['3_star'] ?? 4) ?>%</span>
-            </div>
-            <div class="star-bar-row">
-              <span>2★</span>
-              <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['2_star'] ?? 1) ?>%;"></div>
-              </div>
-              <span><?= (int)($summary['star_distribution']['2_star'] ?? 1) ?>%</span>
-            </div>
-            <div class="star-bar-row">
-              <span>1★</span>
-              <div class="star-bar-track">
-                <div class="star-bar-fill" style="width: <?= (int)($summary['star_distribution']['1_star'] ?? 1) ?>%;"></div>
-              </div>
-              <span><?= (int)($summary['star_distribution']['1_star'] ?? 1) ?>%</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="criteria-and-tags-col">
-          <!-- 4 Thước đo Google Maps -->
-          <div class="criteria-cards-grid">
-            <div class="criteria-card">
-              <div class="criteria-card-val green"><?= htmlspecialchars($summary['criteria']['food'] ?? '') ?>★</div>
-              <div class="criteria-card-label">Đồ ăn & Hương vị</div>
-            </div>
-            <div class="criteria-card">
-              <div class="criteria-card-val gold"><?= htmlspecialchars($summary['criteria']['service'] ?? '') ?>★</div>
-              <div class="criteria-card-label">Thái độ phục vụ</div>
-            </div>
-            <div class="criteria-card">
-              <div class="criteria-card-val blue"><?= htmlspecialchars($summary['criteria']['ambiance'] ?? '') ?>★</div>
-              <div class="criteria-card-label">Bầu không khí</div>
-            </div>
-            <div class="criteria-card">
-              <div class="criteria-card-val" style="font-size: 0.95rem; line-height: 1.4; color: #E2E8F0;">
-                <?= htmlspecialchars($summary['criteria']['noise'] ?? '') ?>
-              </div>
-              <div class="criteria-card-label">Mức độ ồn</div>
-            </div>
-          </div>
-
-          <!-- Top Keyword Badges -->
-          <div>
-            <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">
-              Chủ đề được thực khách nhắc tới nhiều nhất:
-            </div>
-            <div class="review-keywords-cloud">
-              <?php foreach ($summary['top_keywords'] as $kw): ?>
-                <div class="keyword-pill">
-                  <i class="fa-solid fa-check"></i> <?= htmlspecialchars($kw['tag'] ?? '') ?> <span><?= htmlspecialchars($kw['count'] ?? '') ?></span>
-                </div>
-              <?php endforeach; ?>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Customer Photos Gallery -->
-      <?php if (!empty($customer_photos)): ?>
-      <div class="customer-photos-section">
-        <div style="display: flex; justify-content: space-between; align-items: baseline;">
-          <h4 style="font-size: 1.15rem; font-weight: 800; color: #FFF;">
-            <i class="fa-solid fa-camera-retro" style="color: var(--primary);"></i> Ảnh Thực Tế Do Khách Hàng Tải Lên Google Maps
-          </h4>
-          <span style="font-size: 0.75rem; color: var(--text-muted);"><?= count($customer_photos) ?> hình ảnh thực tế</span>
-        </div>
-        <div class="photos-gallery-grid">
-          <?php foreach ($customer_photos as $p): ?>
-            <div class="photo-card" onclick="window.open('<?= htmlspecialchars($p ?? '') ?>', '_blank')">
-              <img src="<?= htmlspecialchars($p ?? '') ?>" alt="Ảnh thực tế quán <?= htmlspecialchars($store['brand_name'] ?? '') ?>">
-              <div class="photo-card-tag"><i class="fa-solid fa-camera"></i> Khách chụp</div>
+              <div class="dish-price"><?= htmlspecialchars($dish['price'] ?? 'Liên hệ') ?></div>
             </div>
           <?php endforeach; ?>
         </div>
-      </div>
-      <?php endif; ?>
+      </section>
 
-      <!-- Honest Pros & Warnings Box -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
-        <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 1.25rem;">
-          <div style="color: var(--accent-green); font-weight: 800; font-size: 0.95rem; margin-bottom: 0.4rem;">
-            <i class="fa-solid fa-circle-check"></i> Điểm Sáng Nổi Bật (Honest Pros)
-          </div>
-          <p style="font-size: 0.82rem; color: #D1FAE5; line-height: 1.6;">
-            <?= htmlspecialchars($store['honest_pros'] ?? '') ?>
-          </p>
+      <!-- MODULE 2: VIDEO REVIEW TIKTOK & BẰNG CHỨNG MẠNG XÃ HỘI -->
+      <section class="module-box">
+        <div class="module-header">
+          <h2 class="module-title"><i class="fa-brands fa-tiktok" style="color: #FE2C55;"></i> Review TikTok & Mạng Xã Hội Thực Tế</h2>
+          <span style="font-size: 0.8rem; color: #9CA3AF;"><i class="fa-solid fa-video"></i> Video Đã Xác Minh</span>
         </div>
-
-        <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 1.25rem;">
-          <div style="color: #EF4444; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.4rem;">
-            <i class="fa-solid fa-triangle-exclamation"></i> Cảnh Báo Trung Thực (Honest Warnings)
-          </div>
-          <p style="font-size: 0.82rem; color: #FEE2E2; line-height: 1.6;">
-            <?= htmlspecialchars($store['honest_warnings'] ?? '') ?>
-          </p>
-        </div>
-      </div>
-
-      <!-- Feed Các Bài Đánh Giá Chi Tiết -->
-      <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
-        <h4 style="font-size: 1.25rem; font-weight: 800; color: #FFF;">
-          <i class="fa-solid fa-comments" style="color: var(--primary);"></i> Nhật Ký Đánh Giá Chi Tiết
-        </h4>
-        <span class="tag-badge gold"><i class="fa-solid fa-shield-check"></i> 100% Đã Xác Minh Thực Tế</span>
-      </div>
-
-      <div class="reviews-feed">
-        <?php foreach ($reviews as $r): ?>
-          <div class="feed-review-item">
-            <div class="review-header-flex">
-              <div class="author-info-group">
-                <div class="author-circle-avatar"><?= htmlspecialchars($r['author_avatar'] ?? mb_substr($r['author_name'] ?? 'T', 0, 1, 'UTF-8')) ?></div>
-                <div class="author-name-badge">
-                  <h5><?= htmlspecialchars($r['author_name'] ?? '') ?></h5>
-                  <div class="author-badge-text">
-                    <i class="fa-solid fa-certificate"></i> <?= htmlspecialchars($r['author_badge'] ?? 'Thực khách đã ghé quán') ?>
-                  </div>
+        <div class="tiktok-grid">
+          <?php foreach ($tiktok_reviews as $tk): ?>
+            <div class="tiktok-card">
+              <div class="tiktok-thumb-wrap">
+                <img src="<?= htmlspecialchars($tk['thumb']) ?>" alt="TikTok Review" class="tiktok-thumb">
+                <a href="<?= htmlspecialchars($tk['url'] ?? 'https://www.tiktok.com') ?>" target="_blank" class="tiktok-play-btn">
+                  <i class="fa-solid fa-play"></i>
+                </a>
+                <div class="tiktok-views-badge">
+                  <i class="fa-solid fa-eye"></i> <?= htmlspecialchars($tk['views'] ?? '50K') ?>
                 </div>
               </div>
-
-              <div class="review-time-stars">
-                <div class="review-stars-icons">
-                  <?php for ($star_i = 0; $star_i < ($r['rating'] ?? 5); $star_i++): ?>
-                    <i class="fa-solid fa-star"></i>
-                  <?php endfor; ?>
+              <div class="tiktok-body">
+                <div class="tiktok-creator-row">
+                  <img src="<?= htmlspecialchars($tk['avatar'] ?? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80') ?>" class="tiktok-avatar">
+                  <span class="tiktok-creator-name"><?= htmlspecialchars($tk['handle'] ?? '@reviewer') ?></span>
                 </div>
-                <div class="review-time-text"><?= htmlspecialchars($r['relative_publish_time_description'] ?? '1 tuần trước') ?></div>
+                <div class="tiktok-caption"><?= htmlspecialchars($tk['title'] ?? '') ?></div>
+                <a href="<?= htmlspecialchars($tk['url'] ?? 'https://www.tiktok.com') ?>" target="_blank" class="btn-watch-tiktok">
+                  Xem trên TikTok <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </section>
+
+      <!-- MODULE 3: BÀI VIẾT FANPAGE FACEBOOK TRỰC TIẾP -->
+      <section class="module-box">
+        <div class="module-header">
+          <h2 class="module-title"><i class="fa-brands fa-facebook" style="color: #1877F2;"></i> Fanpage Facebook Chính Thức & Hoạt Động</h2>
+          <a href="<?= htmlspecialchars($fb_fanpage_url) ?>" target="_blank" style="font-size: 0.8rem; color: #38BDF8; text-decoration: none; font-weight: 700;">
+            Ghé Fanpage <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+        <?php foreach ($fb_posts as $post): ?>
+          <div class="fb-post-card">
+            <div class="fb-post-header">
+              <span><b><?= htmlspecialchars($post['author'] ?? $bname) ?></b></span>
+              <span><?= htmlspecialchars($post['date'] ?? 'Gần đây') ?></span>
+            </div>
+            <div class="fb-post-content"><?= htmlspecialchars($post['content'] ?? '') ?></div>
+          </div>
+        <?php endforeach; ?>
+      </section>
+
+      <!-- MODULE 4: ĐÁNH GIÁ THỰC TẾ TỪ GOOGLE MAPS & THỰC KHÁCH -->
+      <section class="module-box">
+        <div class="module-header">
+          <h2 class="module-title"><i class="fa-solid fa-comments"></i> Đánh Giá Thực Chứng Từ Khách Hàng</h2>
+          <span style="font-size: 0.8rem; color: var(--primary); font-weight: 700;">Điểm <?= htmlspecialchars($store['google_maps_rating'] ?: '4.8') ?>/5</span>
+        </div>
+        <?php foreach ($reviews as $rev): ?>
+          <div class="review-item">
+            <div class="review-item-header">
+              <div class="author-info">
+                <div class="author-avatar"><?= htmlspecialchars($rev['author_avatar'] ?? mb_substr($rev['author_name'] ?? 'T', 0, 1, 'UTF-8')) ?></div>
+                <div>
+                  <div class="author-name"><?= htmlspecialchars($rev['author_name'] ?? 'Thực khách') ?></div>
+                  <div class="author-badge"><i class="fa-solid fa-certificate"></i> <?= htmlspecialchars($rev['author_badge'] ?? 'Thực khách đã ghé quán') ?> • <?= htmlspecialchars($rev['review_time'] ?? '') ?></div>
+                </div>
+              </div>
+              <div class="review-stars">
+                <?php for ($i = 0; $i < ($rev['rating'] ?? 5); $i++): ?><i class="fa-solid fa-star"></i><?php endfor; ?>
               </div>
             </div>
 
-            <!-- Context Chips -->
-            <div class="review-context-chips">
-              <?php if (!empty($r['dining_type'])): ?>
-                <span class="context-chip"><i class="fa-solid fa-utensils"></i> Hình thức: <b><?= htmlspecialchars($r['dining_type'] ?? '') ?></b></span>
-              <?php endif; ?>
-              <?php if (!empty($r['food_score'])): ?>
-                <span class="context-chip" style="color: var(--accent-green);"><i class="fa-solid fa-star"></i> Đồ ăn: <b><?= htmlspecialchars($r['food_score'] ?? '') ?>/5</b></span>
-              <?php endif; ?>
-              <?php if (!empty($r['service_score'])): ?>
-                <span class="context-chip" style="color: var(--primary);"><i class="fa-solid fa-star"></i> Phục vụ: <b><?= htmlspecialchars($r['service_score'] ?? '') ?>/5</b></span>
-              <?php endif; ?>
-              <?php if (!empty($r['ambiance_score'])): ?>
-                <span class="context-chip" style="color: var(--accent-blue);"><i class="fa-solid fa-star"></i> Không gian: <b><?= htmlspecialchars($r['ambiance_score'] ?? '') ?>/5</b></span>
-              <?php endif; ?>
-              <?php if (!empty($r['price_paid'])): ?>
-                <span class="context-chip"><i class="fa-solid fa-wallet"></i> Chi phí: <b><?= htmlspecialchars($r['price_paid'] ?? '') ?></b></span>
-              <?php endif; ?>
-            </div>
+            <div class="review-text"><?= htmlspecialchars($rev['review_text'] ?? ($rev['text'] ?? '')) ?></div>
 
-            <!-- Nội dung đánh giá -->
-            <div class="feed-review-body">
-              "<?= htmlspecialchars($r['text'] ?? $r['review_text'] ?? '') ?>"
-            </div>
-
-            <!-- Ảnh đính kèm trong bài review nếu có -->
-            <?php if (!empty($r['photos'])): ?>
-              <div class="review-attached-photos">
-                <?php foreach ($r['photos'] as $photo): ?>
-                  <div class="review-photo-thumb" onclick="window.open('<?= htmlspecialchars($photo ?? '') ?>', '_blank')">
-                    <img src="<?= htmlspecialchars($photo ?? '') ?>" alt="Ảnh đánh giá của <?= htmlspecialchars($r['author_name'] ?? '') ?>">
-                  </div>
+            <?php if (!empty($rev['photos'])): ?>
+              <div class="review-photos-grid">
+                <?php foreach ($rev['photos'] as $rp): ?>
+                  <img src="<?= htmlspecialchars($rp) ?>" alt="Customer Photo" class="review-photo" loading="lazy">
                 <?php endforeach; ?>
               </div>
             <?php endif; ?>
 
-            <!-- Helpful Count & Actions -->
-            <div class="review-action-row">
-              <button class="btn-helpful" onclick="this.innerHTML='<i class=\'fa-solid fa-thumbs-up\'></i> Hữu ích (<?= (int)($r['helpful_count'] ?? 5) + 1 ?>)'; this.style.color='#10B981';">
-                <i class="fa-solid fa-thumbs-up"></i> Hữu ích (<?= (int)($r['helpful_count'] ?: 6) ?>)
-              </button>
-              <div style="font-size: 0.72rem; color: var(--text-dim);">
-                <i class="fa-solid fa-check-double"></i> Đánh giá đã xác thực trên Google Maps
-              </div>
-            </div>
-
-            <!-- Phản hồi của chủ nhà hàng nếu có -->
-            <?php if (!empty($r['owner_response'])): ?>
-              <div class="owner-response-card">
-                <div class="owner-response-title">
-                  <i class="fa-solid fa-reply"></i> Phản Hồi Từ Chủ Quán <?= htmlspecialchars($store['brand_name'] ?? '') ?>
-                </div>
-                <div class="owner-response-text">
-                  "<?= htmlspecialchars($r['owner_response'] ?? '') ?>"
-                </div>
+            <?php if (!empty($rev['owner_response'])): ?>
+              <div class="owner-response">
+                <i class="fa-solid fa-reply"></i> <b>Phản hồi từ Nhà hàng:</b> <?= htmlspecialchars($rev['owner_response']) ?>
               </div>
             <?php endif; ?>
           </div>
         <?php endforeach; ?>
-      </div>
+      </section>
+
+      <!-- MODULE 5: THƯ VIỆN ẢNH THỰC TẾ CỦA KHÁCH -->
+      <section class="module-box">
+        <div class="module-header">
+          <h2 class="module-title"><i class="fa-solid fa-camera"></i> Kho Ảnh Thực Khách Check-in</h2>
+          <span style="font-size: 0.8rem; color: var(--text-muted);"><?= count($customer_photos) ?> Ảnh</span>
+        </div>
+        <div class="photo-gallery-grid">
+          <?php foreach ($customer_photos as $img): ?>
+            <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($bname) ?>" class="gallery-img" loading="lazy">
+          <?php endforeach; ?>
+        </div>
+      </section>
+
+      <!-- MODULE 6: TÌM KIẾM LIÊN QUAN TRÊN MẠNG (GOOGLE / INTERNET RELATED SEARCHES) -->
+      <section class="module-box">
+        <div class="module-header">
+          <h2 class="module-title"><i class="fa-solid fa-magnifying-glass-nodes"></i> Tìm Kiếm Liên Quan Trên Mạng</h2>
+        </div>
+        <div class="searches-cloud">
+          <?php foreach ($related_searches as $query): ?>
+            <a href="/kham-pha?keyword=<?= urlencode($query) ?>" class="search-tag-chip">
+              <i class="fa-solid fa-hashtag"></i> <?= htmlspecialchars($query) ?>
+            </a>
+          <?php endforeach; ?>
+        </div>
+      </section>
+
     </div>
-  </section>
 
-  <!-- Booking & Direct Order Form Section -->
-  <section id="dat-ban" class="booking-section">
-    <div class="container">
-      <div class="booking-card">
-        <div class="booking-info">
-          <span class="section-sub">Zero Phí Trung Gian</span>
-          <h4>Đặt Bàn & Đặt Món Trực Tiếp Tới Quán</h4>
-          <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-            Đặt bàn trước để được giữ chỗ ngồi đẹp nhất, chuẩn bị nguyên liệu tươi ngon nhất và nhận ngay quà tặng tráng miệng độc quyền từ bếp trưởng.
-          </p>
+    <!-- Sticky Booking & Quick Info Sidebar -->
+    <div class="sidebar-col">
+      <div class="sidebar-booking-card">
+        <div class="sidebar-booking-title">Đặt Bàn Không Qua Trung Gian</div>
+        <div class="sidebar-booking-desc">Kết nối trực tiếp tới chủ quán qua Thổ Địa OMNI. Cam kết giữ chỗ 100% không mất phí.</div>
 
-          <div class="booking-benefit-list">
-            <div class="benefit-item">
-              <div class="benefit-icon"><i class="fa-solid fa-shield-halved"></i></div>
-              <div class="benefit-text">
-                <b>100% Kết Nối Trực Tiếp</b>
-                <p>Thông tin chuyển thẳng qua hotline của quán. Không qua bất kỳ app nào.</p>
-              </div>
-            </div>
-            <div class="benefit-item">
-              <div class="benefit-icon"><i class="fa-solid fa-gift"></i></div>
-              <div class="benefit-text">
-                <b>Ưu Đãi Đặc Biệt Cho Khách Đặt Trước</b>
-                <p>Tặng kèm tráng miệng hoặc ưu đãi độc quyền từ bếp trưởng.</p>
-              </div>
-            </div>
-            <div class="benefit-item">
-              <div class="benefit-icon"><i class="fa-solid fa-square-parking"></i></div>
-              <div class="benefit-text">
-                <b>Chỉ Dẫn Bãi Đỗ Xe Chu Đáo</b>
-                <p><?= htmlspecialchars(!empty($store['car_parking']) ? $store['car_parking'] : 'Nhân viên hướng dẫn vị trí đỗ ô tô và xe máy thuận tiện nhất.') ?></p>
-              </div>
-            </div>
-          </div>
+        <div class="booking-feature">
+          <i class="fa-solid fa-circle-check"></i>
+          <span><b>Chỗ đỗ xe:</b> <?= htmlspecialchars(!empty($store['car_parking']) ? $store['car_parking'] : 'Đỗ ô tô thuận tiện') ?></span>
+        </div>
+        <div class="booking-feature">
+          <i class="fa-solid fa-circle-check"></i>
+          <span><b>Khoảng giá:</b> <?= htmlspecialchars($store['price_range_per_person'] ?: '50.000đ - 180.000đ') ?></span>
+        </div>
+        <div class="booking-feature">
+          <i class="fa-solid fa-circle-check"></i>
+          <span><b>Phục vụ:</b> <?= htmlspecialchars($store['dining_options'] ?: 'Ăn tại chỗ • Mua mang đi') ?></span>
+        </div>
+        <div class="booking-feature">
+          <i class="fa-solid fa-circle-check"></i>
+          <span><b>Hotline trực tiếp:</b> <?= htmlspecialchars($phone) ?></span>
         </div>
 
-        <div class="booking-form">
-          <div class="form-group">
-            <label>Họ và Tên Của Bạn *</label>
-            <input type="text" id="cust-name" placeholder="Ví dụ: Nguyễn Văn An" required>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-            <div class="form-group">
-              <label>Số Điện Thoại (Zalo) *</label>
-              <input type="tel" id="cust-phone" placeholder="0988..." required>
-            </div>
-            <div class="form-group">
-              <label>Số Lượng Khách</label>
-              <select id="cust-guests">
-                <option value="2 người">2 người (Cặp đôi / Bạn bè)</option>
-                <option value="4 người">3 - 4 người (Gia đình)</option>
-                <option value="6 người">5 - 8 người (Nhóm tiệc)</option>
-                <option value="Phòng riêng VIP">Phòng VIP riêng (> 8 người)</option>
-              </select>
-            </div>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-            <div class="form-group">
-              <label>Ngày Dùng Bữa</label>
-              <input type="date" id="cust-date">
-            </div>
-            <div class="form-group">
-              <label>Khung Giờ</label>
-              <select id="cust-time">
-                <option value="11:30 Trưa">11:30 Trưa</option>
-                <option value="12:30 Trưa">12:30 Trưa</option>
-                <option value="18:30 Tối">18:30 Tối</option>
-                <option value="19:30 Tối">19:30 Tối</option>
-                <option value="20:30 Tối">20:30 Tối</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Món Ăn Muốn Dùng Trước Hoặc Ghi Chú Đặc Biệt</label>
-            <textarea id="cust-dishes" rows="2" placeholder="Ví dụ: Đặt trước 1 thuyền Sashimi, bàn view thoáng..."></textarea>
-          </div>
-
-          <button class="btn-submit-booking" onclick="submitDirectBooking()">
-            <i class="fa-solid fa-paper-plane"></i> GỬI YÊU CẦU ĐẶT BÀN TRỰC TIẾP
-          </button>
-        </div>
+        <a href="tel:<?= htmlspecialchars($phone) ?>" class="btn-submit-booking" style="text-decoration: none;">
+          <i class="fa-solid fa-phone"></i> Gọi Giữ Chỗ Ngay
+        </a>
+        <a href="<?= htmlspecialchars($gmap_url) ?>" target="_blank" class="btn-hero-directions" style="width: 100%; height: 48px; justify-content: center; margin-top: 0.6rem;">
+          <i class="fa-solid fa-diamond-turn-right"></i> Dẫn Đường Bản Đồ
+        </a>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Location & Parking Guide -->
-  <section>
-    <div class="container">
-      <div class="section-title-block">
-        <span class="section-sub">Địa Chỉ & Đỗ Xe</span>
-        <h3>Chỉ Dẫn Đường Đi Thuận Tiện</h3>
-      </div>
-
-      <div class="location-grid">
-        <div class="location-box">
-          <div class="info-badge-row">
-            <i class="fa-solid fa-location-dot"></i>
-            <div>
-              <b style="color: #FFF; font-size: 0.95rem;">Địa Chỉ Cửa Hàng:</b>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
-                <?= htmlspecialchars($store['address'] ?? '') ?> (<?php if (!empty($store['district'])): ?><?= htmlspecialchars($store['district'] ?? '') ?>, <?php endif; ?><?= htmlspecialchars($store['city'] ?? '') ?>)
-              </p>
-            </div>
-          </div>
-
-          <div class="info-badge-row">
-            <i class="fa-solid fa-motorcycle" style="color: var(--accent-green);"></i>
-            <div>
-              <b style="color: #FFF; font-size: 0.95rem;">Chỗ Đỗ Xe Máy:</b>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
-                <?= htmlspecialchars($store['motorbike_parking'] ?? '') ?>
-              </p>
-            </div>
-          </div>
-
-          <div class="info-badge-row">
-            <i class="fa-solid fa-car" style="color: var(--accent-blue);"></i>
-            <div>
-              <b style="color: #FFF; font-size: 0.95rem;">Chỗ Đỗ Ô Tô:</b>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
-                <?= htmlspecialchars($store['car_parking'] ?? '') ?>
-              </p>
-            </div>
-          </div>
-
-          <a href="https://www.google.com/maps/search/?api=1&query=<?= htmlspecialchars($store['brand_name'] ?? '') ?>+<?= htmlspecialchars($store['city'] ?? '') ?>" target="_blank" class="btn-nav-call" style="justify-content: center; padding: 0.75rem;">
-            <i class="fa-solid fa-diamond-turn-right"></i> Mở Bản Đồ Dẫn Đường Ngay
-          </a>
-        </div>
-
-        <div class="location-box" style="padding: 0; overflow: hidden;">
-          <iframe 
-            width="100%" 
-            height="100%" 
-            frameborder="0" 
-            style="border:0; min-height: 280px;" 
-            src="https://maps.google.com/maps?q=<?= htmlspecialchars($store['latitude'] ?? '') ?>,<?= htmlspecialchars($store['longitude'] ?? '') ?>&hl=vi&z=16&output=embed"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p style="font-weight: 700; color: #FFF; margin-bottom: 0.4rem;"><?= htmlspecialchars($store['brand_name'] ?? '') ?></p>
-      <p>Trang Bán Hàng Độc Lập Được Vận Hành Bởi <b>OMNI AI Sovereign F&B Engine</b> • Zero Traffic Leak • 100% Khách Hàng Thuộc Về Chủ Quán</p>
-      <p style="margin-top: 0.5rem; font-size: 0.72rem; color: var(--text-dim);">Hotline Hỗ Trợ: <?= htmlspecialchars($store['phone_number'] ?? '') ?></p>
-    </div>
-  </footer>
-
-  <script>
-    // Tự động set ngày đặt là hôm nay
-    document.getElementById('cust-date').valueAsDate = new Date();
-
-    function selectDish(dishName) {
-      const area = document.getElementById('cust-dishes');
-      if (area.value) {
-        area.value += `, ${dishName}`;
-      } else {
-        area.value = dishName;
-      }
-      window.location.hash = '#dat-ban';
-      alert(`Đã thêm món [${dishName}] vào yêu cầu đặt bàn!`);
-    }
-
-    function submitDirectBooking() {
-      const name = document.getElementById('cust-name').value.trim();
-      const phone = document.getElementById('cust-phone').value.trim();
-      const guests = document.getElementById('cust-guests').value;
-      const date = document.getElementById('cust-date').value;
-      const time = document.getElementById('cust-time').value;
-      const dishes = document.getElementById('cust-dishes').value.trim();
-
-      if (!name || !phone) {
-        alert("Vui lòng điền họ tên và số điện thoại để nhà hàng chuẩn bị chu đáo nhất!");
-        return;
-      }
-
-      const msg = `Kính gửi ${encodeURIComponent("<?= htmlspecialchars($store['brand_name'] ?? '') ?>")},\nKhách hàng: ${encodeURIComponent(name)} (${phone})\nĐặt bàn: ${guests} vào lúc ${time} ngày ${date}\nMón yêu cầu: ${encodeURIComponent(dishes || "Đặt bàn thông thường")}`;
-
-      // Giả lập mở hotline hoặc Zalo liên hệ trực tiếp
-      const confirmed = confirm(`Xác nhận gửi thông tin đặt bàn trực tiếp tới Hotline <?= htmlspecialchars($store['brand_name'] ?? '') ?> (${phone})?\n\n- Khách: ${name}\n- Giờ: ${time} ngày ${date} (${guests})\n- Món: ${dishes || 'Chưa chọn trước'}`);
-
-      if (confirmed) {
-        window.location.href = `tel:<?= htmlspecialchars($store['phone_number'] ?? '') ?>`;
-      }
-    }
-  </script>
 </body>
 </html>

@@ -38,7 +38,14 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
 
 # 5. Routing Rewrite Rules
-# Rewrite /shop/{storefront_id} sang shop.php?id={storefront_id}
+# Trang Show Shop Food App
+RewriteRule ^kham-pha/?$ kham_pha.php [QSA,L]
+RewriteRule ^feed/?$ kham_pha.php [QSA,L]
+
+# URL Quán chuẩn SEO: /quan/{slug}
+RewriteRule ^quan/([^/]+)/?$ shop.php?id=$1 [QSA,L]
+
+# Backward-compatible /shop/{id_or_slug}
 RewriteRule ^shop/([^/]+)/?$ shop.php?id=$1 [QSA,L]
 
 # Rewrite /api/{endpoint} sang api.php?endpoint=$1

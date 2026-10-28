@@ -1407,6 +1407,9 @@
     </div>
 
     <div class="nav-stats">
+        <a href="/kham-pha" class="btn-switch-feed" style="background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(239,68,68,0.2)); border: 1px solid var(--primary); color: #FFF; padding: 0.35rem 0.85rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s;">
+          <i class="fa-solid fa-grid-2" style="color: var(--primary);"></i> Lướt Dạng Show Shop
+        </a>
       <div class="stat-badge">
         <i class="fa-solid fa-map-location-dot"></i>
         <span>Toàn quốc: <b id="stat-total">11.806</b></span>
@@ -2080,7 +2083,7 @@
             <button class="card-btn" onclick="focusStoreById('${s.storefront_id}')">
               <i class="fa-solid fa-crosshairs"></i> Bản đồ
             </button>
-            <a href="/shop/${s.storefront_id}" target="_blank" class="card-btn" style="color: var(--primary-light); border-color: rgba(245, 158, 11, 0.45);">
+            <a href="${s.slug ? '/quan/' + s.slug : '/shop/' + s.storefront_id}" target="_blank" class="card-btn" style="color: var(--primary-light); border-color: rgba(245, 158, 11, 0.45);">
               <i class="fa-solid fa-store"></i> Web Quán
             </a>
           </div>
@@ -2189,14 +2192,14 @@
         const photoUrl = getStorePhoto(p);
         const popupContent = `
           <div class="gmap-floating-card">
-            <a href="/shop/${p.storefront_id}" target="_blank" class="gmap-card-thumb" style="display: block; text-decoration: none;">
+            <a href="${p.slug ? '/quan/' + p.slug : '/shop/' + p.storefront_id}" target="_blank" class="gmap-card-thumb" style="display: block; text-decoration: none;">
               <img src="${photoUrl}" alt="${p.brand_name}">
               <div class="gmap-thumb-overlay">
                 <span class="trust-pill" style="background: rgba(18,25,39,0.85);">${p.diamond_trust_score}/100 Tín Nhiệm</span>
               </div>
             </a>
             <div class="gmap-card-body">
-              <a href="/shop/${p.storefront_id}" target="_blank" class="gmap-card-title" style="text-decoration: none; color: #FFF; display: block;">
+              <a href="${p.slug ? '/quan/' + p.slug : '/shop/' + p.storefront_id}" target="_blank" class="gmap-card-title" style="text-decoration: none; color: #FFF; display: block;">
                 ${p.brand_name}
               </a>
               <div class="gmap-card-rating">
@@ -2214,7 +2217,7 @@
                 <button class="gmap-card-btn btn-gmap-open" onclick="openDetailDrawerById('${p.storefront_id}')">
                   <i class="fa-solid fa-circle-info"></i> Chi tiết
                 </button>
-                <a href="/shop/${p.storefront_id}" target="_blank" class="gmap-card-btn" style="background: rgba(245, 158, 11, 0.18); border: 1px solid var(--primary); color: var(--primary);">
+                <a href="${p.slug ? '/quan/' + p.slug : '/shop/' + p.storefront_id}" target="_blank" class="gmap-card-btn" style="background: rgba(245, 158, 11, 0.18); border: 1px solid var(--primary); color: var(--primary);">
                   <i class="fa-solid fa-store"></i> Web Quán
                 </a>
               </div>
@@ -2298,8 +2301,8 @@
       // Action links
       document.getElementById('btn-gmap-directions').href = store.google_maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.brand_name + ' ' + store.city)}`;
       document.getElementById('btn-gmap-call').href = store.phone_number ? `tel:${store.phone_number}` : 'javascript:alert("Quán chưa cập nhật số hotline riêng!")';
-      document.getElementById('btn-gmap-webstore').href = `/shop/${store.storefront_id}`;
-      document.getElementById('btn-gmap-webstore-banner').href = `/shop/${store.storefront_id}`;
+      document.getElementById('btn-gmap-webstore').href = store.slug ? `/quan/${store.slug}` : `/shop/${store.storefront_id}`;
+      document.getElementById('btn-gmap-webstore-banner').href = store.slug ? `/quan/${store.slug}` : `/shop/${store.storefront_id}`;
 
       // Nạp toàn bộ kho đánh giá khách hàng thực chứng từ Google Maps
       loadStoreReviews(store.storefront_id);

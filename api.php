@@ -207,7 +207,7 @@ if ($endpoint === 'map_pins') {
 
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 2000;
 
-    $sql = "SELECT storefront_id, brand_name, city, region, district, cuisine_category, address, phone_number,
+    $sql = "SELECT storefront_id, slug, brand_name, city, region, district, cuisine_category, address, phone_number,
                    latitude, longitude, google_maps_rating, google_maps_total_reviews, 
                    diamond_trust_score, trust_tier, price_range_per_person, honest_pros, honest_warnings,
                    motorbike_parking, car_parking, google_maps_url, food_rating, service_rating,
@@ -231,6 +231,12 @@ if (preg_match('#^storefront/([^/]+)(?:/(reviews|review_summary))?$#', $endpoint
     $sid = $m[1];
     $sub = $m[2] ?? '';
 
+    if ($sub === 'reviews' || $sub === 'review_summary') {
+        $stId = $pdo->prepare("SELECT storefront_id FROM diamond_storefronts_nationwide_master WHERE storefront_id = ? OR slug = ?");
+        $stId->execute([$sid, $sid]);
+        $resolved_sid = $stId->fetchColumn();
+        if ($resolved_sid) $sid = $resolved_sid;
+    }
     if ($sub === 'reviews') {
         $stmt = $pdo->prepare("SELECT * FROM storefront_customer_reviews WHERE storefront_id = ? ORDER BY helpful_count DESC, created_at DESC");
         $stmt->execute([$sid]);
@@ -329,8 +335,8 @@ if (preg_match('#^storefront/([^/]+)(?:/(reviews|review_summary))?$#', $endpoint
     }
 
     // Detail
-    $stmt = $pdo->prepare("SELECT * FROM diamond_storefronts_nationwide_master WHERE storefront_id = ?");
-    $stmt->execute([$sid]);
+    $stmt = $pdo->prepare("SELECT * FROM diamond_storefronts_nationwide_master WHERE storefront_id = ? OR slug = ?");
+    $stmt->execute([$sid, $sid]);
     $store = $stmt->fetch();
     if (!$store) {
         http_response_code(404);
