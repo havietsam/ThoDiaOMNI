@@ -1,854 +1,2621 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="dark">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Ăn Gì Nghĩa Tân? Top Quán Sành Ăn, Mẹo Bản Địa & Đi Bộ < 3 Phút | OMNI AI</title>
-  <meta name="description" content="Khám phá thiên đường ẩm thực Nghĩa Tân Cầu Giấy trong 3 giây. Tính khoảng cách bước chân thực tế, kiểm tra tình trạng bàn trống và mẹo gọi món độc quyền từ OMNI AI.">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="stylesheet" href="/style.css">
-  <link rel="canonical" href="https://omni.ompresent.vn/">
-  <meta name="theme-color" content="#08090b">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bản Đồ Ẩm Thực 3 Miền — OMNI AI Sovereign F&B Engine</title>
+  
+  <!-- Font & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Leaflet MarkerCluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 
-  <!-- SCHEMA.ORG SEMANTIC METADATA FOR GOOGLE SEARCH & AI ENGINES -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "ItemList",
-        "name": "Tuyển Tập 7 Quán Ăn Ngon Nghĩa Tân Cầu Giấy Chuẩn Vị Dân Sành",
-        "description": "Danh sách các quán ăn truyền thống tiêu biểu tại Phường Nghĩa Tân, Cầu Giấy, Hà Nội với khoảng cách bước chân thực tế.",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "item": {
-              "@type": "Restaurant",
-              "name": "Cột Điện Quán - Bánh Mì Chảo",
-              "address": "104-105B C3 Nghĩa Tân, Cầu Giấy, Hà Nội",
-              "geo": { "@type": "GeoCoordinates", "latitude": 21.043512, "longitude": 105.793215 },
-              "priceRange": "35.000 - 55.000 VND",
-              "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.3", "reviewCount": "1250" }
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "item": {
-              "@type": "Restaurant",
-              "name": "Tào Phớ Nghĩa Tân (Khu C2)",
-              "address": "Cổng sau THCS Nghĩa Tân, Khu C2 Nghĩa Tân, Cầu Giấy, Hà Nội",
-              "geo": { "@type": "GeoCoordinates", "latitude": 21.043105, "longitude": 105.792842 },
-              "priceRange": "10.000 - 20.000 VND",
-              "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.5", "reviewCount": "2180" }
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "item": {
-              "@type": "Restaurant",
-              "name": "Bún Ngan Bà Hằng",
-              "address": "Ki-ốt số 3, Cổng Chợ Nghĩa Tân, Cầu Giấy, Hà Nội",
-              "geo": { "@type": "GeoCoordinates", "latitude": 21.042854, "longitude": 105.793812 },
-              "priceRange": "35.000 - 50.000 VND",
-              "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.2", "reviewCount": "890" }
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 4,
-            "item": {
-              "@type": "Restaurant",
-              "name": "Lẩu Ốc Bà Téo - 104 C6 Tô Hiệu",
-              "address": "104 C6 Tô Hiệu, Nghĩa Tân, Cầu Giấy, Hà Nội",
-              "geo": { "@type": "GeoCoordinates", "latitude": 21.044521, "longitude": 105.794912 },
-              "priceRange": "150.000 - 250.000 VND",
-              "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.4", "reviewCount": "650" }
-            }
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Nghĩa Tân có quán nào có điều hòa mát và chỗ đỗ ô tô?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Lẩu Ốc Bà Téo tại 104 C6 Tô Hiệu trang bị điều hòa 2 chiều công suất lớn và có chỗ đỗ ô tô miễn phí dọc phố Tô Hiệu có nhân viên bảo vệ trông coi."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Bánh mì chảo Cột Điện Quán có mẹo gọi món gì ngon nhất?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Nên gọi chảo đầy đủ với pate rán xém cạnh, xin thêm một bát sốt cay nóng để chan đẫm và thưởng thức ngay khi bánh mì vừa mới nướng giòn rụm."
-            }
-          }
-        ]
-      }
-    ]
-  }
-  </script>
+  <style>
+    :root {
+      --bg-dark: #0A0E17;
+      --bg-card: #121927;
+      --bg-surface: #1B2436;
+      --bg-surface-hover: #222E44;
+      --primary: #F59E0B;
+      --primary-light: #FCD34D;
+      --primary-dark: #D97706;
+      --accent-blue: #38BDF8;
+      --accent-green: #10B981;
+      --accent-red: #EF4444;
+      --accent-purple: #C084FC;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --border-color: #27354D;
+      --border-focus: #F59E0B;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollbar Style */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(10, 14, 23, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    /* Header */
+    header {
+      background: rgba(18, 25, 39, 0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      height: 60px;
+      padding: 0 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 1000;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #EF4444, #F59E0B);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+    }
+
+    .brand-text h1 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #FFF;
+    }
+
+    .brand-text h1 span.badge {
+      font-size: 0.65rem;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .brand-text p {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .nav-stats {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .stat-badge {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      padding: 0.3rem 0.65rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .stat-badge i {
+      color: var(--primary);
+      font-size: 0.8rem;
+    }
+
+    .stat-badge b {
+      color: var(--text-main);
+    }
+
+    .stat-badge.leak-proof {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent-green);
+      font-weight: 700;
+    }
+
+    /* Main Container Grid */
+    .app-container {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .app-container.sidebar-collapsed {
+      grid-template-columns: 0px 1fr;
+    }
+
+    /* Sidebar Cockpit Container */
+    .sidebar {
+      background: var(--bg-card);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 20;
+      position: relative;
+    }
+
+    /* VIEW 1: SEARCH & LIST VIEW */
+    #sidebar-list-view {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* VIEW 2: GOOGLE MAPS STYLE SLIDING DETAIL DRAWER */
+    #sidebar-detail-drawer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-card);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 30;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+    }
+
+    #sidebar-detail-drawer.open {
+      transform: translateX(0);
+    }
+
+    /* Region Selector Tabs */
+    .region-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--bg-dark);
+      padding: 0.5rem 0.65rem;
+      gap: 0.35rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .tab-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.5rem 0.2rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.1rem;
+    }
+
+    .tab-btn span.tab-count {
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      border-color: var(--primary);
+      background: var(--bg-surface-hover);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.05));
+      color: var(--primary-light);
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+    }
+
+    .tab-btn.active span.tab-count {
+      color: var(--primary);
+    }
+
+    /* Filters Section */
+    .filter-panel {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      background: rgba(18, 25, 39, 0.75);
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      padding: 0.6rem 0.85rem 0.6rem 2.25rem;
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      transition: all 0.2s ease;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-select {
+      flex: 1;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.45rem 0.65rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .filter-select:focus {
+      border-color: var(--primary);
+    }
+
+    /* Quick Filter Chips */
+    .quick-chips {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding-bottom: 0.2rem;
+    }
+
+    .quick-chip {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.25rem 0.6rem;
+      border-radius: 16px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .quick-chip:hover {
+      background: var(--bg-surface-hover);
+      color: var(--text-main);
+      border-color: var(--text-muted);
+    }
+
+    .quick-chip.active {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* List Results Bar */
+    .list-header-bar {
+      padding: 0.45rem 1rem;
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Store List Scrollable */
+    .store-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    /* Store Card (Google Maps Search Result Style) */
+    .store-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      gap: 0.75rem;
+      position: relative;
+    }
+
+    .store-card:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+
+    .store-card.active {
+      border-color: var(--primary);
+      background: rgba(245, 158, 11, 0.08);
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.2);
+    }
+
+    .store-thumbnail-box {
+      width: 90px;
+      height: 90px;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+      background: #000;
+    }
+
+    .store-thumbnail-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .store-card:hover .store-thumbnail-box img {
+      transform: scale(1.08);
+    }
+
+    .store-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+
+    .card-brand-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tier-badge {
+      font-size: 0.6rem;
+      font-weight: 800;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      flex-shrink: 0;
+    }
+
+    .tier-elite {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #000;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+    }
+
+    .tier-auth {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid #38BDF8;
+      color: #38BDF8;
+    }
+
+    .tier-standard {
+      background: rgba(148, 163, 184, 0.15);
+      border: 1px solid #64748B;
+      color: #94A3B8;
+    }
+
+    .card-meta-line {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-meta-line i {
+      font-size: 0.72rem;
+      width: 12px;
+      text-align: center;
+      color: var(--primary);
+    }
+
+    .card-rating-line {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.74rem;
+      margin-top: 0.1rem;
+    }
+
+    .stars-box {
+      color: #FBBF24;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .trust-pill {
+      font-size: 0.65rem;
+      font-weight: 800;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--accent-green);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+
+    .card-buttons-row {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.35rem;
+    }
+
+    .card-btn {
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-muted);
+    }
+
+    .card-btn:hover {
+      background: var(--bg-surface-hover);
+      color: var(--text-main);
+      border-color: var(--primary);
+    }
+
+    .card-btn.primary {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .card-btn.primary:hover {
+      background: var(--primary);
+      color: #000;
+    }
+
+    /* ========================================================= */
+    /* GOOGLE MAPS STYLE DETAIL DRAWER (VIEW 2)                  */
+    /* ========================================================= */
+    .drawer-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 1rem;
+      background: rgba(18, 25, 39, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .drawer-back-btn {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: color 0.2s;
+    }
+
+    .drawer-back-btn:hover {
+      color: var(--primary-light);
+    }
+
+    .drawer-close-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .drawer-close-btn:hover {
+      background: #EF4444;
+      color: #fff;
+      border-color: #EF4444;
+    }
+
+    .drawer-hero-image {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      background: #000;
+    }
+
+    .drawer-hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .drawer-hero-gradient {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to top, var(--bg-card), transparent);
+    }
+
+    .drawer-content {
+      padding: 1.25rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+
+    .drawer-title-block h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1.2;
+      margin-bottom: 0.4rem;
+    }
+
+    .drawer-sub-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.4rem;
+    }
+
+    /* Google Maps 5 Circular Action Buttons */
+    .gmap-actions-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.35rem;
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .gmap-action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      text-decoration: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: transform 0.2s;
+    }
+
+    .gmap-action-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .gmap-action-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      transition: all 0.2s;
+    }
+
+    .circle-dir {
+      background: #2563EB;
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+
+    .circle-call {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    .circle-parking {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .circle-share {
+      background: rgba(192, 132, 252, 0.15);
+      border: 1px solid var(--accent-purple);
+      color: var(--accent-purple);
+    }
+
+    .gmap-action-btn span {
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    /* Detail Tabs */
+    .drawer-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      gap: 0.25rem;
+    }
+
+    .drawer-tab {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .drawer-tab:hover {
+      color: var(--text-main);
+    }
+
+    .drawer-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-pane {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      padding-top: 0.5rem;
+    }
+
+    .tab-pane.active {
+      display: flex;
+    }
+
+    /* Detail Section Block */
+    .detail-info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--bg-surface);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 0.8rem;
+    }
+
+    .detail-info-row i {
+      color: var(--primary);
+      margin-top: 0.2rem;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .detail-info-body {
+      flex: 1;
+    }
+
+    .detail-info-body label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .detail-info-body p {
+      color: var(--text-main);
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    /* Quote Review Box (Google Maps Style) */
+    .quote-box {
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 3px solid #38BDF8;
+      border-radius: 0 8px 8px 0;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.8rem;
+      line-height: 1.45;
+      color: #E2E8F0;
+      font-style: italic;
+    }
+
+    .honest-box {
+      border-radius: 8px;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .honest-box.pros {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #D1FAE5;
+    }
+
+    .honest-box.warnings {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #FEE2E2;
+    }
+
+    /* Google Maps Star Distribution Bars */
+    .gmap-star-summary-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.85rem;
+      display: grid;
+      grid-template-columns: 105px 1fr;
+      gap: 0.85rem;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+
+    .gmap-big-score {
+      text-align: center;
+    }
+
+    .gmap-big-score h3 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1;
+    }
+
+    .star-bars-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .star-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .star-bar-track {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-card);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .star-bar-fill {
+      height: 100%;
+      background: #FBBF24;
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+
+    /* Topic Keyword Chips */
+    .topic-chips-row {
+      display: flex;
+      gap: 0.35rem;
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .topic-chip {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: var(--primary-light);
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Individual Review Item Card */
+    .review-item-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .review-item-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .review-user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .review-user-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #2563EB;
+      color: #FFF;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .review-user-meta b {
+      font-size: 0.82rem;
+      color: #FFF;
+      display: block;
+      line-height: 1.2;
+    }
+
+    .review-user-meta span {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    .review-stars-time {
+      text-align: right;
+    }
+
+    .review-stars-time span.stars {
+      color: #FBBF24;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .review-stars-time span.time {
+      color: var(--text-dim);
+      font-size: 0.65rem;
+    }
+
+    .review-tags-strip {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .review-tag-pill {
+      font-size: 0.65rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 0.12rem 0.38rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+
+    .review-body-text {
+      font-size: 0.78rem;
+      color: #E2E8F0;
+      line-height: 1.45;
+    }
+
+    .review-photos-grid {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding: 0.2rem 0;
+    }
+
+    .review-photo-thumb {
+      width: 65px;
+      height: 65px;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid var(--border-color);
+    }
+
+    .review-photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .review-owner-reply {
+      background: rgba(18, 25, 39, 0.7);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 6px 6px 0;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Map Cockpit Canvas */
+    .map-container {
+      position: relative;
+      flex: 1;
+      height: 100%;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      background: #0A0E17;
+    }
+
+    /* TOP SEARCH THIS AREA FLOATING PILL (Google Maps Style) */
+    .search-this-area-container {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(18, 25, 39, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+      border-radius: 30px;
+      padding: 0.35rem 0.85rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .search-this-area-btn {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #000;
+      border: none;
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+      transition: all 0.2s;
+    }
+
+    .search-this-area-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.5);
+    }
+
+    .auto-sync-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .auto-sync-toggle input {
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Map Layer Switcher Floating Pill */
+    .layer-switcher {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 800;
+      background: rgba(18, 25, 39, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.3rem;
+      display: flex;
+      gap: 0.3rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+
+    .layer-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+
+    .layer-btn:hover {
+      background: var(--bg-surface);
+      color: var(--text-main);
+    }
+
+    .layer-btn.active {
+      background: var(--bg-surface);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Sidebar Toggle Button (Google Maps Collapse/Expand Style) */
+    .sidebar-toggle-btn {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 850;
+      width: 36px;
+      height: 36px;
+      background: rgba(18, 25, 39, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: var(--primary);
+      color: #000;
+      border-color: var(--primary);
+      transform: scale(1.1);
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.4);
+    }
+
+    /* ========================================================= */
+    /* GOOGLE MAPS STYLE SLEEK POI PIN & PERMANENT LABELS        */
+    /* ========================================================= */
+    .gmap-marker-pin {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+
+    .gmap-marker-pin:hover {
+      transform: scale(1.22);
+      z-index: 1000 !important;
+    }
+
+    .gmap-marker-pin.active-pin {
+      transform: scale(1.28);
+      z-index: 2000 !important;
+    }
+
+    .gmap-marker-pin.active-pin .gmap-pin-badge {
+      box-shadow: 0 0 0 3px #F59E0B, 0 6px 20px rgba(245, 158, 11, 0.8) !important;
+    }
+
+    .gmap-pin-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.65);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      color: #FFF;
+      font-size: 0.78rem;
+    }
+
+    .gmap-pin-pointer {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 7px solid #EF4444;
+      margin-top: -1px;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+    }
+
+    /* Specific Tier / Category Glows */
+    .pin-elite .gmap-pin-badge {
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.8), 0 4px 10px rgba(0,0,0,0.65);
+      border-color: #FEF3C7;
+    }
+
+    .pin-seafood .gmap-pin-badge {
+      box-shadow: 0 0 10px rgba(14, 165, 233, 0.6), 0 4px 10px rgba(0,0,0,0.65);
+    }
+
+    .pin-cafe .gmap-pin-badge {
+      box-shadow: 0 0 10px rgba(217, 119, 6, 0.6), 0 4px 10px rgba(0,0,0,0.65);
+    }
+
+    .pin-lounge .gmap-pin-badge {
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.6), 0 4px 10px rgba(0,0,0,0.65);
+    }
+
+    /* POI Permanent Text Tooltip (When Zoom >= 14) */
+    .gm-poi-tooltip {
+      background: rgba(18, 25, 39, 0.92) !important;
+      backdrop-filter: blur(8px) !important;
+      border: 1px solid rgba(245, 158, 11, 0.4) !important;
+      color: #FFF !important;
+      font-weight: 700 !important;
+      font-size: 11px !important;
+      padding: 3px 8px !important;
+      border-radius: 6px !important;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.6) !important;
+      white-space: nowrap !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .gm-poi-tooltip:hover {
+      background: #F59E0B !important;
+      color: #000 !important;
+      border-color: #F59E0B !important;
+      transform: scale(1.05);
+    }
+
+    /* Hide POI tooltips when zoomed out (< 14) */
+    .leaflet-zoom-low .gm-poi-tooltip {
+      display: none !important;
+    }
+
+    /* ========================================================= */
+    /* GOOGLE MAPS FLOATING PREVIEW CARD (ON CLICK / HOVER)      */
+    /* ========================================================= */
+    .leaflet-popup-content-wrapper {
+      background: var(--bg-card) !important;
+      color: var(--text-main) !important;
+      border: 1px solid var(--border-color) !important;
+      border-radius: 14px !important;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7) !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+    }
+
+    .leaflet-popup-content {
+      margin: 0 !important;
+      width: 310px !important;
+      line-height: 1.4 !important;
+    }
+
+    .leaflet-popup-tip {
+      background: var(--bg-card) !important;
+      border: 1px solid var(--border-color) !important;
+    }
+
+    .gmap-floating-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gmap-card-thumb {
+      width: 100%;
+      height: 120px;
+      position: relative;
+      background: #000;
+    }
+
+    .gmap-card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gmap-thumb-overlay {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+
+    .gmap-card-body {
+      padding: 0.85rem 0.95rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .gmap-card-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1.25;
+    }
+
+    .gmap-card-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      color: #FBBF24;
+      font-weight: 700;
+    }
+
+    .gmap-card-category {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .gmap-card-actions {
+      display: flex;
+      gap: 0.45rem;
+      margin-top: 0.4rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .gmap-card-btn {
+      flex: 1;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-gmap-dir {
+      background: #2563EB;
+      color: #FFF;
+      border: none;
+    }
+
+    .btn-gmap-dir:hover {
+      background: #1D4ED8;
+    }
+
+    .btn-gmap-open {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-gmap-open:hover {
+      background: var(--primary);
+      color: #000;
+      border-color: var(--primary);
+    }
+  </style>
 </head>
 <body>
 
-  <div class="app-shell">
-    
-    <!-- HEADER: QUIET LUXURY / OMPRESENT -->
-    <header class="quiet-header">
-      <div class="brand-core">
-        <img src="/omni_logo.png" alt="OMNI AI Logo" class="brand-symbol" onerror="this.src='/omni_logo.png'">
-        <div class="brand-text-stack">
-          <div class="brand-title">
-            OMNI AI
-            <span class="brand-title-badge">CẦU GIẤY • HÀ NỘI</span>
+  <!-- Top Cockpit Header -->
+  <header>
+    <div class="brand" onclick="resetViewToDefault()">
+      <div class="brand-logo">
+        <i class="fa-solid fa-gem"></i>
+      </div>
+      <div class="brand-text">
+        <h1>OMNI AI <span class="badge">BẢN ĐỒ ẨM THỰC 3 MIỀN</span></h1>
+        <p>Hệ Thống Bản Đồ Ẩm Thực Thực Chứng — Zero Traffic Leak</p>
+      </div>
+    </div>
+
+    <div class="nav-stats">
+      <div class="stat-badge">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Toàn quốc: <b id="stat-total">11.806</b></span>
+      </div>
+      <div class="stat-badge">
+        <i class="fa-solid fa-star"></i>
+        <span>Rating TB: <b id="stat-rating">4.82★</b></span>
+      </div>
+      <div class="stat-badge leak-proof">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>100% Thực Chứng</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Split Layout -->
+  <div class="app-container">
+
+    <!-- SIDEBAR WITH DUAL-VIEW COCKPIT -->
+    <div class="sidebar">
+
+      <!-- VIEW 1: SEARCH & FILTER LIST -->
+      <div id="sidebar-list-view">
+        <!-- 3 Macro Region Tabs -->
+        <div class="region-tabs">
+          <button class="tab-btn active" onclick="setMacroRegion('')" id="tab-all">
+            <span>Toàn Quốc</span>
+            <span class="tab-count" id="count-all">11.806</span>
+          </button>
+          <button class="tab-btn" onclick="setMacroRegion('MIEN_BAC')" id="tab-north">
+            <span>Miền Bắc</span>
+            <span class="tab-count" id="count-north">3.843</span>
+          </button>
+          <button class="tab-btn" onclick="setMacroRegion('MIEN_TRUNG')" id="tab-central">
+            <span>Miền Trung</span>
+            <span class="tab-count" id="count-central">2.111</span>
+          </button>
+          <button class="tab-btn" onclick="setMacroRegion('MIEN_NAM')" id="tab-south">
+            <span>Miền Nam</span>
+            <span class="tab-count" id="count-south">5.852</span>
+          </button>
+        </div>
+
+        <!-- Filters Box -->
+        <div class="filter-panel">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Tìm tên quán, món ăn (phở, lươn, bún chả, nướng, lẩu...)" onkeyup="handleSearch(event)">
           </div>
-          <div class="brand-subtext">OMPRESENT Ecosystem • Thẩm Định Thực Địa</div>
-        </div>
-      </div>
 
-      <div class="header-controls">
-        <button class="pwa-install-btn" id="btn-pwa-install" onclick="triggerPwaInstall()" title="Cài đặt App OMNI AI">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          <span>Cài App</span>
-        </button>
+          <div class="filter-row">
+            <select id="city-select" class="filter-select" onchange="applyFilters()">
+              <option value="">-- Tất Cả Tỉnh / Thành --</option>
+              <option value="Hà Nội">Hà Nội (Thủ Đô)</option>
+              <option value="Hồ Chí Minh">TP. Hồ Chí Minh</option>
+              <option value="Nghệ An">Nghệ An (109 Quán Thực Chứng)</option>
+              <option value="Đà Nẵng">Đà Nẵng</option>
+              <option value="Hải Phòng">Hải Phòng</option>
+              <option value="Cần Thơ">Cần Thơ</option>
+              <option value="Quảng Ninh">Quảng Ninh</option>
+              <option value="Khánh Hòa">Khánh Hòa</option>
+              <option value="Lâm Đồng">Lâm Đồng</option>
+              <option value="Bình Dương">Bình Dương</option>
+            </select>
 
-        <button class="theme-toggle-btn" onclick="openModal('mobile-qr-modal')" title="Mở trên điện thoại qua Wi-Fi">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
-          </svg>
-        </button>
+            <select id="cuisine-select" class="filter-select" onchange="applyFilters()">
+              <option value="">-- Danh Mục Ẩm Thực --</option>
+              <option value="Món Nước & Sợi Truyền Thống">Món Nước & Sợi</option>
+              <option value="Cơm & Mâm Cơm Gia Đình">Cơm Gia Đình</option>
+              <option value="Lẩu & Nướng BBQ">Lẩu & Nướng BBQ</option>
+              <option value="Hải Sản Tươi Sống">Hải Sản Tươi Sống</option>
+              <option value="Đặc Sản Vùng Miền">Đặc Sản Vùng Miền</option>
+              <option value="Đồ Uống, Trà & Tráng Miệng">Cà Phê & Đồ Uống</option>
+              <option value="Ẩm Thực Chay">Ẩm Thực Chay</option>
+            </select>
+          </div>
 
-        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Đổi giao diện Sáng / Tối">
-          <svg id="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-        </button>
-
-        <div class="live-agent-pill" title="Hệ thống 7 Subagents đang giám sát thời gian thực">
-          <span class="emerald-pulse"></span>
-          <span>7 Agents Live</span>
-        </div>
-      </div>
-    </header>
-
-    <!-- SPATIAL CONTEXT BAR (HAVERSINE ORIGIN) -->
-    <section class="spatial-bar">
-      <div class="spatial-origin">
-        <svg class="spatial-origin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path>
-          <circle cx="12" cy="10" r="3"></circle>
-        </svg>
-        <span>Vị trí mốc: <strong id="location-label">Cổng THCS Nghĩa Tân</strong></span>
-      </div>
-      <button class="spatial-switch-action" onclick="openModal('location-modal')">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-        </svg>
-        Đổi GPS
-      </button>
-    </section>
-
-    <!-- FILTER TRAY (MINIMALIST PILLS) -->
-    <nav class="filter-tray" aria-label="Bộ lọc ẩm thực">
-      <button class="quiet-filter-pill active" onclick="applyFilter('all', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/></svg>
-        Tất Cả Cầu Giấy
-      </button>
-      <button class="quiet-filter-pill" onclick="applyFilter('nghia_tan', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 10h1M14 10h1M9 14h1M14 14h1M9 18h1M14 18h1"/></svg>
-        Nghĩa Tân - Tô Hiệu
-      </button>
-      <button class="quiet-filter-pill" onclick="applyFilter('duy_tan', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        Duy Tân - Cốm Vòng
-      </button>
-      <button class="quiet-filter-pill" onclick="applyFilter('trung_hoa', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Trung Hòa - Michelin
-      </button>
-      <button class="quiet-filter-pill" onclick="applyFilter('lunch', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-        Ăn Trưa Nhanh
-      </button>
-      <button class="quiet-filter-pill" onclick="applyFilter('ac', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M3 12h18M6 6l12 12M6 18L18 6"/></svg>
-        Có Điều Hòa
-      </button>
-      <button class="quiet-filter-pill" onclick="applyFilter('snack', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
-        Ăn Vặt Xế Chiều
-      </button>
-      <button class="quiet-filter-pill" onclick="applyFilter('hotpot', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 14s1.5 2 6 2 6-2 6-2M4 9h16M7 4h10v5H7z"/></svg>
-        Lẩu & Tiệc Nhóm
-      </button>
-    </nav>
-
-    <!-- ========================================================================= -->
-    <!-- TẦNG 1: ABOVE THE FOLD - HERO DISCOVERY CARD (QUIET LUXURY)                -->
-    <!-- ========================================================================= -->
-    <main class="hero-deck">
-      <article class="luxury-card" id="hero-card">
-        
-        <!-- VISUAL BANNER -->
-        <div class="luxury-card-banner">
-          <img id="hero-image" src="" alt="Hình ảnh quán" class="luxury-card-image">
-          <div class="banner-gradient-overlay"></div>
-          <div class="banner-floating-meta">
-            <div class="badge-curation" id="hero-trust">
-              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span>92/100 OMNI Trust</span>
+          <!-- Quick Filter Chips -->
+          <div class="quick-chips">
+            <div class="quick-chip" id="chip-ciputra" onclick="quickFilterCiputra()">
+              <i class="fa-solid fa-gem" style="color: var(--primary);"></i> Sunshine City & Ciputra
             </div>
-            <div class="badge-live-occupancy" id="hero-occupancy-badge">
-              <span class="emerald-pulse"></span>
-              <span id="hero-busyness-short">Bàn trống 55%</span>
+            <div class="quick-chip" id="chip-hanoi" onclick="quickFilterCity('Hà Nội')">
+              <i class="fa-solid fa-landmark"></i> Hà Nội Phố
+            </div>
+            <div class="quick-chip" id="chip-vinh" onclick="quickFilterCity('Nghệ An')">
+              <i class="fa-solid fa-bowl-rice"></i> Đặc sản Vinh - Nghệ An
+            </div>
+            <div class="quick-chip" id="chip-saigon" onclick="quickFilterCity('Hồ Chí Minh')">
+              <i class="fa-solid fa-city"></i> Sài Gòn
+            </div>
+            <div class="quick-chip" id="chip-car" onclick="toggleCarParking()">
+              <i class="fa-solid fa-square-parking"></i> Có Chỗ Đỗ Ô Tô
+            </div>
+            <div class="quick-chip" id="chip-elite" onclick="toggleEliteTier()">
+              <i class="fa-solid fa-crown"></i> Xếp Hạng Elite
             </div>
           </div>
         </div>
 
-        <!-- CARD BODY: QUIET LUXURY ESSENTIALS -->
-        <div class="luxury-card-body">
-          <div class="luxury-eyebrow-row">
-            <span class="luxury-category" id="hero-category">Bánh Mì & Ăn Nhanh</span>
-            <span class="luxury-price-badge" id="hero-price">35.000đ - 55.000đ</span>
+        <!-- Result count bar -->
+        <div class="list-header-bar">
+          <span id="result-count">Đang tải dữ liệu thực chứng...</span>
+          <span id="zoom-indicator" style="font-size: 0.7rem; color: var(--text-dim);"><i class="fa-solid fa-eye"></i> Zoom &ge; 14 xem nhãn quán</span>
+        </div>
+
+        <!-- Scrollable Cards -->
+        <div class="store-list" id="store-list-container">
+          <!-- Store Cards rendered here -->
+        </div>
+      </div>
+
+      <!-- VIEW 2: GOOGLE MAPS STYLE SLIDING DETAIL DRAWER -->
+      <div id="sidebar-detail-drawer">
+        <div class="drawer-nav-bar">
+          <button class="drawer-back-btn" onclick="closeDetailDrawer()">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại kết quả
+          </button>
+          <button class="drawer-close-btn" onclick="closeDetailDrawer()" title="Đóng bảng chi tiết">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="drawer-hero-image">
+          <img id="drawer-hero-img" src="" alt="Ảnh quán ẩm thực">
+          <div class="drawer-hero-gradient"></div>
+        </div>
+
+        <div class="drawer-content">
+          <div class="drawer-title-block">
+            <h2 id="drawer-brand-name">Tên Nhà Hàng</h2>
+            <div class="drawer-sub-row">
+              <span id="drawer-tier-badge" class="tier-badge tier-elite">ELITE</span>
+              <span id="drawer-category" style="font-size: 0.78rem; color: var(--text-muted);">Đặc Sản</span>
+              <span style="font-size: 0.78rem; color: var(--text-dim);">•</span>
+              <span id="drawer-price" style="font-size: 0.78rem; color: var(--primary-light); font-weight: 700;">30.000đ - 100.000đ</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.6rem; margin-top: 0.2rem;">
+              <span class="stars-box" id="drawer-rating-stars">
+                <i class="fa-solid fa-star"></i> <span id="drawer-rating-val">4.8</span>★
+              </span>
+              <span id="drawer-reviews-count" style="font-size: 0.75rem; color: var(--text-muted);">(1.250 reviews Google Maps)</span>
+              <span class="trust-pill" id="drawer-trust-score">98/100 Tín Nhiệm</span>
+            </div>
           </div>
 
-          <h1 class="luxury-restaurant-name" id="hero-title">Cột Điện Quán - Bánh Mì Chảo</h1>
-
-          <!-- MÓN ĐINH CHÍNH YẾU -->
-          <div class="luxury-signature-dish">
-            <span class="dish-accent-dot"></span>
-            <span class="signature-dish-text" id="hero-dish">Bánh mì chảo đặc biệt (Pate xém cạnh, sốt chua ngọt)</span>
-          </div>
-
-          <!-- KEY CỦA QUÁN & KHÔNG GIAN ĐỊNH VỊ (HERO IDENTITY) -->
-          <div class="hero-identity-box">
-            <div class="hero-identity-row" id="hero-spatial-row">
-              <span class="hero-identity-tag">🏛 Không Gian:</span>
-              <span class="hero-identity-desc" id="hero-spatial-desc">Đang tải không gian thực tế...</span>
-            </div>
-            <div class="hero-identity-row" id="hero-key-row" style="margin-top: 4px;">
-              <span class="hero-identity-tag" style="color: var(--accent-gold);">⭐ Key Quán:</span>
-              <span class="hero-identity-desc" id="hero-key-desc" style="color: var(--text-prime); font-weight: 600;">Đang tải key độc bản...</span>
-            </div>
-          </div>
-
-          <!-- KHOẢNG CÁCH & TRẠNG THÁI BÀN (THÔNG TIN HÀNH ĐỘNG CỐT LÕI) -->
-          <div class="luxury-status-strip">
-            <div class="status-metric">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-              </svg>
-              <span id="hero-distance">Cách bạn 70 mét (Đi bộ 1 phút)</span>
-            </div>
-            <div class="status-metric">
-              <span class="emerald-dot"></span>
-              <span id="hero-busyness-detail">Bàn trống 55% • Tầng 2 điều hòa sẵn sàng</span>
-            </div>
-          </div>
-
-          <!-- 3-SECOND ACTION BAR: DUY NHẤT 2 NÚT HÀNH ĐỘNG CHÍNH + NÚT XOAY -->
-          <div class="hero-action-matrix">
-            <a id="btn-gmaps" href="#" target="_blank" class="btn-cta-main" onclick="simulateTelegramAlert(event)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-              </svg>
-              Chỉ Đường Maps
+          <!-- Google Maps 5 Circular Action Buttons -->
+          <div class="gmap-actions-row">
+            <a id="btn-gmap-directions" href="#" target="_blank" class="gmap-action-btn">
+              <div class="gmap-action-circle circle-dir">
+                <i class="fa-solid fa-diamond-turn-right"></i>
+              </div>
+              <span>Đường đi</span>
             </a>
-            <button class="btn-cta-detail" onclick="openDetailModalCurrent()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-              </svg>
-              Xem Chi Tiết & Thực Đơn →
-            </button>
-            <button class="btn-quiet-roulette" onclick="spinRoulette()" title="Xoay gợi ý quán khác">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-              </svg>
-            </button>
-          </div>
-
-        </div>
-      </article>
-
-      <!-- SCROLL WHISPER NAVIGATION -->
-      <div class="scroll-whisper" onclick="document.getElementById('editorial-directory').scrollIntoView({behavior: 'smooth'})">
-        <span>Bảng so sánh & Danh bạ 55 quán ẩm thực tinh hoa Hà Nội</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6 9 12 15 18 9"/>
-        </svg>
-      </div>
-
-    </main>
-
-    <!-- ========================================================================= -->
-    <!-- TẦNG 1.5: CURATED LUXURY SHOWCASE (TUYỂN TẬP TINH HOA ĐẶC TUYỂN)             -->
-    <!-- ========================================================================= -->
-    <section class="curated-showcase-section" id="curated-showcase">
-      <div class="curated-showcase-header">
-        <div>
-          <div class="editorial-eyebrow">Haute Curation • Thẩm Định Độc Bản</div>
-          <h2 class="editorial-title" style="font-size: 22px;">Bộ Sưu Tập Tiêu Biểu Tuyển Chọn</h2>
-        </div>
-        <div style="font-size: 12px; color: var(--accent-gold); font-family: var(--font-mono); letter-spacing: 0.05em;">
-          SELECTION DE L'EXCELLENCE
-        </div>
-      </div>
-      <div class="curated-grid" id="curated-grid-container">
-        <!-- Injected via JavaScript from active filtered places -->
-      </div>
-    </section>
-
-    <!-- ========================================================================= -->
-    <!-- TẦNG 2: BELOW THE FOLD - BÀI VIẾT CHUẨN SEMANTIC SEO 2.000 TỪ              -->
-    <!-- ========================================================================= -->
-    <section class="editorial-section" id="editorial-directory">
-      
-      <div class="editorial-header">
-        <div class="editorial-eyebrow">Dữ Liệu Thẩm Định 2026</div>
-        <h2 class="editorial-title">Bảng So Sánh 55 Địa Điểm Ẩm Thực Tinh Hoa Toàn Hà Nội</h2>
-        <p class="editorial-intro">
-          Tổng hợp thông số thực nghiệm: khoảng cách bước chân, mức giá, tiện ích điều hòa và chỗ đỗ xe tại các địa điểm di sản & ẩm thực tiêu biểu khắp các quận Cầu Giấy, Hoàn Kiếm, Ba Đình, Hai Bà Trưng, Tây Hồ.
-        </p>
-      </div>
-
-      <!-- COMPARISON MATRIX TABLE -->
-      <div class="table-scroll-wrapper">
-        <table class="quiet-table">
-          <thead>
-            <tr>
-              <th>Địa Điểm</th>
-              <th>Món Đinh</th>
-              <th>Mức Giá</th>
-              <th>Tiện Ích & Xe</th>
-              <th>Thao Tác</th>
-            </tr>
-          </thead>
-          <tbody id="comparison-table-body">
-            <!-- Dynamically populated with working buttons -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- 7 PLACES DIRECTORY LIST -->
-      <div class="editorial-header">
-        <div class="editorial-eyebrow">Hồ Sơ Chi Tiết</div>
-        <h3 class="editorial-title">Khám Phá Từng Không Gian</h3>
-      </div>
-
-      <div class="directory-grid" id="directory-list">
-        <!-- Rendered with interactive "Xem Chi Tiết" triggers -->
-      </div>
-
-      <!-- FAQ SECTION -->
-      <div class="editorial-header" style="margin-top: 36px;">
-        <div class="editorial-eyebrow">Hỏi Đáp Bản Địa</div>
-        <h3 class="editorial-title">Những Câu Hỏi Thường Gặp</h3>
-      </div>
-
-      <div class="faq-stream">
-        <div class="faq-card">
-          <div class="faq-q">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            Đi ô tô vào khu Nghĩa Tân thì nên ghé quán nào có chỗ đỗ an toàn?
-          </div>
-          <div class="faq-a">
-            Bạn nên lựa chọn <strong>Lẩu Ốc Bà Téo tại số 104 C6 Tô Hiệu</strong>. Tuyến đường Tô Hiệu có lòng đường rộng, vỉa hè thoáng và quán bố trí nhân viên bảo vệ hỗ trợ điều hướng, trông giữ ô tô miễn phí ngay trước cửa.
-          </div>
-        </div>
-
-        <div class="faq-card">
-          <div class="faq-q">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            Khung giờ cao điểm đông đúc tại Chợ Nghĩa Tân là khi nào?
-          </div>
-          <div class="faq-a">
-            Khung giờ đông nghẹt thường rơi vào <strong>11h45 - 12h45 (ăn trưa văn phòng)</strong> và <strong>16h45 - 18h00 (học sinh tan trường và tan tầm)</strong>. Để có chỗ ngồi thoải mái, bạn nên đến sớm hơn 15 phút (khoảng 11h30) hoặc sau 13h00.
-          </div>
-        </div>
-
-        <div class="faq-card">
-          <div class="faq-q">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            Công nghệ OMNI AI tính khoảng cách cho từng người như thế nào?
-          </div>
-          <div class="faq-a">
-            Ứng dụng áp dụng công thức toán học <strong>Haversine</strong> trực tiếp trên trình duyệt thiết bị (Client-Side Hydration). Bằng cách so sánh tọa độ GPS của người dùng với tọa độ micro-location của quán, hệ thống tính toán ra khoảng cách chính xác theo từng mét mà không cần máy chủ tải lại trang.
-          </div>
-        </div>
-      </div>
-
-      <!-- QUIET FOOTER -->
-      <footer class="quiet-footer">
-        <div class="footer-brand">OMNI AI • OMPRESENT ECOSYSTEM</div>
-        <div class="footer-sub">
-          Thiết kế theo triết lý Quiet Luxury & Tinh hoa Tối giản.<br>
-          Vận hành tự hành bởi mạng lưới 7 AI Subagents. Dữ liệu chuẩn hóa GeoJSON & Schema.org.
-        </div>
-      </footer>
-
-    </section>
-
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- CRITICAL DRAWER: RESTAURANT DETAIL SHEET (XEM CHI TIẾT HOÀN CHỈNH)        -->
-  <!-- ========================================================================= -->
-  <div class="drawer-backdrop" id="detail-drawer" onclick="handleDrawerBackdropClick(event)">
-    <div class="detail-sheet" id="detail-sheet-content">
-      
-      <div class="detail-drag-handle"></div>
-
-      <!-- HEADER WITH CLOSE BUTTON -->
-      <div class="detail-sheet-header">
-        <div>
-          <span class="luxury-category" id="drawer-category">Bánh Mì & Ăn Nhanh</span>
-          <h2 class="luxury-restaurant-name" style="margin-bottom: 2px;" id="drawer-name">Cột Điện Quán</h2>
-          <span style="font-size: 11.5px; color: var(--text-muted);" id="drawer-address">104-105B C3 Nghĩa Tân, Cầu Giấy</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <button class="sheet-close-btn" onclick="copyPlaceDirectLink()" title="Sao chép liên kết trực tiếp (SEO Deep Link)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-            </svg>
-          </button>
-          <button class="sheet-close-btn" onclick="closeDetailModal()" title="Đóng">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- HERO PHOTO -->
-      <div class="sheet-hero-photo-wrap">
-        <img id="drawer-image" src="" alt="Hình ảnh quán" class="sheet-hero-photo">
-        <div class="sheet-hero-gradient"></div>
-      </div>
-
-      <!-- SCROLLABLE BODY -->
-      <div class="sheet-content-scroll">
-        
-        <!-- TELEMETRY MATRIX: 100% FACTUAL GROUNDING -->
-        <div class="drawer-telemetry-grid">
-          <div class="telemetry-card">
-            <div class="telemetry-card-label">Khoảng Cách Bước Chân</div>
-            <div class="telemetry-card-val" id="drawer-distance">70 mét</div>
-            <div class="telemetry-card-sub" id="drawer-walk-eta">Khoảng 1 phút đi bộ</div>
-          </div>
-          <div class="telemetry-card">
-            <div class="telemetry-card-label">Khung Giờ Vàng Thổ Địa</div>
-            <div class="telemetry-card-val" id="drawer-best-time-val" style="color: var(--accent-emerald);">Trước 11h30</div>
-            <div class="telemetry-card-sub" id="drawer-best-time-sub">Tránh giờ cao điểm đông đúc</div>
-          </div>
-          <div class="telemetry-card">
-            <div class="telemetry-card-label">Không Gian & Tiện Nghi</div>
-            <div class="telemetry-card-val" id="drawer-ac-info">Điều hòa mát lạnh</div>
-            <div class="telemetry-card-sub" id="drawer-noise">Âm lượng vừa phải, thoáng mát</div>
-          </div>
-          <div class="telemetry-card">
-            <div class="telemetry-card-label">Độ Tin Cậy OMNI</div>
-            <div class="telemetry-card-val" id="drawer-trust-score" style="color: var(--accent-gold);">95 / 100</div>
-            <div class="telemetry-card-sub">100% Thẩm định thực địa</div>
-          </div>
-        </div>
-
-        <!-- SPATIAL IDENTITY & KEY SIGNATURE -->
-        <div class="sheet-section" id="drawer-spatial-section">
-          <div class="sheet-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            Định Vị Không Gian & Key Độc Bản
-          </div>
-          <div class="spatial-card-box">
-            <div class="spatial-item">
-              <div class="spatial-label">🏛 Không Gian Thực Tế:</div>
-              <div class="spatial-val" id="drawer-spatial-identity">Đang cập nhật...</div>
-            </div>
-            <div class="spatial-item" style="margin-top: 10px;">
-              <div class="spatial-label" style="color: var(--accent-gold);">⭐ Key Của Quán (Signature Vibe):</div>
-              <div class="spatial-val" id="drawer-key-signature" style="font-weight: 600; color: var(--text-prime);">Đang cập nhật...</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- RED-TEAM AUDIT DOSSIER -->
-        <div class="sheet-section" id="drawer-audit-section">
-          <div class="sheet-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-            Kiểm Toán Phản Biện Thực Địa (Red-Team Audit)
-          </div>
-          <div class="audit-card-box" id="drawer-audit-box">
-            <div class="audit-badge-row">
-              <span class="audit-status-badge">✓ ĐÃ QUA PHẢN BIỆN ĐỘC LẬP</span>
-              <span class="audit-date" id="drawer-audit-date">Kiểm toán: 2026</span>
-            </div>
-            <div class="audit-notes" id="drawer-audit-notes">
-              Đã bóc tách giá thực tế 2026, kiểm tra bãi đỗ ô tô và xác minh trạng thái hoạt động trực tiếp tại địa bàn.
-            </div>
-          </div>
-        </div>
-
-        <!-- SIGNATURE MENU & PRICING -->
-        <div class="sheet-section">
-          <div class="sheet-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-            </svg>
-            Thực Đơn Tiêu Biểu & Bảng Giá
-          </div>
-          <div class="dish-menu-list" id="drawer-menu-items">
-            <!-- Dynamically populated with prices -->
-          </div>
-        </div>
-
-        <!-- INSIDER GUIDE & MẸO DÂN SÀNH -->
-        <div class="sheet-section">
-          <div class="sheet-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/><polygon points="12 8 8 12 12 16 16 12 12 8"/>
-            </svg>
-            Bí Quyết Gọi Món & Mẹo Dân Sành
-          </div>
-          <div class="sanh-tip-quote" style="margin-bottom: 0;">
-            <div class="sanh-tip-body" id="drawer-tip">
-              "Pate rán xém cạnh cực thơm nhưng sốt hơi ngọt kiểu Hà Nội xưa. Nhớ xin thêm 1 bát sốt cay nóng chan đẫm và ăn lúc bánh mì vừa mới ra lò giòn rụm!"
-            </div>
-          </div>
-          <!-- REAL-WORLD FIELD METRICS -->
-          <div class="insider-meta-banner" id="drawer-meta-banner" style="margin-top: 10px; padding: 10px 12px; background: var(--bg-subtle); border: 1px solid var(--border-hairline); border-radius: var(--radius-sm); font-size: 11.5px; color: var(--text-sec); line-height: 1.5;">
-            <div style="margin-bottom: 4px;"><strong style="color: var(--accent-gold);">⏰ Khung Giờ Vàng:</strong> <span id="drawer-best-time">Trước 11h30</span></div>
-            <div><strong style="color: var(--text-prime);">🛵 Gửi Xe & Hạ Tầng:</strong> <span id="drawer-parking-info">Miễn phí trước cửa</span></div>
-          </div>
-        </div>
-
-        <!-- AMENITIES & INFRASTRUCTURE -->
-        <div class="sheet-section">
-          <div class="sheet-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-            </svg>
-            Tiện Ích & Hạ Tầng
-          </div>
-          <div class="amenity-grid-detailed" id="drawer-amenities-grid">
-            <!-- Populated dynamically -->
-          </div>
-        </div>
-
-        <!-- GOOGLE REVIEWS & SENTIMENT ANALYSIS -->
-        <div class="sheet-section">
-          <div class="sheet-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-            </svg>
-            Đánh Giá Đa Chiều & Thẩm Định Thổ Địa
-          </div>
-          <div class="reviews-card">
-            <div class="reviews-header">
-              <span class="reviews-stars" id="drawer-rating-stars">★★★★★ 4.5 / 5.0</span>
-              <span style="font-size: 11px; color: var(--text-muted);" id="drawer-reviews-count">(2,180 lượt đánh giá)</span>
-            </div>
-            <p class="reviews-quote" id="drawer-review-quote">
-              "Quán quen từ thời sinh viên đến giờ đi làm. Vị nước sốt đậm đà, nhân viên phục vụ nhanh nhẹn dù quán lúc nào cũng đông khách."
-            </p>
-
-            <!-- PROS & CONS SPLIT -->
-            <div class="reviews-sentiment-split">
-              <div class="sentiment-box sentiment-box-pros">
-                <h6>👍 Điểm Khen Thực Khách</h6>
-                <div id="drawer-sentiment-pros">
-                  <!-- Populated dynamically -->
-                </div>
+            <a id="btn-gmap-call" href="#" class="gmap-action-btn">
+              <div class="gmap-action-circle circle-call">
+                <i class="fa-solid fa-phone"></i>
               </div>
-              <div class="sentiment-box sentiment-box-cons">
-                <h6>⚠️ Cảnh Báo Thổ Địa</h6>
-                <div id="drawer-sentiment-cons">
-                  <!-- Populated dynamically -->
+              <span>Hotline</span>
+            </a>
+            <a id="btn-gmap-webstore" href="#" target="_blank" class="gmap-action-btn" title="Ghé thăm website bán hàng riêng của quán">
+              <div class="gmap-action-circle" style="background: rgba(245, 158, 11, 0.18); border: 1px solid var(--primary); color: var(--primary);">
+                <i class="fa-solid fa-store"></i>
+              </div>
+              <span style="color: var(--primary);">Web quán</span>
+            </a>
+            <button class="gmap-action-btn" onclick="focusDrawerStoreOnMap()">
+              <div class="gmap-action-circle circle-parking">
+                <i class="fa-solid fa-crosshairs"></i>
+              </div>
+              <span>Định vị</span>
+            </button>
+            <button class="gmap-action-btn" onclick="copyStoreAddress()">
+              <div class="gmap-action-circle circle-share">
+                <i class="fa-solid fa-copy"></i>
+              </div>
+              <span>Sao chép</span>
+            </button>
+          </div>
+
+          <!-- Banner Web Quán Riêng Biệt -->
+          <a id="btn-gmap-webstore-banner" href="#" target="_blank" style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(217, 119, 6, 0.06)); border: 1px solid var(--primary); padding: 0.65rem 0.85rem; border-radius: 8px; text-decoration: none; color: #FFF; font-size: 0.8rem; font-weight: 700;">
+            <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--primary-light);">
+              <i class="fa-solid fa-gem"></i> Ghé Thăm Trang Bán Hàng Riêng Của Quán
+            </span>
+            <span style="font-size: 0.7rem; background: var(--primary); color: #000; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 800;">Mở Web <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+          </a>
+
+          <!-- Tabs: Tổng quan | Đánh giá thực chứng | Tín nhiệm -->
+          <div class="drawer-tabs">
+            <button class="drawer-tab active" onclick="switchDrawerTab('tab-overview', this)">Tổng quan</button>
+            <button class="drawer-tab" onclick="switchDrawerTab('tab-reviews', this)">Đánh giá thực chứng</button>
+            <button class="drawer-tab" onclick="switchDrawerTab('tab-trust', this)">Hồ sơ tín nhiệm</button>
+          </div>
+
+          <!-- Tab 1: Tổng Quan -->
+          <div id="tab-overview" class="tab-pane active">
+            <div class="detail-info-row" id="row-shophouse" style="display: none;">
+              <i class="fa-solid fa-building-user" style="color: var(--primary);"></i>
+              <div class="detail-info-body">
+                <label>Vị Trí Cụ Thể (Shophouse / Tòa Nhà)</label>
+                <p id="drawer-shophouse" style="color: var(--primary-light); font-weight: 700;"></p>
+              </div>
+            </div>
+
+            <div class="detail-info-row">
+              <i class="fa-solid fa-location-dot"></i>
+              <div class="detail-info-body">
+                <label>Địa Chỉ Chuẩn Hóa</label>
+                <p id="drawer-address">Địa chỉ đang tải...</p>
+              </div>
+            </div>
+
+            <div class="detail-info-row">
+              <i class="fa-solid fa-clock"></i>
+              <div class="detail-info-body">
+                <label>Giờ Hoạt Động & Phục Vụ</label>
+                <p id="drawer-hours">10:00 - 22:30 Hàng ngày</p>
+              </div>
+            </div>
+
+            <div class="detail-info-row">
+              <i class="fa-solid fa-utensils"></i>
+              <div class="detail-info-body">
+                <label>Hình Thức Phục Vụ</label>
+                <p id="drawer-dining">Ăn tại chỗ • Đồ ăn mang đi</p>
+              </div>
+            </div>
+
+            <div class="detail-info-row">
+              <i class="fa-solid fa-phone"></i>
+              <div class="detail-info-body">
+                <label>Hotline Liên Hệ Trực Tiếp</label>
+                <p id="drawer-phone">Chưa cập nhật</p>
+              </div>
+            </div>
+
+            <div class="detail-info-row">
+              <i class="fa-solid fa-motorcycle" style="color: var(--accent-green);"></i>
+              <div class="detail-info-body">
+                <label>Chỗ Đỗ Xe Máy</label>
+                <p id="drawer-mb-parking">Có chỗ để xe máy thuận tiện</p>
+              </div>
+            </div>
+
+            <div class="detail-info-row">
+              <i class="fa-solid fa-car" style="color: var(--accent-blue);"></i>
+              <div class="detail-info-body">
+                <label>Chỗ Đỗ Ô Tô</label>
+                <p id="drawer-car-parking">Hỗ trợ đỗ ô tô theo chỉ dẫn</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: KHO ĐÁNH GIÁ THỰC CHỨNG GOOGLE MAPS -->
+          <div id="tab-reviews" class="tab-pane">
+            <!-- Dải Điểm Số & 5 Thanh Tiến Trình Sao -->
+            <div class="gmap-star-summary-box">
+              <div class="gmap-big-score">
+                <h3 id="drawer-rev-big-rating">4.8</h3>
+                <div style="color: #FBBF24; font-size: 0.85rem; margin: 0.2rem 0;">★★★★★</div>
+                <span id="drawer-rev-total-count" style="font-size: 0.68rem; color: var(--text-muted);">120 reviews</span>
+              </div>
+              <div class="star-bars-container">
+                <div class="star-bar-row">
+                  <span>5★</span>
+                  <div class="star-bar-track"><div id="bar-5-star" class="star-bar-fill" style="width: 85%;"></div></div>
+                  <span id="pct-5-star">85%</span>
+                </div>
+                <div class="star-bar-row">
+                  <span>4★</span>
+                  <div class="star-bar-track"><div id="bar-4-star" class="star-bar-fill" style="width: 10%;"></div></div>
+                  <span id="pct-4-star">10%</span>
+                </div>
+                <div class="star-bar-row">
+                  <span>3★</span>
+                  <div class="star-bar-track"><div id="bar-3-star" class="star-bar-fill" style="width: 3%;"></div></div>
+                  <span id="pct-3-star">3%</span>
+                </div>
+                <div class="star-bar-row">
+                  <span>2★</span>
+                  <div class="star-bar-track"><div id="bar-2-star" class="star-bar-fill" style="width: 1%;"></div></div>
+                  <span id="pct-2-star">1%</span>
+                </div>
+                <div class="star-bar-row">
+                  <span>1★</span>
+                  <div class="star-bar-track"><div id="bar-1-star" class="star-bar-fill" style="width: 1%;"></div></div>
+                  <span id="pct-1-star">1%</span>
                 </div>
               </div>
             </div>
 
-            <!-- VERIFIED REVIEWS LIST -->
-            <div style="margin-top: 14px;">
-              <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Trích Dẫn Đánh Giá Đã Kiểm Chứng:</div>
-              <div id="drawer-verified-reviews-list">
-                <!-- Populated dynamically -->
+            <!-- 4 Thước Đo Google Maps Thực Chứng -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.45rem; margin-bottom: 0.85rem;">
+              <div class="review-score-tag">Đồ ăn: <b id="drawer-food-score">5.0★</b></div>
+              <div class="review-score-tag">Dịch vụ: <b id="drawer-service-score">5.0★</b></div>
+              <div class="review-score-tag">Không gian: <b id="drawer-ambiance-score">5.0★</b></div>
+              <div class="review-score-tag">Độ ồn: <b id="drawer-noise-score" style="color: var(--accent-blue);">Vừa phải</b></div>
+            </div>
+
+            <!-- Từ Khóa Đánh Giá Hay Gặp Nhất -->
+            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">
+              <i class="fa-solid fa-tags" style="color: var(--primary);"></i> CHỦ ĐỀ THỰC KHÁCH QUAN TÂM NHẤT:
+            </div>
+            <div class="topic-chips-row" id="drawer-topic-chips">
+              <span class="topic-chip">#ĐồĂnTươi (48)</span>
+              <span class="topic-chip">#HươngVịNguyênBản (36)</span>
+              <span class="topic-chip">#PhụcVụNhiệtTình (29)</span>
+              <span class="topic-chip">#ĐỗXeThuậnTiện (24)</span>
+            </div>
+
+            <!-- Danh Sách Review Cuộn Thực Tế (Customer Reviews Feed) -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.45rem;">
+              <span style="font-size: 0.72rem; font-weight: 800; color: #FFF;"><i class="fa-solid fa-comments"></i> BÀI ĐÁNH GIÁ THỰC TẾ:</span>
+              <span style="font-size: 0.65rem; color: var(--accent-green); font-weight: 700;"><i class="fa-solid fa-shield-check"></i> Đã kiểm toán Google Maps</span>
+            </div>
+            
+            <div id="drawer-reviews-feed" style="display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 0.85rem;">
+              <!-- Reviews items render here -->
+            </div>
+
+            <!-- Bảng Đánh Giá 2 Chiều Minh Bạch -->
+            <div class="honest-box pros">
+              <b style="color: var(--accent-green);"><i class="fa-solid fa-circle-check"></i> Điểm Sáng Được Khen Ngợi Nhất:</b>
+              <p id="drawer-pros">Đang đối soát nhận xét...</p>
+            </div>
+
+            <div class="honest-box warnings">
+              <b style="color: #EF4444;"><i class="fa-solid fa-triangle-exclamation"></i> Cảnh Báo Trung Thực (Lưu Ý Trước Khi Đến):</b>
+              <p id="drawer-warnings">Giờ cao điểm quán khá đông, nên chủ động sắp xếp thời gian.</p>
+            </div>
+          </div>
+
+          <!-- Tab 3: Hồ Sơ Tín Nhiệm -->
+          <div id="tab-trust" class="tab-pane">
+            <div class="detail-info-row">
+              <i class="fa-solid fa-shield-halved" style="color: var(--accent-green);"></i>
+              <div class="detail-info-body">
+                <label>Cam Kết Zero Traffic Leak</label>
+                <p>100% kết nối thẳng tới chủ quán. Tuyệt đối không qua sàn trung gian, không thu chiết khấu.</p>
+              </div>
+            </div>
+
+            <div class="detail-info-row">
+              <i class="fa-solid fa-satellite" style="color: var(--primary);"></i>
+              <div class="detail-info-body">
+                <label>Tọa Độ Không Gian WGS84</label>
+                <p id="drawer-coords">Tọa độ đang tải...</p>
+              </div>
+            </div>
+
+            <div class="detail-info-row">
+              <i class="fa-solid fa-calendar-check" style="color: var(--accent-purple);"></i>
+              <div class="detail-info-body">
+                <label>Trạng Thái Kiểm Toán</label>
+                <p>Đã đối soát thực địa & niêm phong dữ liệu SHA-256</p>
               </div>
             </div>
           </div>
+
         </div>
-
-        <!-- MEDIA & SOCIAL FOOTPRINT -->
-        <div class="sheet-section" id="drawer-media-section">
-          <div class="sheet-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/>
-            </svg>
-            Dấu Ấn Truyền Thông & KOC Review
-          </div>
-          <div class="media-footprint-grid" id="drawer-media-grid">
-            <!-- Dynamically populated -->
-          </div>
-        </div>
-
-      </div>
-
-      <!-- STICKY ACTION CONTROLS IN DRAWER -->
-      <div class="drawer-footer-actions">
-        <a id="drawer-btn-gmaps" href="#" target="_blank" class="btn-quiet-primary" onclick="simulateTelegramAlert(event)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-          </svg>
-          Chỉ Đường Maps
-        </a>
-        <a id="drawer-btn-call" href="#" class="btn-quiet-secondary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-          Gọi Hotline Quán
-        </a>
       </div>
 
     </div>
-  </div>
 
-  <!-- ========================================================================= -->
-  <!-- REALISTIC TELEGRAM MERCHANT BOT SIMULATOR MODAL                           -->
-  <!-- ========================================================================= -->
-  <div class="tg-modal-overlay" id="telegram-modal" onclick="handleTelegramBackdropClick(event)">
-    <div class="tg-client-window">
+    <!-- MAP CONTAINER -->
+    <div class="map-container">
       
-      <div class="tg-client-header">
-        <div class="tg-bot-identity">
-          <div class="tg-bot-avatar">OM</div>
-          <div class="tg-bot-meta">
-            <h4>
-              OMNI Copilot Bot
-              <span class="tg-verified-check">✓</span>
-            </h4>
-            <div class="tg-bot-status">bot • online • @omni_merchant_bot</div>
-          </div>
-        </div>
-        <button class="tg-close-btn" onclick="closeModal('telegram-modal')">×</button>
-      </div>
-
-      <div class="tg-chat-viewport" id="tg-chat-viewport">
-        
-        <!-- INCOMING MERCHANT NOTIFICATION BUBBLE -->
-        <div class="tg-bubble">
-          <div class="tg-bubble-header">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
-            THỰC KHÁCH ĐANG BƯỚC TỚI QUÁN
-          </div>
-          
-          <div class="tg-bubble-content" id="tg-message-text">
-            🏪 <strong>Điểm đến:</strong> Cột Điện Quán - Bánh Mì Chảo<br>
-            🚶 <strong>Hành động:</strong> Thực khách vừa kích hoạt [Chỉ đường Google Maps]<br>
-            📍 <strong>Khoảng cách:</strong> Cách quán 70m (ETA: 1 phút đi bộ)<br>
-            🧭 <strong>Xuất phát từ:</strong> Cổng THCS Nghĩa Tân<br>
-            🍽 <strong>Món quan tâm:</strong> Bánh mì chảo đặc biệt<br>
-            ⚡ <strong>Khuyến nghị:</strong> Quán chuẩn bị sẵn bàn tầng 2 và bát sốt nóng!
-          </div>
-
-          <div class="tg-bubble-time" id="tg-timestamp">12:05 • Đã nhận</div>
-
-          <!-- TELEGRAM INLINE ACTION BUTTONS -->
-          <div class="tg-inline-keyboard">
-            <button class="tg-inline-btn" onclick="respondTelegram('confirm')">
-              ✅ Xác Nhận Còn Bàn Trống (Bàn 04)
-            </button>
-            <button class="tg-inline-btn" onclick="respondTelegram('voucher')">
-              🎁 Tặng Voucher Trà Quất Miễn Phí
-            </button>
-            <button class="tg-inline-btn" onclick="respondTelegram('route')">
-              🗺 Xem Vị Trí Thực Khách Trên Radar
-            </button>
-          </div>
-
-          <button class="tg-json-toggle" onclick="toggleRawJson()">
-            { } Xem Raw Webhook JSON Payload
-          </button>
-
-          <pre class="tg-raw-json" id="tg-raw-json-box"></pre>
-
-        </div>
-
-      </div>
-
-      <div class="tg-footer-note">
-        * Mô phỏng luồng thông báo tự động từ OMNI AI sang Telegram chủ quán không cần máy POS.
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- LOCATION SWITCHER MODAL                                                   -->
-  <!-- ========================================================================= -->
-  <div class="quiet-modal-overlay" id="location-modal" onclick="handleQuietModalBackdropClick(event, 'location-modal')">
-    <div class="quiet-modal-dialog">
-      <div class="modal-title-row">
-        <h3>Chọn Mốc Tọa Độ Thử Nghiệm</h3>
-        <button class="sheet-close-btn" onclick="closeModal('location-modal')">×</button>
-      </div>
-      <p style="font-size: 12.5px; color: var(--text-sec); margin-bottom: 16px;">
-        Thử nghiệm thuật toán Haversine tính toán khoảng cách bước chân tức thì từ các vị trí thực tế tại Hà Nội:
-      </p>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <button class="btn-quiet-secondary" style="justify-content: flex-start; text-align: left;" onclick="switchLocation('hoan_kiem')">
-          🏮 Hồ Gươm - Phố Cổ (Hoàn Kiếm - Cách Phở Bát Đàn 450m)
-        </button>
-        <button class="btn-quiet-secondary" style="justify-content: flex-start; text-align: left;" onclick="switchLocation('ba_dinh')">
-          🏛 Hồ Trúc Bạch - Ngũ Xã (Ba Đình - Cách Phở Cuốn 50m)
-        </button>
-        <button class="btn-quiet-secondary" style="justify-content: flex-start; text-align: left;" onclick="switchLocation('tay_ho')">
-          🌊 Phủ Tây Hồ - Quảng An (Tây Hồ - Cách Bún Ốc 80m)
-        </button>
-        <button class="btn-quiet-secondary" style="justify-content: flex-start; text-align: left;" onclick="switchLocation('hai_ba_trung')">
-          🌳 Tô Hiến Thành (Hai Bà Trưng - Cách Bánh Cuốn Bà Hoành 60m)
-        </button>
-        <button class="btn-quiet-secondary" style="justify-content: flex-start; text-align: left;" onclick="switchLocation('school')">
-          🏫 Cổng THCS Nghĩa Tân (Cầu Giấy - Cách Cột Điện 70m)
-        </button>
-        <button class="btn-quiet-secondary" style="justify-content: flex-start; text-align: left;" onclick="switchLocation('duy_tan')">
-          🏢 Phố Duy Tân IT Cầu Giấy (Cách ~900m)
-        </button>
-        <button class="btn-quiet-primary" style="margin-top: 6px;" onclick="switchLocation('real_gps')">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>
-          </svg>
-          Lấy Tọa Độ GPS Thật Của Thiết Bị
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- MOBILE WI-FI / QR CODE MODAL                                              -->
-  <!-- ========================================================================= -->
-  <div class="quiet-modal-overlay" id="mobile-qr-modal" onclick="handleQuietModalBackdropClick(event, 'mobile-qr-modal')">
-    <div class="quiet-modal-dialog" style="text-align: center;">
-      <div class="modal-title-row">
-        <h3>Mở Trên Điện Thoại (Mobile Wi-Fi)</h3>
-        <button class="sheet-close-btn" onclick="closeModal('mobile-qr-modal')">×</button>
-      </div>
-      <p style="font-size: 12.5px; color: var(--text-sec); margin-bottom: 14px; text-align: left;">
-        Bật Camera iPhone/Android và quét mã QR dưới đây (Điện thoại và máy tính phải kết nối <strong>cùng mạng Wi-Fi</strong>):
-      </p>
-      <div style="background: #ffffff; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-        <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://192.168.1.245:3000/" alt="QR Code mở trên điện thoại" style="width: 170px; height: 170px; display: block;">
-      </div>
-      <div style="background: var(--bg-card); border: 1px solid var(--border-hairline); border-radius: 10px; padding: 10px 14px; font-family: var(--font-mono); font-size: 13px; color: var(--accent-gold); word-break: break-all; margin-bottom: 12px;">
-        http://192.168.1.245:3000/
-      </div>
-      <button class="btn-quiet-primary" style="width: 100%;" onclick="copyMobileUrl()">
-        Sao Chép Đường Link Wi-Fi
+      <!-- SIDEBAR TOGGLE BUTTON (Google Maps Style Collapse / Expand) -->
+      <button id="btn-toggle-sidebar" class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Ẩn/Hiện Danh Mục (Xem Bản Đồ Toàn Màn Hình)">
+        <i class="fa-solid fa-chevron-left" id="toggle-sidebar-icon"></i>
       </button>
-    </div>
-  </div>
 
-  <!-- ========================================================================= -->
-  <!-- BACK-TAP SHORTCUT MODAL                                                   -->
-  <!-- ========================================================================= -->
-  <div class="quiet-modal-overlay" id="backtap-modal" onclick="handleQuietModalBackdropClick(event, 'backtap-modal')">
-    <div class="quiet-modal-dialog">
-      <div class="modal-title-row">
-        <h3>Cài Đặt Gõ Mặt Lưng (Back-Tap)</h3>
-        <button class="sheet-close-btn" onclick="closeModal('backtap-modal')">×</button>
-      </div>
-      <div style="font-size: 13px; color: var(--text-sec); line-height: 1.6;">
-        <p><strong style="color: var(--text-prime);">Dành cho iPhone (iOS 14+):</strong></p>
-        <ol style="padding-left: 18px; margin: 8px 0 16px;">
-          <li>Vào <em>Cài đặt</em> → <em>Trợ năng</em> → <em>Cảm ứng</em>.</li>
-          <li>Kéo xuống cuối chọn <em>Chạm vào mặt sau</em> (Back Tap).</li>
-          <li>Chọn <strong>Chạm 3 lần</strong> và gán vào Phím tắt mở OMNI AI.</li>
-        </ol>
-        <p><strong style="color: var(--text-prime);">Dành cho Android & Chrome:</strong></p>
-        <p style="margin-top: 4px;">Mở menu trình duyệt Chrome (⋮) → Chọn <em>"Thêm vào Màn hình chính"</em> (Add to Home screen) để mở trong 1 chạm.</p>
-      </div>
-      <button class="btn-quiet-primary" style="width: 100%; margin-top: 16px;" onclick="closeModal('backtap-modal'); showToast('Đã ghi nhớ hướng dẫn cài đặt!');">
-        Đã Hiểu
-      </button>
-  <!-- ========================================================================= -->
-  <!-- PRIVACY-PRESERVING CALL VERIFICATION MODAL                                -->
-  <!-- GDPR & VN PRIVACY LAW COMPLIANT TELEPHONY GATEWAY                          -->
-  <!-- ========================================================================= -->
-  <div class="quiet-modal-overlay" id="call-auth-modal" onclick="handleQuietModalBackdropClick(event, 'call-auth-modal')">
-    <div class="quiet-modal-dialog" style="max-width: 440px;">
-      <div class="modal-title-row">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-          <h3 style="font-size: 15px; margin: 0;">Xác Thực Kết Nối Bảo Mật</h3>
-        </div>
-        <button class="sheet-close-btn" onclick="closeModal('call-auth-modal')">×</button>
-      </div>
-
-      <div style="margin: 16px 0; font-size: 13px; color: var(--text-sec); line-height: 1.55;">
-        <p style="margin-bottom: 10px;">
-          Theo <strong>Nghị định 13/2023/NĐ-CP</strong> về bảo vệ dữ liệu cá nhân, số điện thoại của cơ sở được mã hóa bảo mật đầu cuối.
-        </p>
-        <div style="background: var(--bg-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 12px;">
-          <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 4px;">Cơ sở kết nối:</div>
-          <div style="font-family: var(--font-serif); font-size: 16px; color: var(--text-prime); font-weight: 500;" id="auth-modal-place-name">Quán Ăn</div>
-          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--accent-gold); margin-top: 4px;" id="auth-modal-place-masked">Đường dây nóng: 0989 ••• •••</div>
-        </div>
-        <p style="font-size: 12px; color: var(--text-muted);">
-          Bấm <em>"Xác Nhận Gọi Ngay"</em> để hệ thống tự động ghi nhận nhật ký kết nối và chuyển hướng cuộc gọi ẩn danh tới chủ quán.
-        </p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px;">
-        <button class="btn-quiet-secondary" onclick="closeModal('call-auth-modal')">
-          Hủy Bỏ
+      <!-- GOOGLE MAPS STYLE "SEARCH THIS AREA" FLOATING PILL -->
+      <div class="search-this-area-container">
+        <button class="search-this-area-btn" onclick="searchCurrentArea()">
+          <i class="fa-solid fa-magnifying-glass-location"></i> Tìm kiếm ở khu vực này
         </button>
-        <a id="btn-auth-confirm-call" href="#" class="btn-quiet-primary" onclick="handleConfirmedCall(event)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-          Xác Nhận Gọi
-        </a>
+        <label class="auto-sync-toggle">
+          <input type="checkbox" id="auto-sync-bounds" onchange="toggleAutoSync()">
+          <span>Tự động cập nhật khi di chuyển</span>
+        </label>
       </div>
+
+      <!-- MAP LAYER SWITCHER -->
+      <div class="layer-switcher">
+        <button class="layer-btn active" id="layer-dark" onclick="setTileLayer('dark')">
+          <i class="fa-solid fa-moon"></i> Dark Gray
+        </button>
+        <button class="layer-btn" id="layer-road" onclick="setTileLayer('road')">
+          <i class="fa-solid fa-map"></i> Google Road
+        </button>
+        <button class="layer-btn" id="layer-sat" onclick="setTileLayer('sat')">
+          <i class="fa-solid fa-earth-americas"></i> Vệ Tinh
+        </button>
+      </div>
+
+      <!-- Leaflet Canvas -->
+      <div id="map"></div>
     </div>
+
   </div>
 
-  <!-- TOAST NOTIFICATION -->
-  <div class="quiet-toast" id="toast">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <polyline points="20 6 9 17 4 12"/>
-    </svg>
-    <span id="toast-text">Thông báo</span>
-  </div>
+  <!-- Leaflet JS & Plugins -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-  <script src="/app.js"></script>
+  <script>
+    // State quản lý toàn bộ hệ thống
+    let map;
+    let markersCluster;
+    let currentStorefronts = [];
+    let currentPins = [];
+    let markerMap = {}; // storefront_id -> L.marker
+    let activeStore = null;
+    let currentTileLayer;
+    let autoSyncEnabled = false;
+
+    // Filters state
+    let selectedMacroRegion = "";
+    let selectedCity = "";
+    let selectedCuisine = "";
+    let searchKeyword = "";
+    let filterCarParking = false;
+    let filterEliteTier = false;
+
+    // Bộ hình ảnh ẩm thực thông minh theo danh mục
+    const CUISINE_IMAGES = {
+      "pho": "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=600&auto=format&fit=crop&q=80",
+      "bun": "https://images.unsplash.com/photo-1594998893017-36147cbcae05?w=600&auto=format&fit=crop&q=80",
+      "com": "https://images.unsplash.com/photo-1552611052-33e04de081de?w=600&auto=format&fit=crop&q=80",
+      "lau": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=600&auto=format&fit=crop&q=80",
+      "nuong": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format&fit=crop&q=80",
+      "bbq": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&auto=format&fit=crop&q=80",
+      "hai_san": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=80",
+      "luon": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80",
+      "coffee": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80",
+      "banh_mi": "https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=600&auto=format&fit=crop&q=80",
+      "chay": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&auto=format&fit=crop&q=80",
+      "default": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=80"
+    };
+
+    function getStorePhoto(store) {
+      if (!store) return CUISINE_IMAGES.default;
+      const text = ((store.brand_name || '') + ' ' + (store.cuisine_category || '')).toLowerCase();
+      if (text.includes("lươn") || text.includes("xứ nghệ")) return CUISINE_IMAGES.luon;
+      if (text.includes("phở")) return CUISINE_IMAGES.pho;
+      if (text.includes("bún") || text.includes("bánh mướt") || text.includes("mì quảng")) return CUISINE_IMAGES.bun;
+      if (text.includes("cơm") || text.includes("sườn")) return CUISINE_IMAGES.com;
+      if (text.includes("hải sản") || text.includes("cua") || text.includes("ốc")) return CUISINE_IMAGES.hai_san;
+      if (text.includes("lẩu")) return CUISINE_IMAGES.lau;
+      if (text.includes("nướng") || text.includes("bbq")) return CUISINE_IMAGES.nuong;
+      if (text.includes("bánh mì")) return CUISINE_IMAGES.banh_mi;
+      if (text.includes("cà phê") || text.includes("coffee") || text.includes("trà")) return CUISINE_IMAGES.coffee;
+      if (text.includes("chay")) return CUISINE_IMAGES.chay;
+      return CUISINE_IMAGES.default;
+    }
+
+    // Khởi tạo Bản đồ Leaflet
+    function initMap() {
+      map = L.map('map', {
+        zoomControl: false,
+        minZoom: 5,
+        maxZoom: 19
+      }).setView([16.047079, 107.5], 6);
+
+      // Thêm nút zoom ở góc dưới bên phải kiểu Google Maps
+      L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+      // Thiết lập TileLayer mặc định
+      setTileLayer('dark');
+
+      // Khởi tạo MarkerCluster
+      markersCluster = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        maxClusterRadius: 50,
+        spiderfyOnMaxZoom: true,
+        disableClusteringAtZoom: 14 // Từ zoom 14 trở lên bung trọn vẹn điểm bán kiểu Google Maps
+      });
+      map.addLayer(markersCluster);
+
+      // Lắng nghe sự kiện zoom để tự động bật/tắt nhãn tên POI
+      map.on('zoomend', handleMapZoomChanged);
+
+      // Lắng nghe di chuyển bản đồ để hỗ trợ "Tìm kiếm ở khu vực này"
+      map.on('moveend', () => {
+        if (autoSyncEnabled) {
+          searchCurrentArea();
+        }
+      });
+    }
+
+    // Xử lý hiển thị/ẩn nhãn POI theo mức zoom
+    function handleMapZoomChanged() {
+      const z = map.getZoom();
+      const mapEl = document.getElementById('map');
+      const zoomInd = document.getElementById('zoom-indicator');
+      
+      if (z < 14) {
+        mapEl.classList.add('leaflet-zoom-low');
+        zoomInd.innerHTML = `<i class="fa-solid fa-eye-slash"></i> Zoom &ge; 14 xem nhãn quán (Hiện: ${z})`;
+      } else {
+        mapEl.classList.remove('leaflet-zoom-low');
+        zoomInd.innerHTML = `<i class="fa-solid fa-eye" style="color: var(--primary);"></i> Đang hiển thị nhãn Google Maps (Zoom: ${z})`;
+      }
+    }
+
+    // Chuyển đổi lớp bản đồ
+    function setTileLayer(type) {
+      if (currentTileLayer) {
+        map.removeLayer(currentTileLayer);
+      }
+
+      document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
+
+      if (type === 'dark') {
+        currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+          attribution: '&copy; Esri &mdash; OMNI AI Engine',
+          maxZoom: 19
+        });
+        document.getElementById('layer-dark').classList.add('active');
+      } else if (type === 'road') {
+        currentTileLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+          attribution: '&copy; Google Maps',
+          maxZoom: 20
+        });
+        document.getElementById('layer-road').classList.add('active');
+      } else if (type === 'sat') {
+        currentTileLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+          attribution: '&copy; Google Satellite Hybrid',
+          maxZoom: 20
+        });
+        document.getElementById('layer-sat').classList.add('active');
+      }
+
+      currentTileLayer.addTo(map);
+    }
+
+    // Tải số liệu thống kê tổng thể
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        document.getElementById('stat-total').innerText = data.total_storefronts.toLocaleString();
+        document.getElementById('count-all').innerText = data.total_storefronts.toLocaleString();
+        document.getElementById('count-north').innerText = data.macro_regions.mien_bac.toLocaleString();
+        document.getElementById('count-central').innerText = data.macro_regions.mien_trung.toLocaleString();
+        document.getElementById('count-south').innerText = data.macro_regions.mien_nam.toLocaleString();
+        document.getElementById('stat-rating').innerText = `${data.avg_rating}★`;
+      } catch (e) {
+        console.error("Lỗi nạp thống kê:", e);
+      }
+    }
+
+    // Áp dụng bộ lọc và tải dữ liệu đồng bộ
+    async function applyFilters(useBounds = false) {
+      let listUrl = `/api/storefronts?limit=60`;
+      let pinsUrl = `/api/map_pins?limit=2000`;
+
+      let queryParams = "";
+      if (selectedMacroRegion) queryParams += `&macro_region=${encodeURIComponent(selectedMacroRegion)}`;
+      if (selectedCity) queryParams += `&city=${encodeURIComponent(selectedCity)}`;
+      if (selectedCuisine) queryParams += `&cuisine=${encodeURIComponent(selectedCuisine)}`;
+      if (searchKeyword) queryParams += `&keyword=${encodeURIComponent(searchKeyword)}`;
+      if (filterCarParking) queryParams += `&car_parking=true`;
+      if (filterEliteTier) queryParams += `&tier=DIAMOND_AUTHENTIC_ELITE`;
+
+      if (useBounds && map) {
+        const bounds = map.getBounds();
+        queryParams += `&min_lat=${bounds.getSouth()}&max_lat=${bounds.getNorth()}&min_lon=${bounds.getWest()}&max_lon=${bounds.getEast()}`;
+      }
+
+      listUrl += queryParams;
+      pinsUrl += queryParams;
+
+      document.getElementById('result-count').innerText = "Đang đối soát dữ liệu...";
+
+      try {
+        const [resList, resPins] = await Promise.all([
+          fetch(listUrl),
+          fetch(pinsUrl)
+        ]);
+
+        currentStorefronts = await resList.json();
+        currentPins = await resPins.json();
+
+        renderStoreList(currentStorefronts);
+        renderMapPins(currentPins);
+      } catch (e) {
+        console.error("Lỗi truy vấn:", e);
+        document.getElementById('result-count').innerText = "Lỗi kết nối máy chủ!";
+      }
+    }
+
+    // Nút "Tìm kiếm ở khu vực này"
+    function searchCurrentArea() {
+      applyFilters(true);
+    }
+
+    function toggleAutoSync() {
+      autoSyncEnabled = document.getElementById('auto-sync-bounds').checked;
+      if (autoSyncEnabled) {
+        searchCurrentArea();
+      }
+    }
+
+    // Render danh sách cửa hàng ở cột trái
+    function renderStoreList(stores) {
+      const container = document.getElementById('store-list-container');
+      container.innerHTML = '';
+      document.getElementById('result-count').innerText = `${stores.length} Điểm bán phù hợp`;
+
+      if (stores.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
+            <i class="fa-solid fa-utensils" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--border-color);"></i>
+            <p style="font-size: 0.9rem; font-weight: 700;">Không tìm thấy điểm bán phù hợp</p>
+            <p style="font-size: 0.78rem; margin-top: 0.3rem;">Vui lòng điều chỉnh lại từ khóa hoặc zoom rộng hơn.</p>
+          </div>
+        `;
+        return;
+      }
+
+      stores.forEach(s => {
+        const card = createStoreCardElement(s);
+        container.appendChild(card);
+      });
+    }
+
+    // Tạo phần tử thẻ cửa hàng (dùng chung cho sidebar list & focus pin)
+    function createStoreCardElement(s) {
+      let tierClass = s.trust_tier === 'DIAMOND_AUTHENTIC_ELITE' ? 'tier-elite' : s.trust_tier === 'DIAMOND_VERIFIED_AUTHENTIC' ? 'tier-auth' : 'tier-standard';
+      let tierLabel = s.trust_tier === 'DIAMOND_AUTHENTIC_ELITE' ? 'ELITE' : s.trust_tier === 'DIAMOND_VERIFIED_AUTHENTIC' ? 'VERIFIED' : 'STANDARD';
+
+      const card = document.createElement('div');
+      card.className = 'store-card';
+      card.id = `card-${s.storefront_id}`;
+      card.onclick = () => {
+        openDetailDrawer(s);
+        focusStoreCoordinates(s.latitude, s.longitude, s.storefront_id);
+      };
+
+      const photoUrl = getStorePhoto(s);
+
+      card.innerHTML = `
+        <div class="store-thumbnail-box">
+          <img src="${photoUrl}" alt="${s.brand_name}" loading="lazy">
+        </div>
+        <div class="store-info">
+          <div class="card-title-row">
+            <span class="card-brand-name" title="${s.brand_name}">${s.brand_name}</span>
+            <span class="tier-badge ${tierClass}">${tierLabel}</span>
+          </div>
+          <div class="card-rating-line">
+            <span class="stars-box"><i class="fa-solid fa-star"></i> ${s.google_maps_rating}★</span>
+            <span style="color: var(--text-muted); font-size: 0.7rem;">(${Number(s.google_maps_total_reviews).toLocaleString()})</span>
+            <span class="trust-pill">${s.diamond_trust_score}/100</span>
+          </div>
+          <div class="card-meta-line">
+            <i class="fa-solid fa-tag"></i>
+            <span>${s.cuisine_category}</span>
+          </div>
+          <div class="card-meta-line">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>${s.address} (${s.city})</span>
+          </div>
+          <div class="card-buttons-row" onclick="event.stopPropagation()">
+            <button class="card-btn primary" onclick="openDetailDrawerById('${s.storefront_id}')">
+              <i class="fa-solid fa-circle-info"></i> Chi tiết
+            </button>
+            <button class="card-btn" onclick="focusStoreById('${s.storefront_id}')">
+              <i class="fa-solid fa-crosshairs"></i> Bản đồ
+            </button>
+            <a href="/shop/${s.storefront_id}" target="_blank" class="card-btn" style="color: var(--primary-light); border-color: rgba(245, 158, 11, 0.45);">
+              <i class="fa-solid fa-store"></i> Web Quán
+            </a>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    // Bộ định kiểu Icon & Màu sắc cho Pin theo chuẩn ngành hàng F&B Google Maps
+    function getCategoryPinStyle(p) {
+      const cat = (p.cuisine_category || '').toLowerCase();
+      const name = (p.brand_name || '').toLowerCase();
+      const tier = p.trust_tier;
+
+      if (tier === 'DIAMOND_AUTHENTIC_ELITE') {
+        return { color: '#F59E0B', icon: 'fa-crown', border: '#FEF3C7', cls: 'pin-elite' };
+      }
+      if (cat.includes('hải sản') || cat.includes('seafood') || name.includes('hải sản') || name.includes('cua') || name.includes('ốc') || name.includes('cá')) {
+        return { color: '#0EA5E9', icon: 'fa-fish-fins', border: '#E0F2FE', cls: 'pin-seafood' };
+      }
+      if (cat.includes('cafe') || cat.includes('cà phê') || cat.includes('coffee') || cat.includes('trà') || cat.includes('tráng miệng') || name.includes('coffee') || name.includes('cafe')) {
+        return { color: '#D97706', icon: 'fa-mug-hot', border: '#FEF3C7', cls: 'pin-cafe' };
+      }
+      if (cat.includes('bar') || cat.includes('lounge') || cat.includes('pub') || cat.includes('bia') || name.includes('lounge') || name.includes('bar') || name.includes('beer')) {
+        return { color: '#8B5CF6', icon: 'fa-martini-glass-citrus', border: '#EDE9FE', cls: 'pin-lounge' };
+      }
+      if (cat.includes('phở') || cat.includes('bún') || cat.includes('mì') || cat.includes('cơm') || name.includes('phở') || name.includes('bún')) {
+        return { color: '#EA580C', icon: 'fa-bowl-rice', border: '#FFEDD5', cls: 'pin-noodle' };
+      }
+      if (cat.includes('nhật') || cat.includes('sushi') || cat.includes('ramen')) {
+        return { color: '#EC4899', icon: 'fa-bowl-food', border: '#FCE7F3', cls: 'pin-japan' };
+      }
+      return { color: '#EF4444', icon: 'fa-utensils', border: '#FEE2E2', cls: 'pin-food' };
+    }
+
+    // Toggle Ẩn/Hiện Sidebar để xem toàn màn hình bản đồ
+    function toggleSidebar() {
+      const container = document.querySelector('.app-container');
+      const icon = document.getElementById('toggle-sidebar-icon');
+      container.classList.toggle('sidebar-collapsed');
+      const isCollapsed = container.classList.contains('sidebar-collapsed');
+      if (isCollapsed) {
+        icon.className = 'fa-solid fa-chevron-right';
+        document.getElementById('btn-toggle-sidebar').setAttribute('title', 'Hiện danh mục cửa hàng');
+      } else {
+        icon.className = 'fa-solid fa-chevron-left';
+        document.getElementById('btn-toggle-sidebar').setAttribute('title', 'Ẩn danh mục (Xem toàn màn hình)');
+      }
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 320);
+    }
+
+    // Render Markers và Text POI Labels lên bản đồ
+    function renderMapPins(pins) {
+      markersCluster.clearLayers();
+      markerMap = {};
+
+      pins.forEach(p => {
+        const lat = parseFloat(p.latitude);
+        const lon = parseFloat(p.longitude);
+        if (isNaN(lat) || isNaN(lon)) return;
+
+        const pinStyle = getCategoryPinStyle(p);
+
+        // Custom DivIcon mô phỏng chuẩn Google Maps Pin (thanh thoát, tinh tế)
+        const customPinIcon = L.divIcon({
+          className: `gmap-marker-pin ${pinStyle.cls}`,
+          html: `
+            <div class="gmap-pin-badge" style="background: ${pinStyle.color}; border-color: ${pinStyle.border};">
+              <i class="fa-solid ${pinStyle.icon}"></i>
+            </div>
+            <div class="gmap-pin-pointer" style="border-top-color: ${pinStyle.color};"></div>
+          `,
+          iconSize: [28, 36],
+          iconAnchor: [14, 36],
+          popupAnchor: [0, -36]
+        });
+
+        const marker = L.marker([lat, lon], {
+          icon: customPinIcon,
+          title: p.brand_name
+        });
+
+        // POI Label cố định khi zoom >= 14, interactive: true cho phép bấm vào chữ tên quán
+        marker.bindTooltip(p.brand_name, {
+          permanent: true,
+          direction: 'right',
+          offset: [16, -14],
+          className: 'gm-poi-tooltip',
+          interactive: true
+        });
+
+        // Bắt sự kiện click ngay trên nhãn chữ bên cạnh điểm ghim
+        marker.on('tooltipopen', (e) => {
+          if (e.tooltip && e.tooltip._container) {
+            e.tooltip._container.style.cursor = 'pointer';
+            e.tooltip._container.onclick = (evt) => {
+              evt.stopPropagation();
+              marker.fire('click');
+            };
+          }
+        });
+
+        // Floating Preview Card kiểu Google Maps
+        const photoUrl = getStorePhoto(p);
+        const popupContent = `
+          <div class="gmap-floating-card">
+            <a href="/shop/${p.storefront_id}" target="_blank" class="gmap-card-thumb" style="display: block; text-decoration: none;">
+              <img src="${photoUrl}" alt="${p.brand_name}">
+              <div class="gmap-thumb-overlay">
+                <span class="trust-pill" style="background: rgba(18,25,39,0.85);">${p.diamond_trust_score}/100 Tín Nhiệm</span>
+              </div>
+            </a>
+            <div class="gmap-card-body">
+              <a href="/shop/${p.storefront_id}" target="_blank" class="gmap-card-title" style="text-decoration: none; color: #FFF; display: block;">
+                ${p.brand_name}
+              </a>
+              <div class="gmap-card-rating">
+                <i class="fa-solid fa-star"></i> <span>${p.google_maps_rating}★</span>
+                <span style="color: var(--text-muted); font-weight: normal;">(${Number(p.google_maps_total_reviews).toLocaleString()} đánh giá)</span>
+              </div>
+              <div class="gmap-card-category">${p.cuisine_category} • ${p.price_range_per_person || 'Giá bình dân'}</div>
+              <div style="font-size: 0.72rem; color: #10B981; font-weight: 700;">
+                <i class="fa-solid fa-circle" style="font-size: 0.5rem; margin-right: 3px;"></i> Đang hoạt động • Hotline: ${p.phone_number || 'Tại quán'}
+              </div>
+              <div class="gmap-card-actions">
+                <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.brand_name + ' ' + p.city)}" target="_blank" class="gmap-card-btn btn-gmap-dir">
+                  <i class="fa-solid fa-diamond-turn-right"></i> Dẫn đường
+                </a>
+                <button class="gmap-card-btn btn-gmap-open" onclick="openDetailDrawerById('${p.storefront_id}')">
+                  <i class="fa-solid fa-circle-info"></i> Chi tiết
+                </button>
+                <a href="/shop/${p.storefront_id}" target="_blank" class="gmap-card-btn" style="background: rgba(245, 158, 11, 0.18); border: 1px solid var(--primary); color: var(--primary);">
+                  <i class="fa-solid fa-store"></i> Web Quán
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+
+        marker.bindPopup(popupContent, { maxWidth: 320 });
+
+        // Khi bấm vào Marker hoặc Tên: Mở Popup, focus card bên menu trái, mở Detail Drawer
+        marker.on('click', () => {
+          ensureStoreInListAndHighlight(p);
+          openDetailDrawer(p);
+        });
+
+        markerMap[p.storefront_id] = marker;
+        markersCluster.addLayer(marker);
+      });
+
+      handleMapZoomChanged();
+    }
+
+    // =========================================================
+    // GOOGLE MAPS STYLE DETAIL DRAWER CONTROLLER
+    // =========================================================
+    async function openDetailDrawer(store) {
+      if (!store) return;
+      activeStore = store;
+
+      // Nạp thông tin cơ bản ngay tức thì
+      document.getElementById('drawer-brand-name').innerText = store.brand_name;
+      document.getElementById('drawer-category').innerText = store.cuisine_category;
+      document.getElementById('drawer-price').innerText = store.price_range_per_person || '30.000đ - 100.000đ';
+      document.getElementById('drawer-rating-val').innerText = store.google_maps_rating;
+      document.getElementById('drawer-reviews-count').innerText = `(${Number(store.google_maps_total_reviews).toLocaleString()} reviews Google Maps)`;
+      document.getElementById('drawer-trust-score').innerText = `${store.diamond_trust_score}/100 Tín Nhiệm`;
+      document.getElementById('drawer-address').innerText = `${store.address} (${store.district ? store.district + ', ' : ''}${store.city})`;
+      document.getElementById('drawer-phone').innerText = store.phone_number || 'Liên hệ trực tiếp tại quán';
+      document.getElementById('drawer-coords').innerText = `Lat: ${Number(store.latitude).toFixed(6)}, Lon: ${Number(store.longitude).toFixed(6)}`;
+
+      // Shophouse Landmark
+      const shophouseEl = document.getElementById('drawer-shophouse');
+      const shophouseRow = document.getElementById('row-shophouse');
+      if (store.shophouse_landmark) {
+        shophouseEl.innerText = store.shophouse_landmark;
+        shophouseRow.style.display = 'flex';
+      } else {
+        shophouseRow.style.display = 'none';
+      }
+
+      // Giờ mở cửa & hình thức phục vụ
+      document.getElementById('drawer-hours').innerText = store.opening_hours_text || '10:00 - 22:30 Hàng ngày';
+      document.getElementById('drawer-dining').innerText = store.dining_options || 'Ăn tại chỗ • Đồ ăn mang đi';
+
+      // 4 Thước Đo Google Maps
+      document.getElementById('drawer-food-score').innerText = `${store.food_rating || store.google_maps_rating}★`;
+      document.getElementById('drawer-service-score').innerText = `${store.service_rating || store.google_maps_rating}★`;
+      document.getElementById('drawer-ambiance-score').innerText = `${store.ambiance_rating || (store.google_maps_rating - 0.1).toFixed(1)}★`;
+      document.getElementById('drawer-noise-score').innerText = store.noise_level || 'Vừa phải, yên tĩnh';
+
+      // Review thực tế
+      document.getElementById('drawer-reviewer-name').innerText = store.featured_review_author || 'Thực khách Google Maps';
+      document.getElementById('drawer-quote').innerText = `"${store.featured_review_text || store.honest_pros}"`;
+
+      document.getElementById('drawer-mb-parking').innerText = store.motorbike_parking || 'Có chỗ đỗ xe máy thuận tiện';
+      document.getElementById('drawer-car-parking').innerText = store.car_parking || 'Hỗ trợ đỗ ô tô theo chỉ dẫn';
+
+      document.getElementById('drawer-pros').innerText = store.honest_pros || 'Món ăn giữ trọn hương vị nguyên bản, gia vị nêm nếm đậm đà, phục vụ chu đáo.';
+      document.getElementById('drawer-warnings').innerText = store.honest_warnings || 'Giờ cao điểm trưa và tối quán khá đông, nên chủ động sắp xếp thời gian hoặc đặt bàn trước.';
+
+      // Hero image
+      document.getElementById('drawer-hero-img').src = getStorePhoto(store);
+
+      // Tier badge
+      const tb = document.getElementById('drawer-tier-badge');
+      let tierLabel = store.trust_tier === 'DIAMOND_AUTHENTIC_ELITE' ? 'ELITE' : store.trust_tier === 'DIAMOND_VERIFIED_AUTHENTIC' ? 'VERIFIED' : 'STANDARD';
+      let tierClass = store.trust_tier === 'DIAMOND_AUTHENTIC_ELITE' ? 'tier-elite' : store.trust_tier === 'DIAMOND_VERIFIED_AUTHENTIC' ? 'tier-auth' : 'tier-standard';
+      tb.className = `tier-badge ${tierClass}`;
+      tb.innerText = tierLabel;
+
+      // Action links
+      document.getElementById('btn-gmap-directions').href = store.google_maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.brand_name + ' ' + store.city)}`;
+      document.getElementById('btn-gmap-call').href = store.phone_number ? `tel:${store.phone_number}` : 'javascript:alert("Quán chưa cập nhật số hotline riêng!")';
+      document.getElementById('btn-gmap-webstore').href = `/shop/${store.storefront_id}`;
+      document.getElementById('btn-gmap-webstore-banner').href = `/shop/${store.storefront_id}`;
+
+      // Nạp toàn bộ kho đánh giá khách hàng thực chứng từ Google Maps
+      loadStoreReviews(store.storefront_id);
+
+      // Mở Drawer trượt vào mượt mà
+      document.getElementById('sidebar-detail-drawer').classList.add('open');
+      highlightCard(store.storefront_id);
+    }
+
+    async function loadStoreReviews(storefrontId) {
+      const feed = document.getElementById('drawer-reviews-feed');
+      if (!feed) return;
+      feed.innerHTML = '<div style="text-align: center; padding: 0.85rem; color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải kho đánh giá thực chứng...</div>';
+
+      try {
+        const [resReviews, resSummary] = await Promise.all([
+          fetch(`/api/storefront/${storefrontId}/reviews`),
+          fetch(`/api/storefront/${storefrontId}/review_summary`)
+        ]);
+
+        if (resSummary.ok) {
+          const s = await resSummary.json();
+          document.getElementById('drawer-rev-big-rating').innerText = s.google_maps_rating;
+          document.getElementById('drawer-rev-total-count').innerText = `${Number(s.total_reviews).toLocaleString()} reviews`;
+
+          const dist = s.star_distribution;
+          document.getElementById('bar-5-star').style.width = `${dist['5_star']}%`;
+          document.getElementById('pct-5-star').innerText = `${dist['5_star']}%`;
+          document.getElementById('bar-4-star').style.width = `${dist['4_star']}%`;
+          document.getElementById('pct-4-star').innerText = `${dist['4_star']}%`;
+          document.getElementById('bar-3-star').style.width = `${dist['3_star']}%`;
+          document.getElementById('pct-3-star').innerText = `${dist['3_star']}%`;
+          document.getElementById('bar-2-star').style.width = `${dist['2_star']}%`;
+          document.getElementById('pct-2-star').innerText = `${dist['2_star']}%`;
+          document.getElementById('bar-1-star').style.width = `${dist['1_star']}%`;
+          document.getElementById('pct-1-star').innerText = `${dist['1_star']}%`;
+
+          // Cập nhật thẻ chủ đề
+          const chipsEl = document.getElementById('drawer-topic-chips');
+          chipsEl.innerHTML = '';
+          s.top_keywords.forEach(k => {
+            chipsEl.innerHTML += `<span class="topic-chip">#${k.tag} (${k.count})</span>`;
+          });
+        }
+
+        if (resReviews.ok) {
+          const revs = await resReviews.json();
+          feed.innerHTML = '';
+
+          if (revs.length === 0) {
+            feed.innerHTML = '<div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; padding: 1rem;">Chưa có bài đánh giá nào.</div>';
+            return;
+          }
+
+          revs.forEach(r => {
+            let photosHtml = '';
+            if (r.photos_json) {
+              try {
+                const photos = JSON.parse(r.photos_json);
+                if (photos && photos.length > 0) {
+                  photosHtml = '<div class="review-photos-grid">';
+                  photos.forEach(imgUrl => {
+                    photosHtml += `<div class="review-photo-thumb"><img src="${imgUrl}" alt="Ảnh thực tế" onclick="window.open('${imgUrl}', '_blank')"></div>`;
+                  });
+                  photosHtml += '</div>';
+                }
+              } catch(e) {}
+            }
+
+            let starsStr = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+
+            feed.innerHTML += `
+              <div class="review-item-card">
+                <div class="review-item-header">
+                  <div class="review-user-info">
+                    <div class="review-user-avatar">${r.author_avatar || r.author_name[0]}</div>
+                    <div class="review-user-meta">
+                      <b>${r.author_name}</b>
+                      <span>${r.author_badge || 'Thực khách đã xác thực'}</span>
+                    </div>
+                  </div>
+                  <div class="review-stars-time">
+                    <span class="stars">${starsStr}</span>
+                    <span class="time">${r.review_time}</span>
+                  </div>
+                </div>
+
+                <div class="review-tags-strip">
+                  <span class="review-tag-pill"><i class="fa-solid fa-utensils"></i> ${r.dining_type || 'Ăn tại chỗ'}</span>
+                  <span class="review-tag-pill">Đồ ăn: ${r.food_score}/5★</span>
+                  <span class="review-tag-pill">Dịch vụ: ${r.service_score}/5★</span>
+                  ${r.noise_level ? `<span class="review-tag-pill">Độ ồn: ${r.noise_level}</span>` : ''}
+                </div>
+
+                <p class="review-body-text">${r.review_text}</p>
+
+                ${photosHtml}
+
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; color: var(--text-dim); margin-top: 0.2rem;">
+                  <span><i class="fa-solid fa-thumbs-up" style="color: var(--accent-blue);"></i> Hữu ích (${r.helpful_count || 1})</span>
+                  ${r.sentiment_tag ? `<span style="color: var(--primary-light); font-weight: 700;">${r.sentiment_tag}</span>` : ''}
+                </div>
+
+                ${r.owner_response ? `
+                  <div class="review-owner-reply">
+                    <b><i class="fa-solid fa-reply"></i> Phản hồi từ chủ nhà hàng:</b>
+                    <p style="margin-top: 0.15rem;">${r.owner_response}</p>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          });
+        }
+      } catch (err) {
+        console.error("Lỗi tải reviews:", err);
+        feed.innerHTML = '<div style="font-size: 0.75rem; color: #EF4444; padding: 0.5rem;">Không thể tải danh sách đánh giá.</div>';
+      }
+    }
+
+    async function openDetailDrawerById(storefrontId) {
+      let store = currentStorefronts.find(s => s.storefront_id === storefrontId) || currentPins.find(p => p.storefront_id === storefrontId);
+      if (!store) {
+        try {
+          const res = await fetch(`/api/storefront/${storefrontId}`);
+          if (res.ok) store = await res.json();
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      if (store) {
+        ensureStoreInListAndHighlight(store);
+        openDetailDrawer(store);
+      }
+    }
+
+    function closeDetailDrawer() {
+      document.getElementById('sidebar-detail-drawer').classList.remove('open');
+    }
+
+    function switchDrawerTab(tabId, el) {
+      document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function copyStoreAddress() {
+      if (activeStore) {
+        navigator.clipboard.writeText(`${activeStore.brand_name} - ${activeStore.address}, ${activeStore.city}`);
+        alert(`Đã sao chép địa chỉ của ${activeStore.brand_name} vào clipboard!`);
+      }
+    }
+
+    function focusDrawerStoreOnMap() {
+      if (activeStore) {
+        focusStoreCoordinates(activeStore.latitude, activeStore.longitude, activeStore.storefront_id);
+      }
+    }
+
+    // =========================================================
+    // ĐỊNH VỊ VÀ TƯƠNG TÁC 2 CHIỀU CHUẨN XÁC
+    // =========================================================
+    function focusStoreById(storeId) {
+      const store = currentStorefronts.find(s => s.storefront_id === storeId) || currentPins.find(p => p.storefront_id === storeId);
+      if (store) {
+        focusStoreCoordinates(store.latitude, store.longitude, store.storefront_id);
+      }
+    }
+
+    function focusStoreCoordinates(lat, lon, storeId) {
+      const latitude = parseFloat(lat);
+      const longitude = parseFloat(lon);
+
+      if (isNaN(latitude) || isNaN(longitude)) {
+        alert("Điểm bán này đang cập nhật tọa độ chính xác!");
+        return;
+      }
+
+      highlightCard(storeId);
+
+      // Bay bản đồ tới tọa độ với zoom 17 mượt mà
+      map.flyTo([latitude, longitude], 17, {
+        duration: 1.2
+      });
+
+      setTimeout(() => {
+        const marker = markerMap[storeId];
+        if (marker) {
+          markersCluster.zoomToShowLayer(marker, () => {
+            marker.openPopup();
+          });
+        }
+      }, 1250);
+    }
+
+    function ensureStoreInListAndHighlight(store) {
+      if (!store || !store.storefront_id) return;
+      const container = document.getElementById('store-list-container');
+      let card = document.getElementById(`card-${store.storefront_id}`);
+
+      // Nếu sidebar đang bị collapse, tự động mở ra để người dùng thấy
+      const appContainer = document.querySelector('.app-container');
+      if (appContainer && appContainer.classList.contains('sidebar-collapsed')) {
+        toggleSidebar();
+      }
+
+      // Nếu card chưa có trong DOM cột trái (do danh sách chỉ lấy 60 items hoặc chưa cuộn tới)
+      if (!card) {
+        card = createStoreCardElement(store);
+        container.insertBefore(card, container.firstChild);
+      }
+
+      // Kích hoạt highlight và cuộn tới vị trí nổi bật
+      document.querySelectorAll('.store-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function highlightCard(id) {
+      let store = currentStorefronts.find(s => s.storefront_id === id) || currentPins.find(p => p.storefront_id === id);
+      if (store) {
+        ensureStoreInListAndHighlight(store);
+      } else {
+        const activeCard = document.getElementById(`card-${id}`);
+        if (activeCard) {
+          document.querySelectorAll('.store-card').forEach(c => c.classList.remove('active'));
+          activeCard.classList.add('active');
+          activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+
+    // Bộ lọc nhanh
+    function setMacroRegion(region) {
+      selectedMacroRegion = region;
+      document.querySelectorAll('.region-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+      if (!region) document.getElementById('tab-all').classList.add('active');
+      else if (region === 'MIEN_BAC') document.getElementById('tab-north').classList.add('active');
+      else if (region === 'MIEN_TRUNG') document.getElementById('tab-central').classList.add('active');
+      else if (region === 'MIEN_NAM') document.getElementById('tab-south').classList.add('active');
+
+      // Tự động căn tâm bản đồ theo vùng
+      if (region === 'MIEN_BAC') map.flyTo([21.028511, 105.804817], 9);
+      else if (region === 'MIEN_TRUNG') map.flyTo([16.054407, 108.202167], 8);
+      else if (region === 'MIEN_NAM') map.flyTo([10.823099, 106.629664], 9);
+      else map.flyTo([16.047079, 107.5], 6);
+
+      applyFilters();
+    }
+
+    function quickFilterCiputra() {
+      document.getElementById('search-input').value = "";
+      searchKeyword = "";
+      document.getElementById('city-select').value = "Hà Nội";
+      selectedCity = "Hà Nội";
+      selectedMacroRegion = "MIEN_BAC";
+      map.flyTo([21.0838705, 105.7917114], 15);
+      applyFilters();
+    }
+
+    function quickFilterCity(cityName) {
+      document.getElementById('city-select').value = cityName;
+      selectedCity = cityName;
+      if (cityName === 'Nghệ An') {
+        map.flyTo([18.6734, 105.6811], 13); // Bay thẳng vào trung tâm Vinh
+      } else if (cityName === 'Hà Nội') {
+        map.flyTo([21.028511, 105.854444], 13);
+      } else if (cityName === 'Hồ Chí Minh') {
+        map.flyTo([10.776889, 106.700806], 13);
+      }
+      applyFilters();
+    }
+
+    function toggleCarParking() {
+      filterCarParking = !filterCarParking;
+      document.getElementById('chip-car').classList.toggle('active', filterCarParking);
+      applyFilters();
+    }
+
+    function toggleEliteTier() {
+      filterEliteTier = !filterEliteTier;
+      document.getElementById('chip-elite').classList.toggle('active', filterEliteTier);
+      applyFilters();
+    }
+
+    let searchTimeout;
+    function handleSearch(event) {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchKeyword = document.getElementById('search-input').value.trim();
+        applyFilters();
+      }, 350);
+    }
+
+    function resetViewToDefault() {
+      selectedMacroRegion = "";
+      selectedCity = "";
+      selectedCuisine = "";
+      searchKeyword = "";
+      filterCarParking = false;
+      filterEliteTier = false;
+
+      document.getElementById('search-input').value = "";
+      document.getElementById('city-select').value = "";
+      document.getElementById('cuisine-select').value = "";
+      document.getElementById('chip-car').classList.remove('active');
+      document.getElementById('chip-elite').classList.remove('active');
+      setMacroRegion("");
+    }
+
+    // Khởi động toàn bộ trang
+    window.onload = () => {
+      initMap();
+      loadStats();
+      applyFilters();
+    };
+  </script>
 </body>
 </html>
