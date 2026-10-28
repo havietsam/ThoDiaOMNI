@@ -1174,100 +1174,140 @@
     }
 
     /* ========================================================= */
-    /* GOOGLE MAPS STYLE SLEEK POI PIN & PERMANENT LABELS        */
+    /* GOOGLE MAPS STYLE VECTOR SVG PIN & INTERACTIVE LABELS     */
     /* ========================================================= */
-    .gmap-marker-pin {
+    .custom-div-pin {
+      background: none !important;
+      border: none !important;
+    }
+    .gmap-vector-pin {
       position: relative;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
       user-select: none;
     }
-
-    .gmap-marker-pin:hover {
-      transform: scale(1.22);
+    .gmap-vector-pin:hover {
+      transform: scale(1.25) translateY(-2px);
       z-index: 1000 !important;
     }
-
-    .gmap-marker-pin.active-pin {
-      transform: scale(1.28);
+    .gmap-vector-pin.active-pin {
+      transform: scale(1.35) translateY(-4px);
       z-index: 2000 !important;
     }
-
-    .gmap-marker-pin.active-pin .gmap-pin-badge {
-      box-shadow: 0 0 0 3px #F59E0B, 0 6px 20px rgba(245, 158, 11, 0.8) !important;
+    .gmap-vector-pin.active-pin svg path {
+      stroke: #F59E0B !important;
+      stroke-width: 2.5 !important;
     }
-
-    .gmap-pin-badge {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
+    .pin-inner-icon {
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.65);
-      border: 1.5px solid rgba(255, 255, 255, 0.95);
-      color: #FFF;
-      font-size: 0.78rem;
-    }
-
-    .gmap-pin-pointer {
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 7px solid #EF4444;
-      margin-top: -1px;
-      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
-    }
-
-    /* Specific Tier / Category Glows */
-    .pin-elite .gmap-pin-badge {
-      box-shadow: 0 0 14px rgba(245, 158, 11, 0.8), 0 4px 10px rgba(0,0,0,0.65);
-      border-color: #FEF3C7;
-    }
-
-    .pin-seafood .gmap-pin-badge {
-      box-shadow: 0 0 10px rgba(14, 165, 233, 0.6), 0 4px 10px rgba(0,0,0,0.65);
-    }
-
-    .pin-cafe .gmap-pin-badge {
-      box-shadow: 0 0 10px rgba(217, 119, 6, 0.6), 0 4px 10px rgba(0,0,0,0.65);
-    }
-
-    .pin-lounge .gmap-pin-badge {
-      box-shadow: 0 0 10px rgba(139, 92, 246, 0.6), 0 4px 10px rgba(0,0,0,0.65);
+      pointer-events: none;
     }
 
     /* POI Permanent Text Tooltip (When Zoom >= 14) */
     .gm-poi-tooltip {
-      background: rgba(18, 25, 39, 0.92) !important;
-      backdrop-filter: blur(8px) !important;
-      border: 1px solid rgba(245, 158, 11, 0.4) !important;
-      color: #FFF !important;
+      background: rgba(18, 25, 39, 0.95) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(245, 158, 11, 0.6) !important;
+      color: #FFFFFF !important;
       font-weight: 700 !important;
       font-size: 11px !important;
-      padding: 3px 8px !important;
+      padding: 4px 9px !important;
       border-radius: 6px !important;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.6) !important;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.7) !important;
       white-space: nowrap !important;
       pointer-events: auto !important;
       cursor: pointer !important;
       transition: all 0.2s ease !important;
     }
-
     .gm-poi-tooltip:hover {
       background: #F59E0B !important;
-      color: #000 !important;
+      color: #0A0E17 !important;
       border-color: #F59E0B !important;
-      transform: scale(1.05);
+      transform: scale(1.06);
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.5) !important;
+    }
+    .poi-label-interactive {
+      display: inline-block;
+      cursor: pointer;
     }
 
-    /* Hide POI tooltips when zoomed out (< 14) */
-    .leaflet-zoom-low .gm-poi-tooltip {
-      display: none !important;
+    /* Nút Dẫn Đường Siêu Nổi Bật (Royal Blue Gradient with Cyan Border) */
+    .btn-gmap-dir {
+      background: linear-gradient(135deg, #1D4ED8 0%, #3B82F6 100%) !important;
+      color: #FFFFFF !important;
+      border: 1px solid #93C5FD !important;
+      font-weight: 800 !important;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.5) !important;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+    }
+    .btn-gmap-dir:hover {
+      background: linear-gradient(135deg, #1E40AF 0%, #2563EB 100%) !important;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.7) !important;
+      transform: translateY(-1px);
+    }
+
+    /* Nút Thu Gọn Danh Mục Bên Trái */
+    .btn-sidebar-collapse {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-sidebar-collapse:hover {
+      background: var(--primary);
+      color: #0A0E17;
+      border-color: var(--primary);
+    }
+    .sidebar-toggle-btn {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 850;
+      height: 38px;
+      min-width: 38px;
+      padding: 0 12px;
+      background: rgba(18, 25, 39, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sidebar-toggle-btn:hover {
+      background: var(--primary);
+      color: #0A0E17;
+      border-color: var(--primary);
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.4);
+    }
+    .sidebar-toggle-btn.collapsed-mode {
+      background: #F59E0B !important;
+      color: #0A0E17 !important;
+      border-color: #F59E0B !important;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.6) !important;
     }
 
     /* ========================================================= */
@@ -1781,6 +1821,7 @@
       <!-- SIDEBAR TOGGLE BUTTON (Google Maps Style Collapse / Expand) -->
       <button id="btn-toggle-sidebar" class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Ẩn/Hiện Danh Mục (Xem Bản Đồ Toàn Màn Hình)">
         <i class="fa-solid fa-chevron-left" id="toggle-sidebar-icon"></i>
+        <span id="toggle-sidebar-text" style="display: none; font-size: 0.78rem; font-weight: 700;">Xem danh sách quán</span>
       </button>
 
       <!-- GOOGLE MAPS STYLE "SEARCH THIS AREA" FLOATING PILL -->
@@ -1869,6 +1910,69 @@
     }
 
     // Khởi tạo Bản đồ Leaflet
+        function maskPhoneNumber(p) {
+      if (!p) return '093xxxxxx';
+      const clean = p.replace(/\D/g, '');
+      if (clean.length >= 6) {
+        return clean.substring(0, 4) + 'xxxxxx';
+      }
+      return '093xxxxxx';
+    }
+
+    
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    const CITY_COORDINATES = {
+      'Hà Nội': [21.028511, 105.804817, 12],
+      'Hồ Chí Minh': [10.823099, 106.629664, 12],
+      'Đà Nẵng': [16.054407, 108.202167, 12],
+      'Hải Phòng': [20.844912, 106.688084, 12],
+      'Cần Thơ': [10.045162, 105.746857, 12],
+      'Bà Rịa - Vũng Tàu': [10.345990, 107.084260, 13],
+      'Vũng Tàu': [10.345990, 107.084260, 13],
+      'Nghệ An': [18.673820, 105.681330, 13],
+      'Thành phố Vinh': [18.673820, 105.681330, 13],
+      'Huế': [16.463713, 107.590866, 13],
+      'Quảng Nam': [15.565880, 108.481170, 12],
+      'Bình Dương': [10.980460, 106.651940, 12],
+      'Đồng Nai': [10.957430, 106.842710, 12],
+      'Khánh Hòa': [12.238791, 109.196749, 13],
+      'Nha Trang': [12.238791, 109.196749, 13],
+      'Lâm Đồng': [11.940419, 108.458313, 13],
+      'Đà Lạt': [11.940419, 108.458313, 13],
+      'Quảng Ninh': [20.950450, 107.073360, 12],
+      'Hạ Long': [20.950450, 107.073360, 12]
+    };
+
+    window.openStoreById = function(id) {
+      let store = currentStorefronts.find(s => s.storefront_id === id) || currentPins.find(p => p.storefront_id === id);
+      if (store) {
+        ensureStoreInListAndHighlight(store);
+        openDetailDrawer(store);
+        const marker = markerMap[id];
+        if (marker) {
+          marker.openPopup();
+          map.panTo([Number(store.latitude), Number(store.longitude)], { animate: true, duration: 0.4 });
+        }
+      } else {
+        openDetailDrawerById(id);
+      }
+    };
+
+    window.handlePoiClick = function(id, evt) {
+      if (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+      }
+      openStoreById(id);
+    };
+
+
     function initMap() {
       map = L.map('map', {
         zoomControl: false,
@@ -1964,13 +2068,39 @@
       }
     }
 
-    // Áp dụng bộ lọc và tải dữ liệu đồng bộ
+    // Áp dụng bộ lọc và tải dữ liệu đồng bộ (ĐỌC TRỰC TIẾP TỪ SELECT BOX)
     async function applyFilters(useBounds = false) {
+      // 1. Đọc trực tiếp giá trị Tỉnh/Thành từ select
+      const citySelect = document.getElementById('city-select');
+      if (citySelect) {
+        selectedCity = citySelect.value.trim();
+      }
+      // 2. Đọc trực tiếp Danh mục Ẩm thực từ select
+      const cuisineSelect = document.getElementById('cuisine-select');
+      if (cuisineSelect) {
+        selectedCuisine = cuisineSelect.value.trim();
+      }
+      // 3. Đọc từ khóa tìm kiếm
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) {
+        searchKeyword = searchInput.value.trim();
+      }
+
+      // Khi người dùng đã chọn Tỉnh/Thành cụ thể (ví dụ Nghệ An), xóa lọc Vùng để tránh xung đột
+      let reqMacro = selectedMacroRegion;
+      if (selectedCity) {
+        reqMacro = "";
+        if (CITY_COORDINATES[selectedCity]) {
+          const [cLat, cLon, cZoom] = CITY_COORDINATES[selectedCity];
+          map.flyTo([cLat, cLon], cZoom, { duration: 1.0 });
+        }
+      }
+
       let listUrl = `/api/storefronts?limit=60`;
       let pinsUrl = `/api/map_pins?limit=2000`;
 
       let queryParams = "";
-      if (selectedMacroRegion) queryParams += `&macro_region=${encodeURIComponent(selectedMacroRegion)}`;
+      if (reqMacro) queryParams += `&macro_region=${encodeURIComponent(reqMacro)}`;
       if (selectedCity) queryParams += `&city=${encodeURIComponent(selectedCity)}`;
       if (selectedCuisine) queryParams += `&cuisine=${encodeURIComponent(selectedCuisine)}`;
       if (searchKeyword) queryParams += `&keyword=${encodeURIComponent(searchKeyword)}`;
@@ -2052,11 +2182,14 @@
         focusStoreCoordinates(s.latitude, s.longitude, s.storefront_id);
       };
 
-      const photoUrl = getStorePhoto(s);
+      const hasRealImg = !!s.hero_image_url;
+      const thumbContent = hasRealImg
+        ? `<img src="${s.hero_image_url}" alt="${s.brand_name}" loading="lazy">`
+        : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #182234 0%, #121927 100%); color:var(--primary); font-size:1.8rem;"><i class="fa-solid fa-utensils"></i></div>`;
 
       card.innerHTML = `
         <div class="store-thumbnail-box">
-          <img src="${photoUrl}" alt="${s.brand_name}" loading="lazy">
+          ${thumbContent}
         </div>
         <div class="store-info">
           <div class="card-title-row">
@@ -2149,14 +2282,24 @@
 
         const pinStyle = getCategoryPinStyle(p);
 
-        // Custom DivIcon mô phỏng chuẩn Google Maps Pin (thanh thoát, tinh tế)
+        // Vector SVG Teardrop Pin (Google Maps standard)
         const customPinIcon = L.divIcon({
-          className: `gmap-marker-pin ${pinStyle.cls}`,
+          className: 'custom-div-pin',
           html: `
-            <div class="gmap-pin-badge" style="background: ${pinStyle.color}; border-color: ${pinStyle.border};">
-              <i class="fa-solid ${pinStyle.icon}"></i>
+            <div class="gmap-vector-pin ${pinStyle.cls}" id="pin-${p.storefront_id}">
+              <svg viewBox="0 0 30 38" width="28" height="36" style="display:block; overflow:visible;">
+                <defs>
+                  <filter id="pdrop-${p.storefront_id}" x="-30%" y="-20%" width="160%" height="150%">
+                    <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.55)"/>
+                  </filter>
+                </defs>
+                <path filter="url(#pdrop-${p.storefront_id})" fill="${pinStyle.color}" stroke="#FFFFFF" stroke-width="2" d="M15 1C7.8 1 2 6.8 2 14c0 9.5 13 22.5 13 22.5S28 23.5 28 14C28 6.8 22.2 1 15 1z"/>
+                <circle cx="15" cy="14" r="8.5" fill="#FFFFFF"/>
+              </svg>
+              <div class="pin-inner-icon" style="color: ${pinStyle.color};">
+                <i class="fa-solid ${pinStyle.icon}"></i>
+              </div>
             </div>
-            <div class="gmap-pin-pointer" style="border-top-color: ${pinStyle.color};"></div>
           `,
           iconSize: [28, 36],
           iconAnchor: [14, 36],
@@ -2168,32 +2311,30 @@
           title: p.brand_name
         });
 
-        // POI Label cố định khi zoom >= 14, interactive: true cho phép bấm vào chữ tên quán
-        marker.bindTooltip(p.brand_name, {
+        // POI Label cố định khi zoom >= 14, interactive: true
+        const labelHtml = `<span class="poi-label-interactive" onclick="handlePoiClick('${p.storefront_id}', event)">${escapeHtml(p.brand_name)}</span>`;
+        marker.bindTooltip(labelHtml, {
           permanent: true,
           direction: 'right',
-          offset: [16, -14],
+          offset: [16, -18],
           className: 'gm-poi-tooltip',
           interactive: true
         });
 
-        // Bắt sự kiện click ngay trên nhãn chữ bên cạnh điểm ghim
-        marker.on('tooltipopen', (e) => {
-          if (e.tooltip && e.tooltip._container) {
-            e.tooltip._container.style.cursor = 'pointer';
-            e.tooltip._container.onclick = (evt) => {
-              evt.stopPropagation();
-              marker.fire('click');
-            };
-          }
+        // Bắt sự kiện click ngay trên điểm ghim
+        marker.on('click', () => {
+          openStoreById(p.storefront_id);
         });
 
-        // Floating Preview Card kiểu Google Maps
-        const photoUrl = getStorePhoto(p);
+        // Floating Preview Card kiểu Google Maps (Chỉ hiển thị ảnh thật, không gán ảnh bừa)
+        const popupThumbHtml = p.hero_image_url
+          ? `<img src="${p.hero_image_url}" alt="${p.brand_name}">`
+          : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #182234 0%, #121927 100%); color:${pinStyle.color}; font-size:2.2rem;"><i class="fa-solid ${pinStyle.icon}"></i></div>`;
+
         const popupContent = `
           <div class="gmap-floating-card">
             <a href="${p.slug ? '/quan/' + p.slug : '/shop/' + p.storefront_id}" target="_blank" class="gmap-card-thumb" style="display: block; text-decoration: none;">
-              <img src="${photoUrl}" alt="${p.brand_name}">
+              ${popupThumbHtml}
               <div class="gmap-thumb-overlay">
                 <span class="trust-pill" style="background: rgba(18,25,39,0.85);">${p.diamond_trust_score}/100 Tín Nhiệm</span>
               </div>
@@ -2208,7 +2349,7 @@
               </div>
               <div class="gmap-card-category">${p.cuisine_category} • ${p.price_range_per_person || 'Giá bình dân'}</div>
               <div style="font-size: 0.72rem; color: #10B981; font-weight: 700;">
-                <i class="fa-solid fa-circle" style="font-size: 0.5rem; margin-right: 3px;"></i> Đang hoạt động • Hotline: ${p.phone_number || 'Tại quán'}
+                <i class="fa-solid fa-circle" style="font-size: 0.5rem; margin-right: 3px;"></i> Đang hoạt động • Hotline: ${maskPhoneNumber(p.phone_number)}
               </div>
               <div class="gmap-card-actions">
                 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.brand_name + ' ' + p.city)}" target="_blank" class="gmap-card-btn btn-gmap-dir">
@@ -2278,18 +2419,50 @@
       document.getElementById('drawer-ambiance-score').innerText = `${store.ambiance_rating || (store.google_maps_rating - 0.1).toFixed(1)}★`;
       document.getElementById('drawer-noise-score').innerText = store.noise_level || 'Vừa phải, yên tĩnh';
 
-      // Review thực tế
-      document.getElementById('drawer-reviewer-name').innerText = store.featured_review_author || 'Thực khách Google Maps';
-      document.getElementById('drawer-quote').innerText = `"${store.featured_review_text || store.honest_pros}"`;
+      // Review trích dẫn thực tế (CHỈ HIỂN THỊ KHI CÓ TRÍCH DẪN THẬT TỪ GOOGLE MAPS)
+      const quoteCard = document.querySelector('.reviewer-quote-card');
+      if (store.featured_review_text) {
+        document.getElementById('drawer-reviewer-name').innerText = store.featured_review_author || 'Thực khách Google Maps';
+        document.getElementById('drawer-quote').innerText = `"${store.featured_review_text}"`;
+        if (quoteCard) quoteCard.style.display = 'block';
+      } else {
+        if (quoteCard) quoteCard.style.display = 'none';
+      }
 
       document.getElementById('drawer-mb-parking').innerText = store.motorbike_parking || 'Có chỗ đỗ xe máy thuận tiện';
       document.getElementById('drawer-car-parking').innerText = store.car_parking || 'Hỗ trợ đỗ ô tô theo chỉ dẫn';
 
-      document.getElementById('drawer-pros').innerText = store.honest_pros || 'Món ăn giữ trọn hương vị nguyên bản, gia vị nêm nếm đậm đà, phục vụ chu đáo.';
-      document.getElementById('drawer-warnings').innerText = store.honest_warnings || 'Giờ cao điểm trưa và tối quán khá đông, nên chủ động sắp xếp thời gian hoặc đặt bàn trước.';
+      // Ưu điểm & Điểm lưu ý (Ẩn nếu không có thật)
+      const prosEl = document.getElementById('drawer-pros');
+      if (prosEl && prosEl.parentElement) {
+        if (store.honest_pros && !store.honest_pros.includes('tinh tuyệt')) {
+          prosEl.innerText = store.honest_pros;
+          prosEl.parentElement.style.display = 'block';
+        } else {
+          prosEl.parentElement.style.display = 'none';
+        }
+      }
 
-      // Hero image
-      document.getElementById('drawer-hero-img').src = getStorePhoto(store);
+      const warnEl = document.getElementById('drawer-warnings');
+      if (warnEl && warnEl.parentElement) {
+        if (store.honest_warnings) {
+          warnEl.innerText = store.honest_warnings;
+          warnEl.parentElement.style.display = 'block';
+        } else {
+          warnEl.parentElement.style.display = 'none';
+        }
+      }
+
+      // Hero image (CHỈ HIỂN THỊ KHI CÓ ẢNH THẬT ĐÃ XÁC THỰC)
+      const heroImg = document.getElementById('drawer-hero-img');
+      if (heroImg) {
+        if (store.hero_image_url) {
+          heroImg.src = store.hero_image_url;
+          heroImg.style.display = 'block';
+        } else {
+          heroImg.style.display = 'none';
+        }
+      }
 
       // Tier badge
       const tb = document.getElementById('drawer-tier-badge');
@@ -2300,7 +2473,11 @@
 
       // Action links
       document.getElementById('btn-gmap-directions').href = store.google_maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.brand_name + ' ' + store.city)}`;
-      document.getElementById('btn-gmap-call').href = store.phone_number ? `tel:${store.phone_number}` : 'javascript:alert("Quán chưa cập nhật số hotline riêng!")';
+      document.getElementById('btn-gmap-call').href = "#";
+      document.getElementById('btn-gmap-call').onclick = (e) => {
+        e.preventDefault();
+        alert(`Số điện thoại của quán ${store.brand_name} được bảo mật (${maskPhoneNumber(store.phone_number)}) để tránh lộ thông tin cá nhân. Quý khách vui lòng bấm "Dẫn đường" để đến quán hoặc liên hệ Thổ Địa OMNI hỗ trợ!`);
+      };
       document.getElementById('btn-gmap-webstore').href = store.slug ? `/quan/${store.slug}` : `/shop/${store.storefront_id}`;
       document.getElementById('btn-gmap-webstore-banner').href = store.slug ? `/quan/${store.slug}` : `/shop/${store.storefront_id}`;
 

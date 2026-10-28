@@ -663,31 +663,33 @@ $topCuisines = [
           $bname = $s['brand_name'] ?: 'Cửa Hàng';
           $slugUrl = !empty($s['slug']) ? '/quan/' . $s['slug'] : '/shop/' . $s['storefront_id'];
           
-          // Ảnh bìa fallback thông minh theo ngành hàng
-          $thumb = "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=80";
-          if (mb_strpos($cat, 'hải sản') !== false) {
-              $thumb = "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=700&auto=format&fit=crop&q=80";
-          } elseif (mb_strpos($cat, 'pizza') !== false || mb_strpos($cat, 'fast food') !== false) {
-              $thumb = "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=700&auto=format&fit=crop&q=80";
-          } elseif (mb_strpos($cat, 'cafe') !== false || mb_strpos($cat, 'cà phê') !== false || mb_strpos($cat, 'lounge') !== false) {
-              $thumb = "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=700&auto=format&fit=crop&q=80";
-          } elseif (mb_strpos($cat, 'phở') !== false || mb_strpos($cat, 'bún') !== false || mb_strpos($cat, 'món nước') !== false) {
-              $thumb = "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=700&auto=format&fit=crop&q=80";
-          } elseif (mb_strpos($cat, 'nhật') !== false || mb_strpos($cat, 'sushi') !== false) {
-              $thumb = "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=700&auto=format&fit=crop&q=80";
+          // CHỈ HIỂN THỊ ẢNH NẾU QUÁN CÓ ẢNH THẬT ĐÃ XÁC THỰC
+          $hasRealPhoto = false;
+          $thumb = "";
+          if (!empty($s['hero_image_url'])) {
+              $thumb = $s['hero_image_url'];
+              $hasRealPhoto = true;
           }
           
           $hasParking = !empty($s['car_parking']) && (mb_strpos($s['car_parking'], 'đỗ') !== false || mb_strpos($s['car_parking'], 'hầm') !== false);
         ?>
         <div class="store-card-modern">
-          <div class="card-thumb-wrap">
-            <img src="<?= $thumb ?>" alt="<?= htmlspecialchars($bname) ?>" class="card-thumb-img" loading="lazy">
-            <span class="card-badge-region"><?= htmlspecialchars($s['region'] ?: 'Việt Nam') ?></span>
-            <span class="card-badge-tier"><i class="fa-solid fa-gem"></i> <?= htmlspecialchars(str_replace('DIAMOND_', '', $s['trust_tier'] ?: 'ELITE')) ?></span>
-            <div class="card-rating-float">
-              <i class="fa-solid fa-star"></i> <?= htmlspecialchars($s['google_maps_rating'] ?: '4.8') ?>
-              <span style="color: var(--text-muted); font-size: 0.7rem; font-weight: 500;">(<?= htmlspecialchars($s['google_maps_total_reviews'] ?: '100') ?>)</span>
-            </div>
+          <div class="card-thumb-wrap" style="background: linear-gradient(135deg, #182234 0%, #121927 100%); display: flex; flex-direction: column; justify-content: space-between; padding: 12px;">
+            <?php if ($hasRealPhoto): ?>
+              <img src="<?= $thumb ?>" alt="<?= htmlspecialchars($bname) ?>" class="card-thumb-img" loading="lazy">
+            <?php else: ?>
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; z-index: 2;">
+                <span class="card-badge-region"><?= htmlspecialchars($s['region'] ?: 'Việt Nam') ?></span>
+                <span class="card-badge-tier"><i class="fa-solid fa-shield-check"></i> <?= htmlspecialchars(str_replace('DIAMOND_', '', $s['trust_tier'] ?: 'AUTHENTIC')) ?></span>
+              </div>
+              <div style="text-align: center; color: var(--border-color); font-size: 3rem; margin: auto 0; z-index: 1;">
+                <i class="fa-solid fa-utensils"></i>
+              </div>
+              <div class="card-rating-float" style="position: static; align-self: flex-start; z-index: 2;">
+                <i class="fa-solid fa-star"></i> <?= htmlspecialchars($s['google_maps_rating'] ?: '4.5') ?>
+                <span style="color: var(--text-muted); font-size: 0.7rem; font-weight: 500;">(<?= htmlspecialchars($s['google_maps_total_reviews'] ?: '0') ?> đánh giá)</span>
+              </div>
+            <?php endif; ?>
           </div>
 
           <div class="card-body">
@@ -698,9 +700,11 @@ $topCuisines = [
               <span><?= htmlspecialchars(($s['district'] ? $s['district'] . ', ' : '') . $s['city']) ?></span>
             </div>
 
+            <?php if (!empty($s['honest_pros']) && mb_strpos($s['honest_pros'], 'tinh tuyệt') === false): ?>
             <div class="card-highlights">
-              <?= htmlspecialchars($s['honest_pros'] ?: 'Nguyên liệu tươi chọn lọc trong ngày, không gian ấm cúng, phục vụ chu đáo tận tâm.') ?>
+              <?= htmlspecialchars($s['honest_pros']) ?>
             </div>
+            <?php endif; ?>
 
             <div class="card-chips-row">
               <span class="chip-item"><i class="fa-solid fa-tag"></i> <?= htmlspecialchars($s['price_range_per_person'] ?: '100.000đ') ?></span>

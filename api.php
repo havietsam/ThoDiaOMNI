@@ -1,6 +1,16 @@
 <?php
 // 🏛️ OMPRESENT SOVEREIGN SYSTEM - NATIONWIDE F&B SPATIAL ENGINE API
 header('Content-Type: application/json; charset=utf-8');
+
+function mask_phone_str($p) {
+    if (empty($p)) return '093xxxxxx';
+    $clean = preg_replace('/[^0-9]/', '', $p);
+    if (strlen($clean) >= 6) {
+        return substr($clean, 0, 4) . 'xxxxxx';
+    }
+    return '093xxxxxx';
+}
+
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
@@ -92,7 +102,11 @@ if ($endpoint === 'storefronts') {
         $params[] = max($min_lon, $max_lon);
     }
 
+    $city = $_GET['city'] ?? null;
     $macro = $_GET['macro_region'] ?? null;
+    if ($city) {
+        $macro = null; // Ưu tiên tỉnh thành cụ thể, không áp đặt lọc vùng vĩ mô
+    }
     if ($macro && isset($macro_regions[$macro])) {
         $sub = $macro_regions[$macro];
         $placeholders = implode(',', array_fill(0, count($sub), '?'));
@@ -144,6 +158,12 @@ if ($endpoint === 'storefronts') {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
     $rows = $stmt->fetchAll();
+    foreach ($rows as &$r) {
+        if (!empty($r['phone_number'])) {
+            $r['phone_number'] = mask_phone_str($r['phone_number']);
+        }
+    }
+    unset($r);
 
     echo json_encode($rows, JSON_UNESCAPED_UNICODE);
     exit;
@@ -167,7 +187,11 @@ if ($endpoint === 'map_pins') {
         $params[] = max($min_lon, $max_lon);
     }
 
+    $city = $_GET['city'] ?? null;
     $macro = $_GET['macro_region'] ?? null;
+    if ($city) {
+        $macro = null; // Ưu tiên tỉnh thành cụ thể, không áp đặt lọc vùng vĩ mô
+    }
     if ($macro && isset($macro_regions[$macro])) {
         $sub = $macro_regions[$macro];
         $placeholders = implode(',', array_fill(0, count($sub), '?'));
@@ -221,6 +245,12 @@ if ($endpoint === 'map_pins') {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
     $rows = $stmt->fetchAll();
+    foreach ($rows as &$r) {
+        if (!empty($r['phone_number'])) {
+            $r['phone_number'] = mask_phone_str($r['phone_number']);
+        }
+    }
+    unset($r);
 
     echo json_encode($rows, JSON_UNESCAPED_UNICODE);
     exit;
@@ -242,49 +272,6 @@ if (preg_match('#^storefront/([^/]+)(?:/(reviews|review_summary))?$#', $endpoint
         $stmt->execute([$sid]);
         $reviews = $stmt->fetchAll();
 
-        if (empty($reviews)) {
-            $st = $pdo->prepare("SELECT brand_name, city, cuisine_category, honest_pros, honest_warnings, google_maps_rating FROM diamond_storefronts_nationwide_master WHERE storefront_id = ?");
-            $st->execute([$sid]);
-            $sr = $st->fetch();
-            if ($sr) {
-                $reviews = [
-                    [
-                        'review_id' => 'REV_FALLBACK_1',
-                        'storefront_id' => $sid,
-                        'author_name' => 'Nguyễn Minh Tuấn',
-                        'author_badge' => 'Local Guide Cấp 6',
-                        'rating' => 5,
-                        'relative_publish_time_description' => '2 tuần trước',
-                        'text' => ($sr['honest_pros'] ?? '') ? $sr['honest_pros'] : "Đồ ăn rất tươi và nêm nếm vừa miệng. Không gian sạch sẽ, phục vụ nhiệt tình.",
-                        'photos_json' => '[]',
-                        'food_score' => 5,
-                        'service_score' => 5,
-                        'ambiance_score' => 4,
-                        'price_paid' => '150.000 - 300.000đ/người',
-                        'dining_type' => 'Ăn tối tại quán',
-                        'owner_response' => 'Cảm ơn anh Tuấn đã ghé quán và ủng hộ! Rất mong được đón tiếp anh lần tới.',
-                        'helpful_count' => 12
-                    ],
-                    [
-                        'review_id' => 'REV_FALLBACK_2',
-                        'storefront_id' => $sid,
-                        'author_name' => 'Trần Thị Thu Hà',
-                        'author_badge' => 'Thực Khách Sành Ăn',
-                        'rating' => 4,
-                        'relative_publish_time_description' => '1 tháng trước',
-                        'text' => ($sr['honest_warnings'] ?? '') ? $sr['honest_warnings'] : "Quán phục vụ nhanh, giá cả tương xứng chất lượng. Giờ cao điểm hơi đông một chút.",
-                        'photos_json' => '[]',
-                        'food_score' => 4,
-                        'service_score' => 4,
-                        'ambiance_score' => 4,
-                        'price_paid' => '100.000 - 250.000đ/người',
-                        'dining_type' => 'Ăn trưa',
-                        'owner_response' => '',
-                        'helpful_count' => 8
-                    ]
-                ];
-            }
-        }
         echo json_encode($reviews, JSON_UNESCAPED_UNICODE);
         exit;
     }
@@ -323,13 +310,7 @@ if (preg_match('#^storefront/([^/]+)(?:/(reviews|review_summary))?$#', $endpoint
                 'ambiance' => (float)($sr['ambiance_rating'] ?: round($r - 0.1, 1)),
                 'noise' => $sr['noise_level'] ?: 'Vừa phải, lịch sự'
             ],
-            'top_keywords' => [
-                ['tag' => 'Đồ ăn tươi ngon', 'count' => (int)($tot * 0.45)],
-                ['tag' => 'Hương vị nguyên bản', 'count' => (int)($tot * 0.35)],
-                ['tag' => 'Phục vụ nhiệt tình', 'count' => (int)($tot * 0.28)],
-                ['tag' => 'Đỗ xe thuận tiện', 'count' => (int)($tot * 0.22)],
-                ['tag' => 'Giá cả hợp lý', 'count' => (int)($tot * 0.18)]
-            ]
+            'top_keywords' => []
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
@@ -342,6 +323,9 @@ if (preg_match('#^storefront/([^/]+)(?:/(reviews|review_summary))?$#', $endpoint
         http_response_code(404);
         echo json_encode(['error' => 'Storefront not found']);
         exit;
+    }
+    if (!empty($store['phone_number'])) {
+        $store['phone_number'] = mask_phone_str($store['phone_number']);
     }
     echo json_encode($store, JSON_UNESCAPED_UNICODE);
     exit;
