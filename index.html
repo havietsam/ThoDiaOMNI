@@ -1560,14 +1560,19 @@
 
       /* 8. Layer Switcher on Mobile */
       .layer-switcher {
-        bottom: 75px !important;
-        left: 10px !important;
-        flex-direction: column !important;
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        bottom: auto !important;
+        left: auto !important;
+        flex-direction: row !important;
         gap: 4px !important;
+        padding: 0.2rem 0.3rem !important;
+        z-index: 800 !important;
       }
       .layer-btn {
-        padding: 0.3rem 0.55rem !important;
-        font-size: 0.68rem !important;
+        padding: 0.25rem 0.5rem !important;
+        font-size: 0.65rem !important;
       }
 
       /* 9. Leaflet Popup Bottom Sheet on Mobile (Google Maps card style) */
@@ -1644,6 +1649,14 @@
 
     <!-- SIDEBAR WITH DUAL-VIEW COCKPIT -->
     <div class="sidebar">
+
+      <!-- Mobile Close List Header Bar -->
+      <div class="mobile-sidebar-header-bar">
+        <span style="font-weight: 800; color: #FFF; font-size: 0.88rem;"><i class="fa-solid fa-list-ul" style="color: var(--primary);"></i> Danh Sách Điểm Bán</span>
+        <button onclick="toggleMobileView()" style="background: rgba(245, 158, 11, 0.2); border: 1px solid var(--primary); color: var(--primary); padding: 0.35rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+          <i class="fa-solid fa-map"></i> Xem Bản Đồ
+        </button>
+      </div>
 
       <!-- VIEW 1: SEARCH & FILTER LIST -->
       <div id="sidebar-list-view">
@@ -2286,10 +2299,10 @@
       document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
 
       if (type === 'dark') {
-        currentTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; <a href="https://carto.com/">CARTO</a> &mdash; OMNI AI Engine',
-          subdomains: 'abcd',
-          maxZoom: 20
+        currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+          attribution: '&copy; Esri &mdash; OMNI AI Engine',
+          maxNativeZoom: 16,
+          maxZoom: 19
         });
         document.getElementById('layer-dark').classList.add('active');
       } else if (type === 'road') {
@@ -3067,7 +3080,23 @@
       initMap();
       loadStats();
       applyFilters();
+
+      // Đảm bảo Leaflet map lấp đầy 100% viewport trên mọi kích cỡ màn hình mobile
+      setTimeout(() => { if (map) map.invalidateSize(); }, 200);
+      setTimeout(() => { if (map) map.invalidateSize(); }, 600);
     };
+
+    window.addEventListener('resize', () => {
+      if (map) map.invalidateSize();
+    });
   </script>
+  <!-- Mobile Floating Bottom Dock (Toggle Map <-> List) -->
+  <div class="mobile-bottom-dock">
+    <button class="mobile-toggle-btn" onclick="toggleMobileView()">
+      <i class="fa-solid fa-list-ul" id="mobile-toggle-icon"></i>
+      <span id="mobile-toggle-text">Xem danh sách quán</span>
+    </button>
+  </div>
+
 </body>
 </html>
