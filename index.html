@@ -2286,10 +2286,10 @@
       document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
 
       if (type === 'dark') {
-        currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-          attribution: '&copy; Esri &mdash; OMNI AI Engine',
-          maxNativeZoom: 16,
-          maxZoom: 19
+        currentTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; <a href="https://carto.com/">CARTO</a> &mdash; OMNI AI Engine',
+          subdomains: 'abcd',
+          maxZoom: 20
         });
         document.getElementById('layer-dark').classList.add('active');
       } else if (type === 'road') {
@@ -2443,7 +2443,7 @@
 
       card.innerHTML = `
         <div class="store-thumbnail-box">
-          <img src="${photoUrl}" alt="${escapeHtml(s.brand_name)}" loading="lazy">
+          <img src="${photoUrl}" alt="${escapeHtml(s.brand_name)}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&auto=format&fit=crop&q=80';">
         </div>
         <div class="store-info">
           <div class="card-title-row">
@@ -2610,7 +2610,7 @@
         const popupContent = `
           <div class="gmap-floating-card">
             <a href="${p.slug ? '/quan/' + p.slug : '/shop/' + p.storefront_id}" target="_blank" class="gmap-card-thumb" style="display: block; text-decoration: none;">
-              <img src="${photoUrl}" alt="${escapeHtml(p.brand_name)}">
+              <img src="${photoUrl}" alt="${escapeHtml(p.brand_name)}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&auto=format&fit=crop&q=80';">
               <div class="gmap-thumb-overlay">
                 <span class="trust-pill" style="background: rgba(18,25,39,0.85);">${p.diamond_trust_score}/100 Tín Nhiệm</span>
               </div>

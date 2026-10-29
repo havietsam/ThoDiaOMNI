@@ -224,6 +224,34 @@ $desc = !empty($pros) ? $pros : "Điểm ẩm thực " . htmlspecialchars($cat) 
       max-width: 1200px;
       margin: 0 auto;
     }
+    .hero-header-flex {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .hero-avatar-box {
+      width: 130px;
+      height: 130px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      background: #111827;
+    }
+    .hero-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-text-content {
+      flex: 1;
+      min-width: 0;
+    }
+    @media (max-width: 640px) {
+      .hero-header-flex { flex-direction: column; align-items: center; text-align: center; }
+      .hero-badges-row, .hero-meta-row, .hero-actions-row { justify-content: center; }
+    }
     .hero-badges-row {
       display: flex;
       align-items: center;
@@ -608,9 +636,16 @@ $desc = !empty($pros) ? $pros : "Điểm ẩm thực " . htmlspecialchars($cat) 
   </nav>
 
   <!-- Hero Header -->
-  <section class="hero-banner">
+  <section class="hero-banner" style="<?php if (!empty($store['hero_image_url'])): ?>background: linear-gradient(180deg, rgba(18, 25, 39, 0.88) 0%, rgba(10, 14, 23, 0.98) 100%), url('<?= htmlspecialchars($store['hero_image_url']) ?>') center/cover no-repeat;<?php endif; ?>">
     <div class="hero-wrapper">
-      <div class="hero-badges-row">
+      <div class="hero-header-flex">
+        <?php if (!empty($store['hero_image_url'])): ?>
+          <div class="hero-avatar-box">
+            <img src="<?= htmlspecialchars($store['hero_image_url']) ?>" alt="<?= htmlspecialchars($bname) ?>" class="hero-avatar-img">
+          </div>
+        <?php endif; ?>
+        <div class="hero-text-content">
+          <div class="hero-badges-row">
         <span class="badge-pill"><i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($landmark ?: ($addr ?: $city)) ?></span>
         <span class="badge-pill verified"><i class="fa-solid fa-shield-check"></i> Điểm Tin Cậy <?= htmlspecialchars($store['diamond_trust_score'] ?: '70') ?>/100</span>
         <span class="badge-pill"><i class="fa-solid fa-utensils"></i> <?= htmlspecialchars($cat) ?></span>
@@ -649,6 +684,8 @@ $desc = !empty($pros) ? $pros : "Điểm ẩm thực " . htmlspecialchars($cat) 
         <a href="<?= htmlspecialchars($gmap_url) ?>" target="_blank" class="btn-hero-directions">
           <i class="fa-solid fa-diamond-turn-right"></i> Dẫn Đường Bản Đồ
         </a>
+      </div>
+        </div>
       </div>
     </div>
   </section>
