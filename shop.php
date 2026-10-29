@@ -33,7 +33,22 @@ $store = $stmt->fetch();
 
 if (!$store) {
     http_response_code(404);
-    echo '<!DOCTYPE html><html><head><meta charset="utf-8"><title>404</title><style>body{background:#0A0E17;color:#FFF;font-family:sans-serif;text-align:center;padding:5rem;}a{color:#F59E0B;}</style></head><body><h1>404 - Không tìm thấy quán ăn</h1><p><a href="/">Về Bản Đồ Ẩm Thực</a> | <a href="/kham-pha">Xem Danh Mục Show Shop</a></p></body></html>';
+    echo '<!DOCTYPE html><html><head><meta charset="utf-8"><title>404</title><style>body{background:#0A0E17;color:#FFF;font-family:sans-serif;text-align:center;padding:5rem;}a{color:#F59E0B;}</style><script>
+    // BỘ PHỤC HỒI ẢNH TOÀN DIỆN (CHỐNG LỖI VỠ ẢNH 100%)
+    const FALLBACK_LIVE_IMAGES = [
+      "https://images.unsplash.com/photo-1552611052-33e04de081de?w=700&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&auto=format&fit=crop&q=80"
+    ];
+    window.handleImgError = function(img) {
+      if (!img) return;
+      img.onerror = null; // Tránh lặp vô hạn
+      const randFallback = FALLBACK_LIVE_IMAGES[Math.floor(Math.random() * FALLBACK_LIVE_IMAGES.length)];
+      img.src = randFallback;
+    };
+</script>
+</head><body><h1>404 - Không tìm thấy quán ăn</h1><p><a href="/">Về Bản Đồ Ẩm Thực</a> | <a href="/kham-pha">Xem Danh Mục Show Shop</a></p></body></html>';
     exit;
 }
 
@@ -105,6 +120,7 @@ $desc = !empty($pros) ? $pros : "Điểm ẩm thực " . htmlspecialchars($cat) 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
   <title><?= htmlspecialchars($bname) ?> - <?= htmlspecialchars($cat) ?> | ThoDia OMNI</title>
   <meta name="description" content="<?= htmlspecialchars($desc) ?>">
   <link rel="canonical" href="https://thodia.havietsam.com/quan/<?= htmlspecialchars($slug) ?>">
@@ -608,6 +624,21 @@ $desc = !empty($pros) ? $pros : "Điểm ẩm thực " . htmlspecialchars($cat) 
       .hero-title { font-size: 1.75rem; }
     }
   </style>
+<script>
+    // BỘ PHỤC HỒI ẢNH TOÀN DIỆN (CHỐNG LỖI VỠ ẢNH 100%)
+    const FALLBACK_LIVE_IMAGES = [
+      "https://images.unsplash.com/photo-1552611052-33e04de081de?w=700&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&auto=format&fit=crop&q=80"
+    ];
+    window.handleImgError = function(img) {
+      if (!img) return;
+      img.onerror = null; // Tránh lặp vô hạn
+      const randFallback = FALLBACK_LIVE_IMAGES[Math.floor(Math.random() * FALLBACK_LIVE_IMAGES.length)];
+      img.src = randFallback;
+    };
+</script>
 </head>
 <body>
 

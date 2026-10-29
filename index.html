@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
   <title>Bản Đồ Ẩm Thực 3 Miền — OMNI AI Sovereign F&B Engine</title>
   
   <!-- Font & Icons -->
@@ -2188,7 +2189,7 @@
       <div class="mobile-marker-preview-card" id="mobile-preview-card">
         <button class="btn-preview-close" onclick="closeMobilePreviewCard()"><i class="fa-solid fa-xmark"></i></button>
         <div class="preview-card-body">
-          <img class="preview-card-thumb" id="preview-card-img" src="" alt="Ảnh quán">
+          <img class="preview-card-thumb" id="preview-card-img" src="" alt="Ảnh quán" onerror="handleImgError(this)">
           <div class="preview-card-info">
             <h4 class="preview-card-title" id="preview-card-title">Tên quán</h4>
             <div class="preview-card-meta">
@@ -2229,7 +2230,7 @@
         </div>
 
         <div class="drawer-hero-image">
-          <img id="drawer-hero-img" src="" alt="Ảnh quán ẩm thực">
+          <img id="drawer-hero-img" src="" alt="Ảnh quán ẩm thực" onerror="handleImgError(this)">
           <div class="drawer-hero-gradient"></div>
         </div>
 
@@ -2565,6 +2566,21 @@
       ]
     };
 
+    
+    // BỘ PHỤC HỒI ẢNH TOÀN DIỆN (CHỐNG LỖI VỠ ẢNH 100%)
+    const FALLBACK_LIVE_IMAGES = [
+      "https://images.unsplash.com/photo-1552611052-33e04de081de?w=700&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&auto=format&fit=crop&q=80"
+    ];
+    window.handleImgError = function(img) {
+      if (!img) return;
+      img.onerror = null; // Tránh lặp vô hạn
+      const randFallback = FALLBACK_LIVE_IMAGES[Math.floor(Math.random() * FALLBACK_LIVE_IMAGES.length)];
+      img.src = randFallback;
+    };
+
     function getStorePhoto(store) {
       if (!store) return CUISINE_POOLS.default[0];
       if (store.hero_image_url) return store.hero_image_url;
@@ -2888,7 +2904,7 @@
 
       if (!card) return;
 
-      img.src = store.hero_image_url || 'https://images.foody.vn/res/g100/997230/prof/s640x400/foody-upload-api-foody-mobile-res-200922112211.jpg';
+      img.src = store.hero_image_url || 'https://images.unsplash.com/photo-1552611052-33e04de081de?w=700&auto=format&fit=crop&q=80';
       title.textContent = store.brand_name || 'Quán ăn ẩm thực';
       rating.textContent = `★ ${Number(store.google_maps_rating || 4.6).toFixed(1)}`;
       cat.textContent = store.cuisine_category || 'Ẩm thực';
