@@ -1820,6 +1820,140 @@
       }
     }
 
+  
+    /* PHOTO GALLERY STYLES */
+    .drawer-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 0.85rem;
+    }
+    .gallery-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      background: #1E293B;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .gallery-item:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      border-color: var(--primary);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery-item-tag {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: rgba(10, 14, 23, 0.85);
+      backdrop-filter: blur(6px);
+      padding: 0.2rem 0.45rem;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #FFF;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* BENTO MENU STYLES */
+    .menu-category-block {
+      margin-bottom: 1.25rem;
+    }
+    .menu-cat-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0 0.65rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .menu-item-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 0.75rem 0.85rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      transition: border-color 0.2s;
+    }
+    .menu-item-card:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.04);
+    }
+    .menu-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .menu-item-name {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #FFF;
+      margin: 0 0 0.2rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .menu-sig-badge {
+      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+      color: #FFF;
+      font-size: 0.6rem;
+      font-weight: 800;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .menu-item-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin: 0;
+    }
+    .menu-item-price {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #34D399;
+      white-space: nowrap;
+    }
+
+    /* TRANSPARENCY NOTICE BOX */
+    .transparency-notice-box {
+      background: rgba(18, 25, 39, 0.7);
+      border: 1px dashed rgba(245, 158, 11, 0.35);
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      margin-top: 0.85rem;
+    }
+    .btn-contribute-data {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      color: #0A0E17;
+      border: none;
+      padding: 0.5rem 1.1rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
   </style>
 </head>
 <body>
@@ -2159,11 +2293,12 @@
             <span style="font-size: 0.7rem; background: var(--primary); color: #000; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 800;">Mở Web <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
           </a>
 
-          <!-- Tabs: Tổng quan | Đánh giá thực chứng | Tín nhiệm -->
+          <!-- Tabs: Tổng quan | Thực đơn & Giá | Album ảnh thật | Đánh giá thực chứng -->
           <div class="drawer-tabs">
             <button class="drawer-tab active" onclick="switchDrawerTab('tab-overview', this)">Tổng quan</button>
-            <button class="drawer-tab" onclick="switchDrawerTab('tab-reviews', this)">Đánh giá thực chứng</button>
-            <button class="drawer-tab" onclick="switchDrawerTab('tab-trust', this)">Hồ sơ tín nhiệm</button>
+            <button class="drawer-tab" onclick="switchDrawerTab('tab-menu', this)">Thực đơn & Giá</button>
+            <button class="drawer-tab" onclick="switchDrawerTab('tab-photos', this)">Album ảnh thật</button>
+            <button class="drawer-tab" onclick="switchDrawerTab('tab-reviews', this)">Đánh giá thực khách</button>
           </div>
 
           <!-- Tab 1: Tổng Quan -->
@@ -2222,6 +2357,20 @@
                 <label>Chỗ Đỗ Ô Tô</label>
                 <p id="drawer-car-parking">Hỗ trợ đỗ ô tô theo chỉ dẫn</p>
               </div>
+            </div>
+          </div>
+
+                    <!-- Tab: THỰC ĐƠN & GIÁ THỰC TẾ (BENTO MENU) -->
+          <div id="tab-menu" class="tab-pane">
+            <div id="drawer-menu-container">
+              <!-- Render động bằng JavaScript -->
+            </div>
+          </div>
+
+          <!-- Tab: ALBUM ẢNH THỰC TẾ (PHOTO GALLERY) -->
+          <div id="tab-photos" class="tab-pane">
+            <div id="drawer-photos-container">
+              <!-- Render động bằng JavaScript -->
             </div>
           </div>
 
@@ -3210,7 +3359,122 @@
       document.getElementById('btn-gmap-webstore-banner').href = store.slug ? `/quan/${store.slug}` : `/shop/${store.storefront_id}`;
 
       // Nạp toàn bộ kho đánh giá khách hàng thực chứng từ Google Maps
+      
+      // Render Thực Đơn & Giá Thực Tế (Bento Menu)
+      renderDrawerMenu(store);
+
+      // Render Album Ảnh Thật (Photo Gallery)
+      renderDrawerPhotos(store);
+
       loadStoreReviews(store.storefront_id);
+
+      
+    // RENDER THỰC ĐƠN MÓN ĂN & GIÁ TIỀN THỰC TẾ
+    function renderDrawerMenu(store) {
+      const container = document.getElementById('drawer-menu-container');
+      if (!container) return;
+
+      let menuData = null;
+      try {
+        if (typeof store.curated_menu_json === 'string') {
+          menuData = JSON.parse(store.curated_menu_json);
+        } else if (Array.isArray(store.curated_menu_json)) {
+          menuData = store.curated_menu_json;
+        }
+      } catch (e) {
+        menuData = null;
+      }
+
+      if (menuData && menuData.length > 0) {
+        let html = '';
+        menuData.forEach(cat => {
+          html += `<div class="menu-category-block">`;
+          html += `<div class="menu-cat-title"><i class="fa-solid fa-utensils"></i> ${cat.category_name || 'Món Ăn'}</div>`;
+          (cat.items || []).forEach(item => {
+            html += `
+              <div class="menu-item-card">
+                <div class="menu-item-info">
+                  <h5 class="menu-item-name">
+                    ${item.name}
+                    ${item.is_signature ? '<span class="menu-sig-badge">Món Đinh</span>' : ''}
+                  </h5>
+                  ${item.desc ? `<p class="menu-item-desc">${item.desc}</p>` : ''}
+                </div>
+                <div class="menu-item-price">${item.price || ''}</div>
+              </div>
+            `;
+          });
+          html += `</div>`;
+        });
+        container.innerHTML = html;
+      } else {
+        container.innerHTML = `
+          <div class="transparency-notice-box">
+            <i class="fa-solid fa-clipboard-list" style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;"></i>
+            <h4 style="color: #FFF; font-size: 0.95rem; margin: 0 0 0.35rem 0;">Thực Đơn Đang Được Cập Nhật Trực Tiếp</h4>
+            <p style="font-size: 0.74rem; color: var(--text-muted); line-height: 1.4; margin: 0;">
+              Điểm bán này đã được xác thực tọa độ WGS84 chính xác ngoài đời thực. Bảng giá và thực đơn chi tiết đang được đội ngũ Thổ Địa đối chiếu trực tiếp từ quán.
+            </p>
+            <button class="btn-contribute-data" onclick="alert('Cảm ơn bạn! Tính năng đóng góp thực đơn cho quán ' + activeStore.brand_name + ' sẽ được ghi nhận vào hệ thống!')">
+              <i class="fa-solid fa-camera"></i> Đóng góp ảnh Menu quán này
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // RENDER ALBUM ẢNH THỰC TẾ (PHOTO GALLERY)
+    function renderDrawerPhotos(store) {
+      const container = document.getElementById('drawer-photos-container');
+      if (!container) return;
+
+      let photos = null;
+      try {
+        if (typeof store.photo_gallery_json === 'string') {
+          photos = JSON.parse(store.photo_gallery_json);
+        } else if (Array.isArray(store.photo_gallery_json)) {
+          photos = store.photo_gallery_json;
+        }
+      } catch (e) {
+        photos = null;
+      }
+
+      if (photos && photos.length > 0) {
+        let html = '<div class="drawer-gallery-grid">';
+        photos.forEach(p => {
+          let tagText = p.type === 'food' ? 'Món ăn' : p.type === 'ambiance' ? 'Không gian' : p.type === 'menu' ? 'Bảng giá' : 'Mặt tiền';
+          html += `
+            <div class="gallery-item" onclick="window.open('${p.url}', '_blank')">
+              <img src="${p.url}" alt="${p.caption || 'Ảnh thực tế'}">
+              <span class="gallery-item-tag">${tagText}</span>
+            </div>
+          `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+      } else {
+        // Nếu quán chưa có album thì lấy ít nhất 1 ảnh bìa thật hoặc thông báo
+        let singlePhoto = getStorePhoto(store);
+        container.innerHTML = `
+          <div style="margin-bottom: 0.85rem;">
+            <div class="gallery-item" style="aspect-ratio: 16/9;" onclick="window.open('${singlePhoto}', '_blank')">
+              <img src="${singlePhoto}" alt="${store.brand_name}">
+              <span class="gallery-item-tag">Ảnh định danh</span>
+            </div>
+          </div>
+          <div class="transparency-notice-box">
+            <i class="fa-solid fa-images" style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;"></i>
+            <h4 style="color: #FFF; font-size: 0.95rem; margin: 0 0 0.35rem 0;">Mời Đóng Góp Album Ảnh Quán</h4>
+            <p style="font-size: 0.74rem; color: var(--text-muted); line-height: 1.4; margin: 0;">
+              Chụp ảnh món ăn hoặc không gian quán bạn vừa ghé thăm để giúp thực khách khác có góc nhìn chân thực nhất!
+            </p>
+            <button class="btn-contribute-data" onclick="alert('Cảm ơn bạn! Vui lòng gửi ảnh check-in thực tế của quán ' + activeStore.brand_name + ' để được phê duyệt!')">
+              <i class="fa-solid fa-cloud-arrow-up"></i> Tải ảnh check-in lên
+            </button>
+          </div>
+        `;
+      }
+    }
 
       // Mở Drawer trượt vào mượt mà
       document.getElementById('sidebar-detail-drawer').classList.add('open');
