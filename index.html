@@ -202,20 +202,35 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
+      width: 460px;
       height: 100%;
       background: var(--bg-card);
       display: flex;
       flex-direction: column;
       overflow-y: auto;
-      z-index: 30;
+      z-index: 70;
       transform: translateX(-100%);
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+      box-shadow: 6px 0 28px rgba(0,0,0,0.6);
     }
 
     #sidebar-detail-drawer.open {
       transform: translateX(0);
+    }
+
+    .mobile-drawer-drag-handle {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 0 4px;
+      background: var(--bg-surface);
+      cursor: pointer;
+    }
+    .mobile-drawer-handle-pill {
+      width: 42px;
+      height: 5px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.28);
     }
 
     /* Region Selector Tabs */
@@ -1435,10 +1450,13 @@
     /* GOOGLE MAPS STYLE MOBILE RESPONSIVE ENGINE (Max: 768px)   */
     /* ========================================================= */
     @media (max-width: 768px) {
-      /* 1. Header Compact */
+      /* 1. Header Compact & Fast Actions */
       header {
         height: 52px !important;
-        padding: 0 0.75rem !important;
+        padding: 0 0.85rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
       }
       .brand-logo {
         width: 32px !important;
@@ -1446,7 +1464,7 @@
         font-size: 0.95rem !important;
       }
       .brand-text h1 {
-        font-size: 0.88rem !important;
+        font-size: 0.9rem !important;
       }
       .brand-text .badge,
       .brand-text p,
@@ -1454,16 +1472,18 @@
         display: none !important;
       }
       .btn-switch-feed {
-        padding: 0.3rem 0.65rem !important;
-        font-size: 0.72rem !important;
+        padding: 0.35rem 0.65rem !important;
+        font-size: 0.75rem !important;
+        border-radius: 8px !important;
       }
 
-      /* 2. Main App Container: Full Viewport */
+      /* 2. Main App Container: Dynamic Viewport */
       .app-container {
         display: block !important;
         position: relative !important;
         width: 100vw !important;
         height: calc(100vh - 52px) !important;
+        height: calc(100dvh - 52px) !important;
         overflow: hidden !important;
       }
 
@@ -1479,16 +1499,20 @@
 
       /* 4. Sidebar as Mobile Slide-up Sheet */
       .sidebar {
-        position: absolute !important;
-        top: 0 !important;
+        position: fixed !important;
+        top: 52px !important;
         left: 0 !important;
         width: 100% !important;
-        height: 100% !important;
-        z-index: 50 !important;
+        height: calc(100vh - 52px) !important;
+        height: calc(100dvh - 52px) !important;
+        z-index: 100 !important;
         border-right: none !important;
-        transform: translateY(100%);
-        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        transform: translateY(100%) !important;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
         background: var(--bg-dark) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
       }
 
       /* When mobile list view is active */
@@ -1502,63 +1526,90 @@
         display: none !important;
       }
 
-      /* 5. Mobile Detail Drawer: Fullscreen Slide-in */
+      /* 5. Mobile Detail Drawer: Fullscreen Slide-in Sheet */
       #sidebar-detail-drawer {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        z-index: 2000 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        z-index: 2500 !important;
         transform: translateY(100%) !important;
-        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        background: var(--bg-card) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+        box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.85) !important;
+        padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px)) !important;
       }
       #sidebar-detail-drawer.open {
         transform: translateY(0) !important;
+      }
+      .mobile-drawer-drag-handle {
+        display: flex !important;
       }
 
       /* 6. Mobile Floating Toggle Bar (Bottom Dock) */
       .mobile-bottom-dock {
         position: fixed !important;
-        bottom: 16px !important;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        z-index: 100 !important;
+        z-index: 950 !important;
         display: flex !important;
         align-items: center !important;
         gap: 8px !important;
+        transition: opacity 0.2s, transform 0.2s !important;
+      }
+      body.drawer-open .mobile-bottom-dock {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: translateX(-50%) translateY(30px) !important;
       }
 
       .mobile-toggle-btn {
-        background: #F59E0B !important;
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
         color: #0A0E17 !important;
-        border: none !important;
-        border-radius: 25px !important;
-        padding: 0.65rem 1.35rem !important;
-        font-size: 0.85rem !important;
+        border: 1px solid rgba(254, 243, 199, 0.5) !important;
+        border-radius: 30px !important;
+        padding: 0.7rem 1.45rem !important;
+        font-size: 0.88rem !important;
         font-weight: 800 !important;
         display: flex !important;
         align-items: center !important;
-        gap: 0.45rem !important;
-        box-shadow: 0 4px 18px rgba(245, 158, 11, 0.6) !important;
+        gap: 0.5rem !important;
+        box-shadow: 0 6px 22px rgba(245, 158, 11, 0.55) !important;
         cursor: pointer !important;
+        user-select: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+      }
+      .mobile-toggle-btn:active {
+        transform: scale(0.96) !important;
+        box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4) !important;
       }
 
-      /* 7. Floating Search This Area on mobile */
+      /* 7. Floating Search This Area on mobile: Two Tier Separation */
       .search-this-area-container {
-        top: 10px !important;
+        top: 48px !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
+        z-index: 800 !important;
+        width: auto !important;
+        white-space: nowrap !important;
       }
       .search-this-area-btn {
-        padding: 0.35rem 0.75rem !important;
-        font-size: 0.72rem !important;
+        padding: 0.4rem 0.9rem !important;
+        font-size: 0.75rem !important;
+        border-radius: 20px !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
       }
       .auto-sync-toggle {
         display: none !important;
       }
 
-      /* 8. Layer Switcher on Mobile */
+      /* 8. Layer Switcher on Mobile: Compact Top Right */
       .layer-switcher {
         position: absolute !important;
         top: 10px !important;
@@ -1566,39 +1617,99 @@
         bottom: auto !important;
         left: auto !important;
         flex-direction: row !important;
-        gap: 4px !important;
-        padding: 0.2rem 0.3rem !important;
+        gap: 3px !important;
+        padding: 0.2rem 0.35rem !important;
+        background: rgba(18, 25, 39, 0.95) !important;
+        border-radius: 8px !important;
         z-index: 800 !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
       }
       .layer-btn {
-        padding: 0.25rem 0.5rem !important;
-        font-size: 0.65rem !important;
+        padding: 0.25rem 0.45rem !important;
+        font-size: 0.68rem !important;
       }
 
       /* 9. Leaflet Popup Bottom Sheet on Mobile (Google Maps card style) */
       .leaflet-popup {
-        bottom: 75px !important;
+        position: fixed !important;
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+        top: auto !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         margin: 0 !important;
+        z-index: 1000 !important;
+        pointer-events: auto !important;
       }
       .leaflet-popup-content-wrapper {
         width: calc(100vw - 20px) !important;
-        max-width: 380px !important;
-        border-radius: 14px !important;
+        max-width: 400px !important;
+        border-radius: 16px !important;
+        border: 1px solid rgba(245, 158, 11, 0.4) !important;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85) !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+      .leaflet-popup-content {
+        margin: 0 !important;
+        width: 100% !important;
+      }
+      .gmap-card-thumb {
+        height: 110px !important;
       }
       .leaflet-popup-tip-container {
         display: none !important;
       }
+      .leaflet-popup-close-button {
+        top: 8px !important;
+        right: 8px !important;
+        width: 28px !important;
+        height: 28px !important;
+        background: rgba(0, 0, 0, 0.65) !important;
+        border-radius: 50% !important;
+        color: #FFF !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 16px !important;
+        z-index: 20 !important;
+      }
 
-      /* 10. Mobile Bar at Top of Sidebar List */
+      /* 10. Zoom Control positioning above bottom dock */
+      .leaflet-bottom.leaflet-right {
+        bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+        right: 10px !important;
+      }
+      .leaflet-control-zoom a {
+        width: 34px !important;
+        height: 34px !important;
+        line-height: 34px !important;
+        font-size: 16px !important;
+        background: rgba(18, 25, 39, 0.95) !important;
+        color: #FFF !important;
+        border-color: var(--border-color) !important;
+      }
+
+      /* 11. Mobile Bar at Top of Sidebar List */
       .mobile-sidebar-header-bar {
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-        padding: 0.65rem 0.85rem !important;
+        padding: 0.75rem 1rem !important;
         background: var(--bg-surface) !important;
         border-bottom: 1px solid var(--border-color) !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* 12. Prevent iOS Safari auto-zoom on input focus */
+      .search-box input,
+      .filter-select {
+        font-size: 16px !important;
+      }
+
+      /* 13. Mobile Card Tactile Tap */
+      .store-card:active {
+        transform: scale(0.98) !important;
+        background: rgba(245, 158, 11, 0.08) !important;
       }
     }
 
@@ -1749,8 +1860,52 @@
         </div>
       </div>
 
-      <!-- VIEW 2: GOOGLE MAPS STYLE SLIDING DETAIL DRAWER -->
+      </div>
+
+    <!-- MAP CONTAINER -->
+    <div class="map-container">
+      
+      <!-- SIDEBAR TOGGLE BUTTON (Google Maps Style Collapse / Expand) -->
+      <button id="btn-toggle-sidebar" class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Ẩn/Hiện Danh Mục (Xem Bản Đồ Toàn Màn Hình)">
+        <i class="fa-solid fa-chevron-left" id="toggle-sidebar-icon"></i>
+        <span id="toggle-sidebar-text" style="display: none; font-size: 0.78rem; font-weight: 700;">Xem danh sách quán</span>
+      </button>
+
+      <!-- GOOGLE MAPS STYLE "SEARCH THIS AREA" FLOATING PILL -->
+      <div class="search-this-area-container">
+        <button class="search-this-area-btn" onclick="searchCurrentArea()">
+          <i class="fa-solid fa-magnifying-glass-location"></i> Tìm kiếm ở khu vực này
+        </button>
+        <label class="auto-sync-toggle">
+          <input type="checkbox" id="auto-sync-bounds" onchange="toggleAutoSync()">
+          <span>Tự động cập nhật khi di chuyển</span>
+        </label>
+      </div>
+
+      <!-- MAP LAYER SWITCHER -->
+      <div class="layer-switcher">
+        <button class="layer-btn active" id="layer-dark" onclick="setTileLayer('dark')">
+          <i class="fa-solid fa-moon"></i> Dark Gray
+        </button>
+        <button class="layer-btn" id="layer-road" onclick="setTileLayer('road')">
+          <i class="fa-solid fa-map"></i> Google Road
+        </button>
+        <button class="layer-btn" id="layer-sat" onclick="setTileLayer('sat')">
+          <i class="fa-solid fa-earth-americas"></i> Vệ Tinh
+        </button>
+      </div>
+
+      <!-- Leaflet Canvas -->
+      <div id="map"></div>
+    </div>
+
+  <!-- VIEW 2: GOOGLE MAPS STYLE SLIDING DETAIL DRAWER -->
       <div id="sidebar-detail-drawer">
+      <!-- Mobile Pull-down Handle Indicator -->
+      <div class="mobile-drawer-drag-handle" onclick="closeDetailDrawer()">
+        <div class="mobile-drawer-handle-pill"></div>
+      </div>
+
         <div class="drawer-nav-bar">
           <button class="drawer-back-btn" onclick="closeDetailDrawer()">
             <i class="fa-solid fa-arrow-left"></i> Quay lại kết quả
@@ -1999,49 +2154,9 @@
 
         </div>
       </div>
+  </div> <!-- Closed .app-container -->
 
-    </div>
-
-    <!-- MAP CONTAINER -->
-    <div class="map-container">
-      
-      <!-- SIDEBAR TOGGLE BUTTON (Google Maps Style Collapse / Expand) -->
-      <button id="btn-toggle-sidebar" class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Ẩn/Hiện Danh Mục (Xem Bản Đồ Toàn Màn Hình)">
-        <i class="fa-solid fa-chevron-left" id="toggle-sidebar-icon"></i>
-        <span id="toggle-sidebar-text" style="display: none; font-size: 0.78rem; font-weight: 700;">Xem danh sách quán</span>
-      </button>
-
-      <!-- GOOGLE MAPS STYLE "SEARCH THIS AREA" FLOATING PILL -->
-      <div class="search-this-area-container">
-        <button class="search-this-area-btn" onclick="searchCurrentArea()">
-          <i class="fa-solid fa-magnifying-glass-location"></i> Tìm kiếm ở khu vực này
-        </button>
-        <label class="auto-sync-toggle">
-          <input type="checkbox" id="auto-sync-bounds" onchange="toggleAutoSync()">
-          <span>Tự động cập nhật khi di chuyển</span>
-        </label>
-      </div>
-
-      <!-- MAP LAYER SWITCHER -->
-      <div class="layer-switcher">
-        <button class="layer-btn active" id="layer-dark" onclick="setTileLayer('dark')">
-          <i class="fa-solid fa-moon"></i> Dark Gray
-        </button>
-        <button class="layer-btn" id="layer-road" onclick="setTileLayer('road')">
-          <i class="fa-solid fa-map"></i> Google Road
-        </button>
-        <button class="layer-btn" id="layer-sat" onclick="setTileLayer('sat')">
-          <i class="fa-solid fa-earth-americas"></i> Vệ Tinh
-        </button>
-      </div>
-
-      <!-- Leaflet Canvas -->
-      <div id="map"></div>
-    </div>
-
-  </div>
-
-  <!-- Leaflet JS & Plugins -->
+<!-- Leaflet JS & Plugins -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
@@ -2537,9 +2652,8 @@
         container.classList.remove('mobile-list-active');
         if (icon) icon.className = 'fa-solid fa-list-ul';
         if (text) text.innerText = 'Xem danh sách quán';
-        setTimeout(() => {
-          if (map) map.invalidateSize();
-        }, 320);
+        setTimeout(() => { if (map) map.invalidateSize(); }, 80);
+        setTimeout(() => { if (map) map.invalidateSize(); }, 350);
       }
     }
 
@@ -2657,10 +2771,12 @@
 
         marker.bindPopup(popupContent, { maxWidth: 320 });
 
-        // Khi bấm vào Marker hoặc Tên: Mở Popup, focus card bên menu trái, mở Detail Drawer
+        // Khi bấm vào Marker hoặc Tên: Mở Popup, focus card bên menu trái; trên mobile chỉ mở popup preview
         marker.on('click', () => {
           ensureStoreInListAndHighlight(p);
-          openDetailDrawer(p);
+          if (window.innerWidth > 768) {
+            openDetailDrawer(p);
+          }
         });
 
         markerMap[p.storefront_id] = marker;
@@ -2771,6 +2887,9 @@
 
       // Mở Drawer trượt vào mượt mà
       document.getElementById('sidebar-detail-drawer').classList.add('open');
+      if (window.innerWidth <= 768) {
+        document.body.classList.add('drawer-open');
+      }
       highlightCard(store.storefront_id);
     }
 
@@ -2902,6 +3021,7 @@
 
     function closeDetailDrawer() {
       document.getElementById('sidebar-detail-drawer').classList.remove('open');
+      document.body.classList.remove('drawer-open');
     }
 
     function switchDrawerTab(tabId, el) {
