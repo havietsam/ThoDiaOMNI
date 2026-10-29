@@ -1877,36 +1877,118 @@
     let filterCarParking = false;
     let filterEliteTier = false;
 
-    // Bộ hình ảnh ẩm thực thông minh theo danh mục
-    const CUISINE_IMAGES = {
-      "pho": "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=600&auto=format&fit=crop&q=80",
-      "bun": "https://images.unsplash.com/photo-1594998893017-36147cbcae05?w=600&auto=format&fit=crop&q=80",
-      "com": "https://images.unsplash.com/photo-1552611052-33e04de081de?w=600&auto=format&fit=crop&q=80",
-      "lau": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=600&auto=format&fit=crop&q=80",
-      "nuong": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format&fit=crop&q=80",
-      "bbq": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&auto=format&fit=crop&q=80",
-      "hai_san": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=80",
-      "luon": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80",
-      "coffee": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80",
-      "banh_mi": "https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=600&auto=format&fit=crop&q=80",
-      "chay": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&auto=format&fit=crop&q=80",
-      "default": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=80"
+    // Bộ sưu tập hình ảnh ẩm thực chuẩn xác và chân thực theo từng ngành hàng (Zero Sủi Cảo cho Hải Sản)
+    const CUISINE_POOLS = {
+      fine_dining: [
+        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=700&auto=format&fit=crop&q=80"
+      ],
+      seafood: [
+        "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1559742811-822873691df8?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=700&auto=format&fit=crop&q=80"
+      ],
+      pho: [
+        "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1594998893017-36147cbcae05?w=700&auto=format&fit=crop&q=80"
+      ],
+      bun: [
+        "https://images.unsplash.com/photo-1594998893017-36147cbcae05?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=700&auto=format&fit=crop&q=80"
+      ],
+      com: [
+        "https://images.unsplash.com/photo-1552611052-33e04de081de?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&auto=format&fit=crop&q=80"
+      ],
+      lau: [
+        "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&auto=format&fit=crop&q=80"
+      ],
+      bbq: [
+        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=700&auto=format&fit=crop&q=80"
+      ],
+      fast_food: [
+        "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&auto=format&fit=crop&q=80"
+      ],
+      sushi: [
+        "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=700&auto=format&fit=crop&q=80"
+      ],
+      coffee: [
+        "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=700&auto=format&fit=crop&q=80"
+      ],
+      banh_mi: [
+        "https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=700&auto=format&fit=crop&q=80"
+      ],
+      luon: [
+        "https://images.unsplash.com/photo-1544025162-d76694265947?w=700&auto=format&fit=crop&q=80"
+      ],
+      chay: [
+        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700&auto=format&fit=crop&q=80"
+      ],
+      default: [
+        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&auto=format&fit=crop&q=80"
+      ]
     };
 
     function getStorePhoto(store) {
-      if (!store) return CUISINE_IMAGES.default;
+      if (!store) return CUISINE_POOLS.default[0];
+      if (store.hero_image_url) return store.hero_image_url;
+
+      const sid = store.storefront_id || store.brand_name || '';
+      let hash = 0;
+      for (let i = 0; i < sid.length; i++) {
+        hash = ((hash << 5) - hash) + sid.charCodeAt(i);
+        hash |= 0;
+      }
+      const pick = (arr) => arr[Math.abs(hash) % arr.length];
+
       const text = ((store.brand_name || '') + ' ' + (store.cuisine_category || '')).toLowerCase();
-      if (text.includes("lươn") || text.includes("xứ nghệ")) return CUISINE_IMAGES.luon;
-      if (text.includes("phở")) return CUISINE_IMAGES.pho;
-      if (text.includes("bún") || text.includes("bánh mướt") || text.includes("mì quảng")) return CUISINE_IMAGES.bun;
-      if (text.includes("cơm") || text.includes("sườn")) return CUISINE_IMAGES.com;
-      if (text.includes("hải sản") || text.includes("cua") || text.includes("ốc")) return CUISINE_IMAGES.hai_san;
-      if (text.includes("lẩu")) return CUISINE_IMAGES.lau;
-      if (text.includes("nướng") || text.includes("bbq")) return CUISINE_IMAGES.nuong;
-      if (text.includes("bánh mì")) return CUISINE_IMAGES.banh_mi;
-      if (text.includes("cà phê") || text.includes("coffee") || text.includes("trà")) return CUISINE_IMAGES.coffee;
-      if (text.includes("chay")) return CUISINE_IMAGES.chay;
-      return CUISINE_IMAGES.default;
+
+      if (text.includes("deck") || text.includes("lounge") || text.includes("fine dining") || text.includes("ven sông") || text.includes("thảo điền") || text.includes("bar")) {
+        return pick(CUISINE_POOLS.fine_dining);
+      }
+      if (text.includes("hải sản") || text.includes("cua") || text.includes("ốc") || text.includes("tôm") || text.includes("seafood") || text.includes("sao biển") || text.includes("lan châu")) {
+        return pick(CUISINE_POOLS.seafood);
+      }
+      if (text.includes("lươn") || text.includes("xứ nghệ")) {
+        return pick(CUISINE_POOLS.luon);
+      }
+      if (text.includes("phở")) {
+        return pick(CUISINE_POOLS.pho);
+      }
+      if (text.includes("bún") || text.includes("bánh mướt") || text.includes("mì quảng") || text.includes("hủ tiếu") || text.includes("miến")) {
+        return pick(CUISINE_POOLS.bun);
+      }
+      if (text.includes("cơm") || text.includes("sườn") || text.includes("mâm cơm")) {
+        return pick(CUISINE_POOLS.com);
+      }
+      if (text.includes("lẩu")) {
+        return pick(CUISINE_POOLS.lau);
+      }
+      if (text.includes("nướng") || text.includes("bbq")) {
+        return pick(CUISINE_POOLS.bbq);
+      }
+      if (text.includes("pizza") || text.includes("burger") || text.includes("fast food") || text.includes("gà rán")) {
+        return pick(CUISINE_POOLS.fast_food);
+      }
+      if (text.includes("sushi") || text.includes("nhật") || text.includes("sashimi")) {
+        return pick(CUISINE_POOLS.sushi);
+      }
+      if (text.includes("bánh mì")) {
+        return pick(CUISINE_POOLS.banh_mi);
+      }
+      if (text.includes("cà phê") || text.includes("coffee") || text.includes("trà") || text.includes("tea") || text.includes("tiệm")) {
+        return pick(CUISINE_POOLS.coffee);
+      }
+      if (text.includes("chay")) {
+        return pick(CUISINE_POOLS.chay);
+      }
+      return pick(CUISINE_POOLS.default);
     }
 
     // Khởi tạo Bản đồ Leaflet
@@ -2032,6 +2114,7 @@
       if (type === 'dark') {
         currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
           attribution: '&copy; Esri &mdash; OMNI AI Engine',
+          maxNativeZoom: 16,
           maxZoom: 19
         });
         document.getElementById('layer-dark').classList.add('active');
@@ -2182,14 +2265,11 @@
         focusStoreCoordinates(s.latitude, s.longitude, s.storefront_id);
       };
 
-      const hasRealImg = !!s.hero_image_url;
-      const thumbContent = hasRealImg
-        ? `<img src="${s.hero_image_url}" alt="${s.brand_name}" loading="lazy">`
-        : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #182234 0%, #121927 100%); color:var(--primary); font-size:1.8rem;"><i class="fa-solid fa-utensils"></i></div>`;
+      const photoUrl = getStorePhoto(s);
 
       card.innerHTML = `
         <div class="store-thumbnail-box">
-          ${thumbContent}
+          <img src="${photoUrl}" alt="${escapeHtml(s.brand_name)}" loading="lazy">
         </div>
         <div class="store-info">
           <div class="card-title-row">
@@ -2326,15 +2406,13 @@
           openStoreById(p.storefront_id);
         });
 
-        // Floating Preview Card kiểu Google Maps (Chỉ hiển thị ảnh thật, không gán ảnh bừa)
-        const popupThumbHtml = p.hero_image_url
-          ? `<img src="${p.hero_image_url}" alt="${p.brand_name}">`
-          : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #182234 0%, #121927 100%); color:${pinStyle.color}; font-size:2.2rem;"><i class="fa-solid ${pinStyle.icon}"></i></div>`;
+        // Floating Preview Card kiểu Google Maps
+        const photoUrl = getStorePhoto(p);
 
         const popupContent = `
           <div class="gmap-floating-card">
             <a href="${p.slug ? '/quan/' + p.slug : '/shop/' + p.storefront_id}" target="_blank" class="gmap-card-thumb" style="display: block; text-decoration: none;">
-              ${popupThumbHtml}
+              <img src="${photoUrl}" alt="${escapeHtml(p.brand_name)}">
               <div class="gmap-thumb-overlay">
                 <span class="trust-pill" style="background: rgba(18,25,39,0.85);">${p.diamond_trust_score}/100 Tín Nhiệm</span>
               </div>
@@ -2453,15 +2531,11 @@
         }
       }
 
-      // Hero image (CHỈ HIỂN THỊ KHI CÓ ẢNH THẬT ĐÃ XÁC THỰC)
+      // Hero image
       const heroImg = document.getElementById('drawer-hero-img');
       if (heroImg) {
-        if (store.hero_image_url) {
-          heroImg.src = store.hero_image_url;
-          heroImg.style.display = 'block';
-        } else {
-          heroImg.style.display = 'none';
-        }
+        heroImg.src = getStorePhoto(store);
+        heroImg.style.display = 'block';
       }
 
       // Tier badge

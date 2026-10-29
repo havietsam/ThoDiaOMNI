@@ -2,6 +2,128 @@
 // 🏛️ OMPRESENT SOVEREIGN SYSTEM - KHÁM PHÁ SHOW SHOP FOOD APP
 header('Content-Type: text/html; charset=utf-8');
 
+function get_store_photo_php($store) {
+    if (!empty($store['hero_image_url'])) return $store['hero_image_url'];
+
+    $pools = [
+        'fine_dining' => [
+            "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=700&auto=format&fit=crop&q=80"
+        ],
+        'seafood' => [
+            "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1559742811-822873691df8?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=700&auto=format&fit=crop&q=80"
+        ],
+        'pho' => [
+            "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1594998893017-36147cbcae05?w=700&auto=format&fit=crop&q=80"
+        ],
+        'bun' => [
+            "https://images.unsplash.com/photo-1594998893017-36147cbcae05?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=700&auto=format&fit=crop&q=80"
+        ],
+        'com' => [
+            "https://images.unsplash.com/photo-1552611052-33e04de081de?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=700&auto=format&fit=crop&q=80"
+        ],
+        'lau' => [
+            "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&auto=format&fit=crop&q=80"
+        ],
+        'bbq' => [
+            "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=700&auto=format&fit=crop&q=80"
+        ],
+        'fast_food' => [
+            "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&auto=format&fit=crop&q=80"
+        ],
+        'sushi' => [
+            "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=700&auto=format&fit=crop&q=80"
+        ],
+        'coffee' => [
+            "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=700&auto=format&fit=crop&q=80"
+        ],
+        'banh_mi' => [
+            "https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=700&auto=format&fit=crop&q=80"
+        ],
+        'luon' => [
+            "https://images.unsplash.com/photo-1544025162-d76694265947?w=700&auto=format&fit=crop&q=80"
+        ],
+        'chay' => [
+            "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700&auto=format&fit=crop&q=80"
+        ],
+        'default' => [
+            "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&auto=format&fit=crop&q=80"
+        ]
+    ];
+
+    $sid = $store['storefront_id'] ?? ($store['brand_name'] ?? '');
+    $hash = abs(crc32($sid));
+    $text = mb_strtolower(($store['brand_name'] ?? '') . ' ' . ($store['cuisine_category'] ?? ''), 'UTF-8');
+
+    if (mb_strpos($text, 'deck') !== false || mb_strpos($text, 'lounge') !== false || mb_strpos($text, 'fine dining') !== false || mb_strpos($text, 'ven sông') !== false || mb_strpos($text, 'thảo điền') !== false || mb_strpos($text, 'bar') !== false) {
+        $p = $pools['fine_dining'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'hải sản') !== false || mb_strpos($text, 'cua') !== false || mb_strpos($text, 'ốc') !== false || mb_strpos($text, 'tôm') !== false || mb_strpos($text, 'seafood') !== false || mb_strpos($text, 'sao biển') !== false || mb_strpos($text, 'lan châu') !== false) {
+        $p = $pools['seafood'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'lươn') !== false || mb_strpos($text, 'xứ nghệ') !== false) {
+        $p = $pools['luon'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'phở') !== false) {
+        $p = $pools['pho'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'bún') !== false || mb_strpos($text, 'bánh mướt') !== false || mb_strpos($text, 'mì quảng') !== false || mb_strpos($text, 'hủ tiếu') !== false || mb_strpos($text, 'miến') !== false) {
+        $p = $pools['bun'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'cơm') !== false || mb_strpos($text, 'sườn') !== false || mb_strpos($text, 'mâm cơm') !== false) {
+        $p = $pools['com'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'lẩu') !== false) {
+        $p = $pools['lau'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'nướng') !== false || mb_strpos($text, 'bbq') !== false) {
+        $p = $pools['bbq'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'pizza') !== false || mb_strpos($text, 'burger') !== false || mb_strpos($text, 'fast food') !== false || mb_strpos($text, 'gà rán') !== false) {
+        $p = $pools['fast_food'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'sushi') !== false || mb_strpos($text, 'nhật') !== false || mb_strpos($text, 'sashimi') !== false) {
+        $p = $pools['sushi'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'bánh mì') !== false) {
+        $p = $pools['banh_mi'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'cà phê') !== false || mb_strpos($text, 'coffee') !== false || mb_strpos($text, 'trà') !== false || mb_strpos($text, 'tea') !== false || mb_strpos($text, 'tiệm') !== false) {
+        $p = $pools['coffee'];
+        return $p[$hash % count($p)];
+    }
+    if (mb_strpos($text, 'chay') !== false) {
+        $p = $pools['chay'];
+        return $p[$hash % count($p)];
+    }
+
+    $p = $pools['default'];
+    return $p[$hash % count($p)];
+}
+
+
 $db_path = __DIR__ . '/thodia.sqlite';
 if (!file_exists($db_path)) {
     die("Database not found");
@@ -663,33 +785,18 @@ $topCuisines = [
           $bname = $s['brand_name'] ?: 'Cửa Hàng';
           $slugUrl = !empty($s['slug']) ? '/quan/' . $s['slug'] : '/shop/' . $s['storefront_id'];
           
-          // CHỈ HIỂN THỊ ẢNH NẾU QUÁN CÓ ẢNH THẬT ĐÃ XÁC THỰC
-          $hasRealPhoto = false;
-          $thumb = "";
-          if (!empty($s['hero_image_url'])) {
-              $thumb = $s['hero_image_url'];
-              $hasRealPhoto = true;
-          }
-          
+          $thumb = get_store_photo_php($s);
           $hasParking = !empty($s['car_parking']) && (mb_strpos($s['car_parking'], 'đỗ') !== false || mb_strpos($s['car_parking'], 'hầm') !== false);
         ?>
         <div class="store-card-modern">
-          <div class="card-thumb-wrap" style="background: linear-gradient(135deg, #182234 0%, #121927 100%); display: flex; flex-direction: column; justify-content: space-between; padding: 12px;">
-            <?php if ($hasRealPhoto): ?>
-              <img src="<?= $thumb ?>" alt="<?= htmlspecialchars($bname) ?>" class="card-thumb-img" loading="lazy">
-            <?php else: ?>
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; z-index: 2;">
-                <span class="card-badge-region"><?= htmlspecialchars($s['region'] ?: 'Việt Nam') ?></span>
-                <span class="card-badge-tier"><i class="fa-solid fa-shield-check"></i> <?= htmlspecialchars(str_replace('DIAMOND_', '', $s['trust_tier'] ?: 'AUTHENTIC')) ?></span>
-              </div>
-              <div style="text-align: center; color: var(--border-color); font-size: 3rem; margin: auto 0; z-index: 1;">
-                <i class="fa-solid fa-utensils"></i>
-              </div>
-              <div class="card-rating-float" style="position: static; align-self: flex-start; z-index: 2;">
-                <i class="fa-solid fa-star"></i> <?= htmlspecialchars($s['google_maps_rating'] ?: '4.5') ?>
-                <span style="color: var(--text-muted); font-size: 0.7rem; font-weight: 500;">(<?= htmlspecialchars($s['google_maps_total_reviews'] ?: '0') ?> đánh giá)</span>
-              </div>
-            <?php endif; ?>
+          <div class="card-thumb-wrap">
+            <img src="<?= htmlspecialchars($thumb) ?>" alt="<?= htmlspecialchars($bname) ?>" class="card-thumb-img" loading="lazy">
+            <span class="card-badge-region"><?= htmlspecialchars($s['region'] ?: 'Việt Nam') ?></span>
+            <span class="card-badge-tier"><i class="fa-solid fa-shield-check"></i> <?= htmlspecialchars(str_replace('DIAMOND_', '', $s['trust_tier'] ?: 'AUTHENTIC')) ?></span>
+            <div class="card-rating-float">
+              <i class="fa-solid fa-star"></i> <?= htmlspecialchars($s['google_maps_rating'] ?: '4.5') ?>
+              <span style="color: var(--text-muted); font-size: 0.7rem; font-weight: 500;">(<?= htmlspecialchars($s['google_maps_total_reviews'] ?: '0') ?> đánh giá)</span>
+            </div>
           </div>
 
           <div class="card-body">
