@@ -1446,25 +1446,249 @@
       border-color: var(--primary);
     }
   
+    
+    /* MAP TILES FILTER FOR DARK MODE */
+    .map-dark-tiles .leaflet-tile-pane {
+      filter: invert(100%) hue-rotate(180deg) brightness(92%) contrast(90%);
+    }
+
+    /* GOOGLE MAPS STYLE FLOATING LAYER BUTTON (TOP RIGHT) */
+    .layer-switcher-container {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 850;
+    }
+    .layer-fab-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(18, 25, 39, 0.95);
+      border: 1px solid var(--border-color);
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      transition: all 0.25s;
+    }
+    .layer-fab-btn:hover {
+      background: var(--bg-surface);
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: scale(1.05);
+    }
+    .layer-dropdown-menu {
+      position: absolute;
+      top: 52px;
+      right: 0;
+      background: rgba(18, 25, 39, 0.98);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.5rem;
+      display: none;
+      flex-direction: column;
+      gap: 0.35rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+      min-width: 150px;
+    }
+    .layer-dropdown-menu.show {
+      display: flex;
+    }
+    .layer-menu-item {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+      text-align: left;
+    }
+    .layer-menu-item:hover, .layer-menu-item.active {
+      background: var(--bg-surface);
+      color: var(--primary);
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    /* GOOGLE MAPS STYLE BOTTOM PREVIEW CARD (MOBILE ONLY) */
+    .mobile-marker-preview-card {
+      position: fixed;
+      bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+      left: 12px;
+      right: 12px;
+      max-width: 440px;
+      margin: 0 auto;
+      background: rgba(18, 25, 39, 0.98);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      border-radius: 18px;
+      padding: 0.85rem;
+      display: none;
+      z-index: 1200;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85);
+      animation: slideUpMobile 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUpMobile {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .mobile-marker-preview-card.show {
+      display: block;
+    }
+    .preview-card-body {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .preview-card-thumb {
+      width: 76px;
+      height: 76px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .preview-card-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .preview-card-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #FFF;
+      margin: 0 0 0.2rem 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .preview-card-meta {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .preview-card-meta .stars {
+      color: #FBBF24;
+      font-weight: 700;
+    }
+    .preview-card-addr {
+      font-size: 0.72rem;
+      color: #94A3B8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .preview-card-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.65rem;
+    }
+    .btn-preview-action {
+      flex: 1;
+      padding: 0.45rem 0.6rem;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-preview-directions {
+      background: #2563EB;
+      color: #FFF;
+    }
+    .btn-preview-detail {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      color: #0A0E17;
+    }
+    .btn-preview-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border: none;
+      color: #FFF;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* GOOGLE MAPS STYLE BOTTOM DOCK (MOBILE ONLY) */
+    .mobile-bottom-dock {
+      position: fixed;
+      bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1100;
+      display: none;
+      background: rgba(18, 25, 39, 0.96);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 36px;
+      padding: 5px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
+      gap: 4px;
+    }
+    .mobile-dock-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.55rem 1rem;
+      border-radius: 28px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .mobile-dock-btn.active {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      color: #0A0E17;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+    }
+
     /* ========================================================= */
     /* GOOGLE MAPS STYLE MOBILE RESPONSIVE ENGINE (Max: 768px)   */
     /* ========================================================= */
     @media (max-width: 768px) {
       /* 1. Header Compact & Fast Actions */
       header {
-        height: 52px !important;
-        padding: 0 0.85rem !important;
+        height: 50px !important;
+        padding: 0 0.75rem !important;
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important;
       }
       .brand-logo {
-        width: 32px !important;
-        height: 32px !important;
-        font-size: 0.95rem !important;
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 0.9rem !important;
       }
       .brand-text h1 {
-        font-size: 0.9rem !important;
+        font-size: 0.88rem !important;
       }
       .brand-text .badge,
       .brand-text p,
@@ -1482,8 +1706,8 @@
         display: block !important;
         position: relative !important;
         width: 100vw !important;
-        height: calc(100vh - 52px) !important;
-        height: calc(100dvh - 52px) !important;
+        height: calc(100vh - 50px) !important;
+        height: calc(100dvh - 50px) !important;
         overflow: hidden !important;
       }
 
@@ -1500,12 +1724,12 @@
       /* 4. Sidebar as Mobile Slide-up Sheet */
       .sidebar {
         position: fixed !important;
-        top: 52px !important;
+        top: 50px !important;
         left: 0 !important;
         width: 100% !important;
-        height: calc(100vh - 52px) !important;
-        height: calc(100dvh - 52px) !important;
-        z-index: 100 !important;
+        height: calc(100vh - 50px) !important;
+        height: calc(100dvh - 50px) !important;
+        z-index: 1500 !important;
         border-right: none !important;
         transform: translateY(100%) !important;
         transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -1551,48 +1775,19 @@
         display: flex !important;
       }
 
-      /* 6. Mobile Floating Toggle Bar (Bottom Dock) */
+      /* 6. Display Mobile Bottom Dock */
       .mobile-bottom-dock {
-        position: fixed !important;
-        bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        z-index: 950 !important;
         display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        transition: opacity 0.2s, transform 0.2s !important;
       }
-      body.drawer-open .mobile-bottom-dock {
-        opacity: 0 !important;
+      body.drawer-open .mobile-bottom-dock,
+      body.preview-open .mobile-bottom-dock {
+        opacity: 0.3 !important;
         pointer-events: none !important;
-        transform: translateX(-50%) translateY(30px) !important;
       }
 
-      .mobile-toggle-btn {
-        background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
-        color: #0A0E17 !important;
-        border: 1px solid rgba(254, 243, 199, 0.5) !important;
-        border-radius: 30px !important;
-        padding: 0.7rem 1.45rem !important;
-        font-size: 0.88rem !important;
-        font-weight: 800 !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 0.5rem !important;
-        box-shadow: 0 6px 22px rgba(245, 158, 11, 0.55) !important;
-        cursor: pointer !important;
-        user-select: none !important;
-        -webkit-tap-highlight-color: transparent !important;
-      }
-      .mobile-toggle-btn:active {
-        transform: scale(0.96) !important;
-        box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4) !important;
-      }
-
-      /* 7. Floating Search This Area on mobile: Two Tier Separation */
+      /* 7. Floating Search This Area on mobile */
       .search-this-area-container {
-        top: 48px !important;
+        top: 14px !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         z-index: 800 !important;
@@ -1609,114 +1804,19 @@
         display: none !important;
       }
 
-      /* 8. Layer Switcher on Mobile: Compact Top Right */
-      .layer-switcher {
-        position: absolute !important;
-        top: 10px !important;
-        right: 10px !important;
-        bottom: auto !important;
-        left: auto !important;
-        flex-direction: row !important;
-        gap: 3px !important;
-        padding: 0.2rem 0.35rem !important;
-        background: rgba(18, 25, 39, 0.95) !important;
-        border-radius: 8px !important;
-        z-index: 800 !important;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
-      }
-      .layer-btn {
-        padding: 0.25rem 0.45rem !important;
-        font-size: 0.68rem !important;
-      }
-
-      /* 9. Leaflet Popup Bottom Sheet on Mobile (Google Maps card style) */
-      .leaflet-popup {
-        position: fixed !important;
-        bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
-        top: auto !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        margin: 0 !important;
-        z-index: 1000 !important;
-        pointer-events: auto !important;
-      }
-      .leaflet-popup-content-wrapper {
-        width: calc(100vw - 20px) !important;
-        max-width: 400px !important;
-        border-radius: 16px !important;
-        border: 1px solid rgba(245, 158, 11, 0.4) !important;
-        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85) !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-      }
-      .leaflet-popup-content {
-        margin: 0 !important;
-        width: 100% !important;
-      }
-      .gmap-card-thumb {
-        height: 110px !important;
-      }
-      .leaflet-popup-tip-container {
-        display: none !important;
-      }
-      .leaflet-popup-close-button {
-        top: 8px !important;
-        right: 8px !important;
-        width: 28px !important;
-        height: 28px !important;
-        background: rgba(0, 0, 0, 0.65) !important;
-        border-radius: 50% !important;
-        color: #FFF !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-size: 16px !important;
-        z-index: 20 !important;
-      }
-
-      /* 10. Zoom Control positioning above bottom dock */
+      /* 8. Zoom control repositioned */
       .leaflet-bottom.leaflet-right {
-        bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
-        right: 10px !important;
+        bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+        right: 12px !important;
       }
       .leaflet-control-zoom a {
-        width: 34px !important;
-        height: 34px !important;
-        line-height: 34px !important;
+        width: 36px !important;
+        height: 36px !important;
+        line-height: 36px !important;
         font-size: 16px !important;
         background: rgba(18, 25, 39, 0.95) !important;
         color: #FFF !important;
         border-color: var(--border-color) !important;
-      }
-
-      /* 11. Mobile Bar at Top of Sidebar List */
-      .mobile-sidebar-header-bar {
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        padding: 0.75rem 1rem !important;
-        background: var(--bg-surface) !important;
-        border-bottom: 1px solid var(--border-color) !important;
-        flex-shrink: 0 !important;
-      }
-
-      /* 12. Prevent iOS Safari auto-zoom on input focus */
-      .search-box input,
-      .filter-select {
-        font-size: 16px !important;
-      }
-
-      /* 13. Mobile Card Tactile Tap */
-      .store-card:active {
-        transform: scale(0.98) !important;
-        background: rgba(245, 158, 11, 0.08) !important;
-      }
-    }
-
-    @media (min-width: 769px) {
-      .mobile-bottom-dock,
-      .mobile-sidebar-header-bar {
-        display: none !important;
       }
     }
 
@@ -1742,7 +1842,7 @@
         </a>
       <div class="stat-badge">
         <i class="fa-solid fa-map-location-dot"></i>
-        <span>Toàn quốc: <b id="stat-total">11.806</b></span>
+        <span>Toàn quốc: <b id="stat-total">24.951</b></span>
       </div>
       <div class="stat-badge">
         <i class="fa-solid fa-star"></i>
@@ -1800,17 +1900,67 @@
 
           <div class="filter-row">
             <select id="city-select" class="filter-select" onchange="applyFilters()">
-              <option value="">-- Tất Cả Tỉnh / Thành --</option>
-              <option value="Hà Nội">Hà Nội (Thủ Đô)</option>
-              <option value="Hồ Chí Minh">TP. Hồ Chí Minh</option>
-              <option value="Nghệ An">Nghệ An (109 Quán Thực Chứng)</option>
-              <option value="Đà Nẵng">Đà Nẵng</option>
-              <option value="Hải Phòng">Hải Phòng</option>
-              <option value="Cần Thơ">Cần Thơ</option>
-              <option value="Quảng Ninh">Quảng Ninh</option>
-              <option value="Khánh Hòa">Khánh Hòa</option>
-              <option value="Lâm Đồng">Lâm Đồng</option>
-              <option value="Bình Dương">Bình Dương</option>
+              <option value="">-- Tất Cả Tỉnh / Thành (Toàn Quốc: 24,951 Quán) --</option>
+              <option value="Long An">Long An (3,401 quán)</option>
+              <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh (2,011 quán)</option>
+              <option value="Hà Nội">Hà Nội (2,006 quán)</option>
+              <option value="Đà Nẵng">Đà Nẵng (1,992 quán)</option>
+              <option value="Hải Phòng">Hải Phòng (1,507 quán)</option>
+              <option value="Quảng Nam">Quảng Nam (1,023 quán)</option>
+              <option value="Cần Thơ">Cần Thơ (1,001 quán)</option>
+              <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu (999 quán)</option>
+              <option value="Đồng Nai">Đồng Nai (997 quán)</option>
+              <option value="Thừa Thiên Huế">Thừa Thiên Huế (959 quán)</option>
+              <option value="Lâm Đồng">Lâm Đồng (923 quán)</option>
+              <option value="Khánh Hòa">Khánh Hòa (900 quán)</option>
+              <option value="An Giang">An Giang (729 quán)</option>
+              <option value="Vĩnh Long">Vĩnh Long (642 quán)</option>
+              <option value="Kiên Giang">Kiên Giang (615 quán)</option>
+              <option value="Quảng Ninh">Quảng Ninh (486 quán)</option>
+              <option value="Bình Dương">Bình Dương (454 quán)</option>
+              <option value="Lào Cai">Lào Cai (335 quán)</option>
+              <option value="Ninh Bình">Ninh Bình (331 quán)</option>
+              <option value="Tiền Giang">Tiền Giang (331 quán)</option>
+              <option value="Bình Định">Bình Định (259 quán)</option>
+              <option value="Bắc Ninh">Bắc Ninh (243 quán)</option>
+              <option value="Hà Giang">Hà Giang (233 quán)</option>
+              <option value="Đắk Lắk">Đắk Lắk (205 quán)</option>
+              <option value="Gia Lai">Gia Lai (197 quán)</option>
+              <option value="Quảng Bình">Quảng Bình (158 quán)</option>
+              <option value="Tây Ninh">Tây Ninh (145 quán)</option>
+              <option value="Hưng Yên">Hưng Yên (136 quán)</option>
+              <option value="Đồng Tháp">Đồng Tháp (136 quán)</option>
+              <option value="Bình Phước">Bình Phước (121 quán)</option>
+              <option value="Bạc Liêu">Bạc Liêu (115 quán)</option>
+              <option value="Nghệ An">Nghệ An (109 quán)</option>
+              <option value="Hà Tĩnh">Hà Tĩnh (106 quán)</option>
+              <option value="Quảng Ngãi">Quảng Ngãi (104 quán)</option>
+              <option value="Bắc Giang">Bắc Giang (94 quán)</option>
+              <option value="Hải Dương">Hải Dương (94 quán)</option>
+              <option value="Cao Bằng">Cao Bằng (87 quán)</option>
+              <option value="Phú Yên">Phú Yên (69 quán)</option>
+              <option value="Thanh Hóa">Thanh Hóa (68 quán)</option>
+              <option value="Sơn La">Sơn La (59 quán)</option>
+              <option value="Thái Nguyên">Thái Nguyên (56 quán)</option>
+              <option value="Hòa Bình">Hòa Bình (55 quán)</option>
+              <option value="Vĩnh Phúc">Vĩnh Phúc (52 quán)</option>
+              <option value="Bình Thuận">Bình Thuận (50 quán)</option>
+              <option value="Nam Định">Nam Định (46 quán)</option>
+              <option value="Quảng Trị">Quảng Trị (45 quán)</option>
+              <option value="Sóc Trăng">Sóc Trăng (45 quán)</option>
+              <option value="Điện Biên">Điện Biên (39 quán)</option>
+              <option value="Lạng Sơn">Lạng Sơn (37 quán)</option>
+              <option value="Phú Thọ">Phú Thọ (33 quán)</option>
+              <option value="Cà Mau">Cà Mau (29 quán)</option>
+              <option value="Tuyên Quang">Tuyên Quang (26 quán)</option>
+              <option value="Yên Bái">Yên Bái (20 quán)</option>
+              <option value="Bến Tre">Bến Tre (16 quán)</option>
+              <option value="Kon Tum">Kon Tum (11 quán)</option>
+              <option value="Bắc Kạn">Bắc Kạn (5 quán)</option>
+              <option value="Hà Nam">Hà Nam (2 quán)</option>
+              <option value="Trà Vinh">Trà Vinh (2 quán)</option>
+              <option value="Hậu Giang">Hậu Giang (1 quán)</option>
+              <option value="Lai Châu">Lai Châu (1 quán)</option>
             </select>
 
             <select id="cuisine-select" class="filter-select" onchange="applyFilters()">
@@ -1882,17 +2032,46 @@
         </label>
       </div>
 
-      <!-- MAP LAYER SWITCHER -->
-      <div class="layer-switcher">
-        <button class="layer-btn active" id="layer-dark" onclick="setTileLayer('dark')">
-          <i class="fa-solid fa-moon"></i> Dark Gray
+      <!-- GOOGLE MAPS STYLE LAYER TOGGLE (TOP RIGHT) -->
+      <div class="layer-switcher-container">
+        <button class="layer-fab-btn" id="layer-fab-toggle" onclick="toggleLayerDropdown(event)" title="Đổi bản đồ">
+          <i class="fa-solid fa-layer-group"></i>
         </button>
-        <button class="layer-btn" id="layer-road" onclick="setTileLayer('road')">
-          <i class="fa-solid fa-map"></i> Google Road
-        </button>
-        <button class="layer-btn" id="layer-sat" onclick="setTileLayer('sat')">
-          <i class="fa-solid fa-earth-americas"></i> Vệ Tinh
-        </button>
+        <div class="layer-dropdown-menu" id="layer-menu">
+          <button class="layer-menu-item active" id="layer-road" onclick="setTileLayer('road')">
+            <i class="fa-solid fa-map"></i> Google Road
+          </button>
+          <button class="layer-menu-item" id="layer-dark" onclick="setTileLayer('dark')">
+            <i class="fa-solid fa-moon"></i> Google Dark
+          </button>
+          <button class="layer-menu-item" id="layer-sat" onclick="setTileLayer('sat')">
+            <i class="fa-solid fa-earth-americas"></i> Vệ Tinh
+          </button>
+        </div>
+      </div>
+
+      <!-- GOOGLE MAPS STYLE MOBILE PREVIEW CARD (BOTTOM SHEET) -->
+      <div class="mobile-marker-preview-card" id="mobile-preview-card">
+        <button class="btn-preview-close" onclick="closeMobilePreviewCard()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="preview-card-body">
+          <img class="preview-card-thumb" id="preview-card-img" src="" alt="Ảnh quán">
+          <div class="preview-card-info">
+            <h4 class="preview-card-title" id="preview-card-title">Tên quán</h4>
+            <div class="preview-card-meta">
+              <span class="stars" id="preview-card-rating">★ 4.8</span>
+              <span id="preview-card-category">Hải sản</span>
+            </div>
+            <div class="preview-card-addr" id="preview-card-addr">Địa chỉ</div>
+          </div>
+        </div>
+        <div class="preview-card-actions">
+          <a class="btn-preview-action btn-preview-directions" id="preview-btn-directions" href="#" target="_blank">
+            <i class="fa-solid fa-diamond-turn-right"></i> Dẫn đường
+          </a>
+          <button class="btn-preview-action btn-preview-detail" id="preview-btn-detail" onclick="openPreviewDetail()">
+            <i class="fa-solid fa-circle-info"></i> Xem chi tiết
+          </button>
+        </div>
       </div>
 
       <!-- Leaflet Canvas -->
@@ -2312,25 +2491,66 @@
     }
 
     const CITY_COORDINATES = {
-      'Hà Nội': [21.028511, 105.804817, 12],
-      'Hồ Chí Minh': [10.823099, 106.629664, 12],
-      'Đà Nẵng': [16.054407, 108.202167, 12],
-      'Hải Phòng': [20.844912, 106.688084, 12],
-      'Cần Thơ': [10.045162, 105.746857, 12],
-      'Bà Rịa - Vũng Tàu': [10.345990, 107.084260, 13],
-      'Vũng Tàu': [10.345990, 107.084260, 13],
-      'Nghệ An': [18.673820, 105.681330, 13],
-      'Thành phố Vinh': [18.673820, 105.681330, 13],
-      'Huế': [16.463713, 107.590866, 13],
-      'Quảng Nam': [15.565880, 108.481170, 12],
-      'Bình Dương': [10.980460, 106.651940, 12],
-      'Đồng Nai': [10.957430, 106.842710, 12],
-      'Khánh Hòa': [12.238791, 109.196749, 13],
-      'Nha Trang': [12.238791, 109.196749, 13],
-      'Lâm Đồng': [11.940419, 108.458313, 13],
-      'Đà Lạt': [11.940419, 108.458313, 13],
-      'Quảng Ninh': [20.950450, 107.073360, 12],
-      'Hạ Long': [20.950450, 107.073360, 12]
+      'Long An': [10.77831, 106.68544, 12],
+      'TP. Hồ Chí Minh': [10.78134, 106.68212, 12],
+      'Hà Nội': [21.00463, 105.82543, 12],
+      'Đà Nẵng': [16.13819, 108.18819, 12],
+      'Hải Phòng': [20.7224, 106.72554, 12],
+      'Quảng Nam': [15.86733, 108.3221, 12],
+      'Cần Thơ': [10.03571, 105.76625, 12],
+      'Bà Rịa - Vũng Tàu': [10.3505, 107.09608, 12],
+      'Đồng Nai': [10.94759, 106.88884, 12],
+      'Thừa Thiên Huế': [16.41017, 107.72066, 12],
+      'Lâm Đồng': [11.9002, 108.34421, 12],
+      'Khánh Hòa': [12.24609, 109.18507, 12],
+      'An Giang': [10.4723, 105.34598, 12],
+      'Vĩnh Long': [10.03852, 105.77537, 12],
+      'Kiên Giang': [10.23462, 104.10176, 12],
+      'Quảng Ninh': [20.8487, 106.84993, 13],
+      'Bình Dương': [11.05448, 106.69112, 13],
+      'Lào Cai': [22.36563, 103.90691, 13],
+      'Ninh Bình': [20.25548, 105.95006, 13],
+      'Tiền Giang': [10.35137, 106.31656, 13],
+      'Bình Định': [13.86549, 109.16856, 13],
+      'Bắc Ninh': [21.1571, 106.03137, 13],
+      'Hà Giang': [22.98067, 105.11236, 13],
+      'Đắk Lắk': [12.72646, 108.11126, 13],
+      'Gia Lai': [14.1422, 108.0048, 13],
+      'Quảng Bình': [17.54673, 106.46003, 13],
+      'Tây Ninh': [11.26997, 106.22233, 13],
+      'Hưng Yên': [20.9446, 106.00369, 13],
+      'Đồng Tháp': [10.48832, 105.48803, 13],
+      'Bình Phước': [11.6656, 106.68868, 13],
+      'Bạc Liêu': [9.2805, 105.70216, 13],
+      'Nghệ An': [18.7896, 105.63124, 13],
+      'Hà Tĩnh': [18.37554, 105.82952, 13],
+      'Quảng Ngãi': [14.96079, 108.88595, 13],
+      'Bắc Giang': [21.28314, 106.20931, 13],
+      'Hải Dương': [21.0887, 106.21994, 13],
+      'Cao Bằng': [22.69767, 106.17658, 13],
+      'Phú Yên': [13.11111, 109.29871, 13],
+      'Thanh Hóa': [20.17317, 105.54506, 13],
+      'Sơn La': [21.25428, 104.15213, 13],
+      'Thái Nguyên': [21.55219, 105.79936, 13],
+      'Hòa Bình': [20.97084, 105.52975, 13],
+      'Vĩnh Phúc': [21.25274, 105.62029, 13],
+      'Bình Thuận': [10.94108, 108.20333, 13],
+      'Nam Định': [20.40921, 106.36345, 13],
+      'Quảng Trị': [16.79161, 106.91119, 13],
+      'Sóc Trăng': [9.61931, 106.00256, 13],
+      'Điện Biên': [21.75948, 103.06644, 13],
+      'Lạng Sơn': [21.89537, 106.66002, 13],
+      'Phú Thọ': [21.42145, 105.12417, 13],
+      'Cà Mau': [9.02178, 105.10143, 13],
+      'Tuyên Quang': [22.31755, 105.24199, 13],
+      'Yên Bái': [21.69677, 104.34771, 13],
+      'Bến Tre': [10.04654, 106.4458, 13],
+      'Kon Tum': [14.70397, 107.66826, 13],
+      'Bắc Kạn': [22.17259, 105.84429, 13],
+      'Hà Nam': [20.74166, 105.89166, 13],
+      'Trà Vinh': [9.70085, 106.40436, 13],
+      'Hậu Giang': [9.66593, 105.4606, 13],
+      'Lai Châu': [22.56184, 102.52083, 13],
     };
 
     window.openStoreById = function(id) {
@@ -2353,7 +2573,17 @@
         evt.stopPropagation();
         evt.preventDefault();
       }
-      openStoreById(id);
+      let store = currentStorefronts.find(s => s.storefront_id === id) || currentPins.find(p => p.storefront_id === id);
+      if (store) {
+        if (window.innerWidth <= 768) {
+          showMobilePreviewCard(store);
+          map.panTo([Number(store.latitude), Number(store.longitude)], { animate: true, duration: 0.35 });
+        } else {
+          openStoreById(id);
+        }
+      } else {
+        openStoreById(id);
+      }
     };
 
 
@@ -2368,7 +2598,7 @@
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
       // Thiết lập TileLayer mặc định
-      setTileLayer('dark');
+      setTileLayer('road');
 
       // Khởi tạo MarkerCluster
       markersCluster = L.markerClusterGroup({
@@ -2406,35 +2636,132 @@
     }
 
     // Chuyển đổi lớp bản đồ
+    // -------------------------------------------------------------
+    // MAP TILES & MOBILE UX ENGINE (GOOGLE MAPS PRECISION)
+    // -------------------------------------------------------------
+    let activePreviewStore = null;
+
+    function toggleLayerDropdown(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('layer-menu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('layer-menu');
+      const btn = document.getElementById('layer-fab-toggle');
+      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.remove('show');
+      }
+    });
+
+    // Chuyển đổi lớp bản đồ chuẩn xác - MẶC ĐỊNH GOOGLE ROAD SIÊU NÉT
     function setTileLayer(type) {
       if (currentTileLayer) {
         map.removeLayer(currentTileLayer);
       }
 
-      document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
+      const mapContainer = document.getElementById('map');
+      mapContainer.classList.remove('map-dark-tiles');
 
-      if (type === 'dark') {
-        currentTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-          attribution: '&copy; Esri &mdash; OMNI AI Engine',
-          maxNativeZoom: 16,
-          maxZoom: 19
-        });
-        document.getElementById('layer-dark').classList.add('active');
-      } else if (type === 'road') {
+      document.querySelectorAll('.layer-menu-item').forEach(b => b.classList.remove('active'));
+
+      if (type === 'road') {
         currentTileLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-          attribution: '&copy; Google Maps',
+          attribution: '&copy; Google Maps &mdash; OMNI AI Engine',
           maxZoom: 20
         });
-        document.getElementById('layer-road').classList.add('active');
+        const el = document.getElementById('layer-road');
+        if (el) el.classList.add('active');
+      } else if (type === 'dark') {
+        // Google Road kết hợp bộ lọc Dark Theme chuyên biệt, rõ ngõ ngách, 0% lỗi thiếu tile
+        mapContainer.classList.add('map-dark-tiles');
+        currentTileLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+          attribution: '&copy; Google Maps Dark &mdash; OMNI AI Engine',
+          maxZoom: 20
+        });
+        const el = document.getElementById('layer-dark');
+        if (el) el.classList.add('active');
       } else if (type === 'sat') {
         currentTileLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
           attribution: '&copy; Google Satellite Hybrid',
           maxZoom: 20
         });
-        document.getElementById('layer-sat').classList.add('active');
+        const el = document.getElementById('layer-sat');
+        if (el) el.classList.add('active');
       }
 
       currentTileLayer.addTo(map);
+      const menu = document.getElementById('layer-menu');
+      if (menu) menu.classList.remove('show');
+    }
+
+    // Mobile View Mode Switcher
+    function setMobileViewMode(mode) {
+      const appContainer = document.querySelector('.app-container');
+      const btnMap = document.getElementById('dock-btn-map');
+      const btnList = document.getElementById('dock-btn-list');
+
+      if (mode === 'list') {
+        appContainer.classList.add('mobile-list-active');
+        if (btnList) btnList.classList.add('active');
+        if (btnMap) btnMap.classList.remove('active');
+      } else {
+        appContainer.classList.remove('mobile-list-active');
+        if (btnMap) btnMap.classList.add('active');
+        if (btnList) btnList.classList.remove('active');
+        // Kích hoạt vẽ lại bản đồ Leaflet ngay tức thì để tránh đen màn hình
+        setTimeout(() => {
+          if (map) map.invalidateSize();
+        }, 150);
+      }
+    }
+
+    function focusCityFilter() {
+      setMobileViewMode('list');
+      const select = document.getElementById('city-select');
+      if (select) {
+        select.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        select.focus();
+      }
+    }
+
+    // Xử lý mở thẻ tóm tắt dưới đáy kiểu Google Maps trên mobile
+    function showMobilePreviewCard(store) {
+      activePreviewStore = store;
+      const card = document.getElementById('mobile-preview-card');
+      const img = document.getElementById('preview-card-img');
+      const title = document.getElementById('preview-card-title');
+      const rating = document.getElementById('preview-card-rating');
+      const cat = document.getElementById('preview-card-category');
+      const addr = document.getElementById('preview-card-addr');
+      const dirBtn = document.getElementById('preview-btn-directions');
+
+      if (!card) return;
+
+      img.src = store.hero_image_url || 'https://images.foody.vn/res/g100/997230/prof/s640x400/foody-upload-api-foody-mobile-res-200922112211.jpg';
+      title.textContent = store.brand_name || 'Quán ăn ẩm thực';
+      rating.textContent = `★ ${Number(store.google_maps_rating || 4.6).toFixed(1)}`;
+      cat.textContent = store.cuisine_category || 'Ẩm thực';
+      addr.textContent = store.address || '';
+      dirBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${store.latitude},${store.longitude}`;
+
+      card.classList.add('show');
+      document.body.classList.add('preview-open');
+    }
+
+    function closeMobilePreviewCard() {
+      const card = document.getElementById('mobile-preview-card');
+      if (card) card.classList.remove('show');
+      document.body.classList.remove('preview-open');
+      activePreviewStore = null;
+    }
+
+    function openPreviewDetail() {
+      if (activePreviewStore) {
+        closeMobilePreviewCard();
+        openDetailDrawer(activePreviewStore);
+      }
     }
 
     // Tải số liệu thống kê tổng thể
@@ -3211,10 +3538,19 @@
     });
   </script>
   <!-- Mobile Floating Bottom Dock (Toggle Map <-> List) -->
-  <div class="mobile-bottom-dock">
-    <button class="mobile-toggle-btn" onclick="toggleMobileView()">
-      <i class="fa-solid fa-list-ul" id="mobile-toggle-icon"></i>
-      <span id="mobile-toggle-text">Xem danh sách quán</span>
+    <!-- GOOGLE MAPS STYLE NATIONWIDE MOBILE BOTTOM DOCK -->
+  <div class="mobile-bottom-dock" id="mobile-bottom-dock">
+    <button class="mobile-dock-btn active" id="dock-btn-map" onclick="setMobileViewMode('map')">
+      <i class="fa-solid fa-map-location-dot"></i> Bản đồ
+    </button>
+    <button class="mobile-dock-btn" id="dock-btn-list" onclick="setMobileViewMode('list')">
+      <i class="fa-solid fa-list-ul"></i> Danh sách
+    </button>
+    <button class="mobile-dock-btn" onclick="focusCityFilter()">
+      <i class="fa-solid fa-location-crosshairs"></i> Tỉnh thành
+    </button>
+    <button class="mobile-dock-btn" onclick="luckyRandomStore()">
+      <i class="fa-solid fa-dice"></i> Khám phá
     </button>
   </div>
 
