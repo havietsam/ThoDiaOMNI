@@ -1430,6 +1430,180 @@
       color: #000;
       border-color: var(--primary);
     }
+  
+    /* ========================================================= */
+    /* GOOGLE MAPS STYLE MOBILE RESPONSIVE ENGINE (Max: 768px)   */
+    /* ========================================================= */
+    @media (max-width: 768px) {
+      /* 1. Header Compact */
+      header {
+        height: 52px !important;
+        padding: 0 0.75rem !important;
+      }
+      .brand-logo {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.95rem !important;
+      }
+      .brand-text h1 {
+        font-size: 0.88rem !important;
+      }
+      .brand-text .badge,
+      .brand-text p,
+      .stat-badge {
+        display: none !important;
+      }
+      .btn-switch-feed {
+        padding: 0.3rem 0.65rem !important;
+        font-size: 0.72rem !important;
+      }
+
+      /* 2. Main App Container: Full Viewport */
+      .app-container {
+        display: block !important;
+        position: relative !important;
+        width: 100vw !important;
+        height: calc(100vh - 52px) !important;
+        overflow: hidden !important;
+      }
+
+      /* 3. Map takes 100% full screen by default on mobile */
+      .map-container {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 10 !important;
+      }
+
+      /* 4. Sidebar as Mobile Slide-up Sheet */
+      .sidebar {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 50 !important;
+        border-right: none !important;
+        transform: translateY(100%);
+        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        background: var(--bg-dark) !important;
+      }
+
+      /* When mobile list view is active */
+      .app-container.mobile-list-active .sidebar {
+        transform: translateY(0) !important;
+      }
+
+      /* Hide Desktop Collapse button on mobile */
+      .sidebar-toggle-btn,
+      .btn-sidebar-collapse {
+        display: none !important;
+      }
+
+      /* 5. Mobile Detail Drawer: Fullscreen Slide-in */
+      #sidebar-detail-drawer {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 2000 !important;
+        transform: translateY(100%) !important;
+        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      #sidebar-detail-drawer.open {
+        transform: translateY(0) !important;
+      }
+
+      /* 6. Mobile Floating Toggle Bar (Bottom Dock) */
+      .mobile-bottom-dock {
+        position: fixed !important;
+        bottom: 16px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 100 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+      }
+
+      .mobile-toggle-btn {
+        background: #F59E0B !important;
+        color: #0A0E17 !important;
+        border: none !important;
+        border-radius: 25px !important;
+        padding: 0.65rem 1.35rem !important;
+        font-size: 0.85rem !important;
+        font-weight: 800 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.45rem !important;
+        box-shadow: 0 4px 18px rgba(245, 158, 11, 0.6) !important;
+        cursor: pointer !important;
+      }
+
+      /* 7. Floating Search This Area on mobile */
+      .search-this-area-container {
+        top: 10px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+      }
+      .search-this-area-btn {
+        padding: 0.35rem 0.75rem !important;
+        font-size: 0.72rem !important;
+      }
+      .auto-sync-toggle {
+        display: none !important;
+      }
+
+      /* 8. Layer Switcher on Mobile */
+      .layer-switcher {
+        bottom: 75px !important;
+        left: 10px !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+      }
+      .layer-btn {
+        padding: 0.3rem 0.55rem !important;
+        font-size: 0.68rem !important;
+      }
+
+      /* 9. Leaflet Popup Bottom Sheet on Mobile (Google Maps card style) */
+      .leaflet-popup {
+        bottom: 75px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        margin: 0 !important;
+      }
+      .leaflet-popup-content-wrapper {
+        width: calc(100vw - 20px) !important;
+        max-width: 380px !important;
+        border-radius: 14px !important;
+      }
+      .leaflet-popup-tip-container {
+        display: none !important;
+      }
+
+      /* 10. Mobile Bar at Top of Sidebar List */
+      .mobile-sidebar-header-bar {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 0.65rem 0.85rem !important;
+        background: var(--bg-surface) !important;
+        border-bottom: 1px solid var(--border-color) !important;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-bottom-dock,
+      .mobile-sidebar-header-bar {
+        display: none !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -2333,6 +2507,30 @@
     }
 
     // Toggle Ẩn/Hiện Sidebar để xem toàn màn hình bản đồ
+    
+    let isMobileListOpen = false;
+
+    function toggleMobileView() {
+      const container = document.querySelector('.app-container');
+      const icon = document.getElementById('mobile-toggle-icon');
+      const text = document.getElementById('mobile-toggle-text');
+
+      isMobileListOpen = !isMobileListOpen;
+      if (isMobileListOpen) {
+        container.classList.add('mobile-list-active');
+        if (icon) icon.className = 'fa-solid fa-map-location-dot';
+        if (text) text.innerText = 'Xem Bản Đồ';
+      } else {
+        container.classList.remove('mobile-list-active');
+        if (icon) icon.className = 'fa-solid fa-list-ul';
+        if (text) text.innerText = 'Xem danh sách quán';
+        setTimeout(() => {
+          if (map) map.invalidateSize();
+        }, 320);
+      }
+    }
+
+
     function toggleSidebar() {
       const container = document.querySelector('.app-container');
       const icon = document.getElementById('toggle-sidebar-icon');

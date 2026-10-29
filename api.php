@@ -236,7 +236,7 @@ if ($endpoint === 'map_pins') {
                    diamond_trust_score, trust_tier, price_range_per_person, honest_pros, honest_warnings,
                    motorbike_parking, car_parking, google_maps_url, food_rating, service_rating,
                    ambiance_rating, noise_level, dining_options, opening_hours_text,
-                   featured_review_author, featured_review_text, shophouse_landmark
+                   featured_review_author, featured_review_text, shophouse_landmark, hero_image_url
             FROM diamond_storefronts_nationwide_master 
             WHERE " . implode(' AND ', $where) . " 
             ORDER BY diamond_trust_score DESC, google_maps_total_reviews DESC 
